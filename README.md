@@ -13,6 +13,7 @@ Repository for
 - datasets==2.9.0
 - evaluate==0.4.0
 - scikit-learn==1.2.1
+- wandb
 
 
 ## Train new tokenizer
@@ -30,15 +31,54 @@ The new tokenizer will be saved to the newly created folder, e.g., "flan-t5-base
 
 ## Pre-train T5
 To pre-train T5 model on the clinical corpus, run below command.
+NOTE: please put your wandb API key to line 59 in run_t5_seq2seq_lm.py first.
 ```
-# train command
+# train command 
+# single GPU
 python src/run_t5_seq2seq_lm.py \
-    --model_name_or_path "google/flan-t5-base" \
-    --tokenizer_name "flan-t5-base-clinical-tokenizer" \
-    --train_file "Datasets/train_example.json" \
-    --do_train \
-    --output_dir result \
-    --overwrite_output_dir
+  --model_name_or_path "google/flan-t5-base" \
+  --tokenizer_name "flan-t5-xxl-clinical-tokenizer" \
+  --report_to wandb \
+  --run_name "t5_test" \
+  --train_file "Datasets/train.json" \
+  --validation_file "Datasets/valid.json" \
+  --streaming \
+  --per_device_train_batch_size 4 \
+  --per_device_eval_batch_size 4 \
+  --do_train \
+  --do_eval \
+  --evaluation_strategy "steps" \
+  --eval_steps 5 \
+  --max_steps 20 \
+  --save_steps 5 \
+  --predict_with_generate \
+  --output_dir result \
+  --overwrite_output_dir
+
+# multiple GPU in same node (DDP)
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch \
+  --nproc_per_node 2 \
+  src/run_t5_seq2seq_lm.py \
+  --sharded_ddp "simple" \
+  --model_name_or_path "google/flan-t5-base" \
+  --tokenizer_name "flan-t5-xxl-clinical-tokenizer" \
+  --report_to wandb \
+  --run_name "t5_test" \
+  --train_file "Datasets/train.json" \
+  --validation_file "Datasets/valid.json" \
+  --streaming \
+  --per_device_train_batch_size 4 \
+  --per_device_eval_batch_size 4 \
+  --do_train \
+  --do_eval \
+  --evaluation_strategy "steps" \
+  --eval_steps 5 \
+  --max_steps 20 \
+  --save_steps 5 \
+  --predict_with_generate \
+  --output_dir result \
+  --overwrite_output_dir
+
 
 # more arguments can be specified, e.g., num_train_epochs
 ```
