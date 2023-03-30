@@ -55,6 +55,8 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
 
+import wandb
+wandb.login(key=None)
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.27.0.dev0")
 
@@ -63,21 +65,6 @@ require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/lang
 logger = logging.getLogger(__name__)
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
 MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
-
-def x_in_y(query, base):
-    """
-    get indices of elements in base which are also in query
-    """
-    try:
-        l = len(query)
-    except TypeError:
-        l = 1
-        query = type(base)((query,))
-        
-    for i in range(len(base)):
-        if base[i:i+l] == query:
-            return list(range(i, i+l))
-    return False
 
 
 @dataclass
@@ -175,11 +162,11 @@ class DataTrainingArguments:
     )
     train_file: Optional[str] = field(
         default=None, 
-        metadata={"help": "The input training data file (a text file)."}
+        metadata={"help": "The input training data file (a text file) or the path to the file."}
     )
     validation_file: Optional[str] = field(
         default=None,
-        metadata={"help": "An optional input evaluation data file to evaluate the perplexity on (a text file)."},
+        metadata={"help": "An optional input evaluation data file to evaluate the perplexity on (a text file) or the path to the file."},
     )
     overwrite_cache: bool = field(
         default=False, metadata={"help": "Overwrite the cached training and evaluation sets"}
@@ -308,11 +295,17 @@ class DataTrainingArguments:
             raise ValueError("Need either a dataset name or a training/validation file.")
         else:
             if self.train_file is not None:
-                extension = self.train_file.split(".")[-1]
+                if os.path.isfile(self.train_file):
+                    extension = self.train_file.split(".")[-1]
+                else:
+                    extension = os.listdir(self.train_file)[0].split(".")[-1]
                 if extension not in ["csv", "json", "txt"]:
                     raise ValueError("`train_file` should be a csv, a json or a txt file.")
             if self.validation_file is not None:
-                extension = self.validation_file.split(".")[-1]
+                if os.path.isfile(self.validation_file):
+                    extension = self.validation_file.split(".")[-1]
+                else:
+                    extension = os.listdir(self.validation_file)[0].split(".")[-1]
                 if extension not in ["csv", "json", "txt"]:
                     raise ValueError("`validation_file` should be a csv, a json or a txt file.")
         if self.val_max_target_length is None:
@@ -416,10 +409,18 @@ def main():
         data_files = {}
         if data_args.train_file is not None:
             data_files["train"] = data_args.train_file
-            extension = data_args.train_file.split(".")[-1]
+            if os.path.isfile(data_args.train_file):
+                extension = data_args.train_file.split(".")[-1]
+            else:
+                extension = os.listdir(data_args.train_file)[0].split(".")[-1]
+                data_files["train"] = [os.path.join(data_args.train_file, f) for f in os.listdir(data_args.train_file)]
         if data_args.validation_file is not None:
             data_files["validation"] = data_args.validation_file
-            extension = data_args.validation_file.split(".")[-1]
+            if os.path.isfile(data_args.validation_file):
+                extension = data_args.validation_file.split(".")[-1]
+            else:
+                extension = os.listdir(data_args.validation_file)[0].split(".")[-1]
+                data_files['validation'] = [os.path.join(data_args.validation_file, f) for f in os.listdir(data_args.validation_file)]
         if extension == "txt":
             extension = "text"
         raw_datasets = load_dataset(
@@ -427,6 +428,7 @@ def main():
             data_files=data_files,
             cache_dir=model_args.cache_dir,
             use_auth_token=True if model_args.use_auth_token else None,
+            streaming=data_args.streaming,
         )
 
         # If no validation data is there, validation_split_percentage will be used to divide the dataset.
@@ -437,6 +439,7 @@ def main():
                 split=f"train[:{data_args.validation_split_percentage}%]",
                 cache_dir=model_args.cache_dir,
                 use_auth_token=True if model_args.use_auth_token else None,
+                streaming=data_args.streaming,
             )
             raw_datasets["train"] = load_dataset(
                 extension,
@@ -444,8 +447,12 @@ def main():
                 split=f"train[{data_args.validation_split_percentage}%:]",
                 cache_dir=model_args.cache_dir,
                 use_auth_token=True if model_args.use_auth_token else None,
+                streaming=data_args.streaming,
             )
-
+    
+    # Shuffle datasets
+    raw_datasets = raw_datasets.shuffle(seed=training_args.seed, buffer_size=10000)
+    
     # See more about loading any type of standard or custom dataset (from files, python dict, pandas DataFrame, etc) at
     # https://huggingface.co/docs/datasets/loading_datasets.html.
 
@@ -478,8 +485,10 @@ def main():
         "use_auth_token": True if model_args.use_auth_token else None,
     }
     if model_args.tokenizer_name:
+        logger.info(f"Using tokenizer from {model_args.model_name_or_path}")
         tokenizer = AutoTokenizer.from_pretrained(model_args.tokenizer_name, **tokenizer_kwargs)
     elif model_args.model_name_or_path:
+        logger.info(f"Using tokenizer from model {model_args.model_name_or_path}")
         tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path, **tokenizer_kwargs)
     else:
         raise ValueError(
@@ -540,13 +549,21 @@ def main():
     # Preprocessing the datasets.
      # We need to tokenize inputs and targets.
     if training_args.do_train:
-        column_names = raw_datasets["train"].column_names
+        if data_args.streaming:
+            # column_names = ['text', 'umls_terms', 'umls_terms_indices', 'n2c2_terms', 'n2c2_terms_indices']
+            column_names = list(list(raw_datasets['train'].take(1))[0].keys())
+        else:
+            column_names = raw_datasets["train"].column_names
     elif training_args.do_eval:
-        column_names = raw_datasets["validation"].column_names
+        if data_args.streaming:
+            # column_names = ['text', 'umls_terms', 'umls_terms_indices', 'n2c2_terms', 'n2c2_terms_indices']
+            column_names = list(list(raw_datasets['validation'].take(1))[0].keys())
+        else:
+            column_names = raw_datasets["validation"].column_names
     else:
         logger.info("There is nothing to do. Please pass `do_train`, `do_eval` and/or `do_predict`.")
         return
-
+    
     # Get the column names for input/target.
     if data_args.source_column is None:
         source_column = column_names[0]
@@ -559,8 +576,8 @@ def main():
     if data_args.target_column is None:
         target_column = column_names[1]
     else:
-        target_column = data_args.target_column
-        if target_column not in column_names:
+        target_column = data_args.target_column.split(';')
+        if not all(c in column_names for c in target_column):
             raise ValueError(
                 f"--target_column' value '{data_args.target_column}' needs to be one of: {', '.join(column_names)}"
             )
@@ -575,6 +592,7 @@ def main():
             f"`{model.__class__.__name__}`. This will lead to loss being calculated twice and will take up more memory"
         )
 
+    additional_speical_tokens = tokenizer.additional_special_tokens if tokenizer.additional_special_tokens else ['<MASK>']
     def tokenize_function(examples):
         '''
         To mask input and tokenize both input and target text
@@ -584,46 +602,64 @@ def main():
 
         from nltk.tokenize import sent_tokenize
 
-        examples_texts, examples_entities = [], []
-        for idx, line in enumerate(examples[source_column]):
-            if len(line) > 0 and not line.isspace():
-                examples_texts.append(line)
-                examples_entities.append(examples[target_column][idx])
-        
-        examples_texts = [prefix + text for text in examples_texts]
-
-        # GSG: gap span(s)/sentence(s) generation
+        # GSG: gap terms/sentence(s) generation
         inputs, targets = [], []
         # Tokenize and prepare ground-truth labels
-        for text, entities in zip(examples_texts, examples_entities):
-            sents = sent_tokenize(text)
-            if entities:
-                mask_entity = True
-            else:
-                mask_entity = False
-                # if there is no entities to mask, randomly mask sentence
-                mask_indices = sorted(random.sample(range(0, len(sents)), k=int(len(sents)*data_args.mlm_probability)))
-                entities = [sents[i] for i in mask_indices]
-                
-            for entity in entities:
-                choice = random.uniform(0, 1)
-                if choice < 0.8:
-                    # 80% of the time, we replace masked span/sentence with tokenizer.mask_token ([MASK])
-                    # this mask token is specific to tokenizer
-                    # we distinguish masked span and masked sentence by using different mask token
-                    if mask_entity:
-                        text = text.replace(entity, tokenizer.additional_special_tokens[0])
+        for text, umls_indices, n2c2_indices in zip(examples['text'], examples['umls_terms_indices'], examples['n2c2_terms_indices']):
+            mask_sent = False
+            if umls_indices or n2c2_indices:
+                if umls_indices and n2c2_indices:
+                    choice = random.uniform(0, 1)
+                    if choice < 0.7:
+                        terms = umls_indices
                     else:
-                        text = text.replace(entity, tokenizer.additional_special_tokens[1])
-                elif choice < 0.9:
-                    # 10% of the time, we replace masked span/sentence with random span/sentence
-                    text = text.replace(entity, random.choice(entities))
+                        terms = n2c2_indices
+                elif umls_indices:
+                    terms = umls_indices
                 else:
-                    # The rest of the time (10% of the time) we keep the masked span/sentence unchanged
-                    continue
+                    terms = n2c2_indices  
+            else:
+                mask_sent = True
+                sents = sent_tokenize(text)
+                # if there is no terms to mask, randomly mask sentence
+                terms = sorted(random.sample(range(0, len(sents)), k=int(len(sents)*data_args.mlm_probability)))
+            
+            labels = []
+            new_text = text
+            for idx, indices in enumerate(terms):
+                choice = random.uniform(0, 1)
+                idx = min(idx, len(additional_speical_tokens)-1)
+                if not mask_sent:
+                    to_mask = text[indices[0]:indices[1]]
+                    labels += [additional_speical_tokens[idx], to_mask]
+                    if choice < 0.8:
+                        # 80% of the time, we replace masked term/sentence with tokenizer.mask_token ([MASK])
+                        # this mask token is specific to tokenizer
+                        # text = text[:indices[0]] + additional_speical_tokens[idx] + text[indices[1]:]
+                        new_text = new_text.replace(to_mask, additional_speical_tokens[idx])
+                    elif choice < 0.9:
+                        # 10% of the time, we replace masked term/sentence with random term/sentence
+                        random_idx = random.choice(terms)
+                        # text = text[:indices[0]] + text[random_idx[0]:random_idx[1]] + text[indices[1]:]
+                        new_text = new_text.replace(to_mask, text[random_idx[0]:random_idx[1]])
+                    else:
+                        # 10% of the time, we keep the masked term/sentence unchanged
+                        pass
+                else:
+                    labels += [additional_speical_tokens[idx], sents[indices]]
+                    if choice < 0.8:
+                        sents[indices] = additional_speical_tokens[idx]
+                    elif choice < 0.9:
+                        random_idx = random.choice(len(sents))
+                        sents[indices] = sents[random_idx]
+                    else:
+                        pass
+            if mask_sent:
+                new_text = ' '.join(sents)
+            inputs.append(prefix + new_text)
+            idx = min(idx+1, len(additional_speical_tokens)-1)
+            targets.append(" ".join(labels+[additional_speical_tokens[idx]]))
 
-            inputs.append(text)
-            targets.append("; ".join(entities))
             
         model_inputs = tokenizer(
             inputs, max_length=data_args.max_source_length, padding=padding, 
@@ -651,15 +687,15 @@ def main():
                     num_proc=data_args.preprocessing_num_workers,
                     remove_columns=column_names,
                     load_from_cache_file=not data_args.overwrite_cache,
-                    desc="Running tokenizer on dataset (streaming)"
+                    desc="Running tokenizer on every text in dataset"
                 )
             else:
                 tokenized_datasets = raw_datasets.map(
                     tokenize_function,
                     batched=True,
                     remove_columns=column_names,
-                    load_from_cache_file=not data_args.overwrite_cache,
-                    desc="Running tokenizer on dataset"
+                    # load_from_cache_file=not data_args.overwrite_cache,
+                    # desc="Running tokenizer on dataset (streaming)"
                 )
 
     # Main data processing function that will concatenate all texts from our dataset and generate chunks of
@@ -786,10 +822,11 @@ def main():
         trainer.save_model() # Saves the tokenizer too for easy upload
         metrics = train_result.metrics
 
-        max_train_samples = (
-            data_args.max_train_samples if data_args.max_train_samples is not None else len(train_dataset)
-        )
-        metrics["train_samples"] = min(max_train_samples, len(train_dataset))
+        # not suitable for IteratableDataset when using streaming; therefore commented out so far (check later)
+        # max_train_samples = (
+        #     data_args.max_train_samples if data_args.max_train_samples is not None else len(train_dataset)
+        # )
+        # metrics["train_samples"] = min(max_train_samples, len(train_dataset))
 
         trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
@@ -807,8 +844,9 @@ def main():
         logger.info("*** Evaluate ***")
 
         metrics = trainer.evaluate(max_length=max_length, num_beams=num_beams, metric_key_prefix="eval")
-        max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
-        metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
+        # not suitable for IteratableDataset when using streaming; therefore commented out so far (check later)
+        # max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
+        # metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
