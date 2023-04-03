@@ -5,15 +5,9 @@ Repository for
 
 
 ## Requirements
-- python==3.9.16
-- transformers==4.26.1
-- pytorch==1.13.1
-- sentencepiece==0.1.97
-- nltk==3.8.1
-- datasets==2.9.0
-- evaluate==0.4.0
-- scikit-learn==1.2.1
-- wandb
+- python 3.9.16
+- pytorch 1.13.1
+- CUDA 11.6
 
 
 ## Train new tokenizer
@@ -31,7 +25,9 @@ The new tokenizer will be saved to the newly created folder, e.g., "flan-t5-base
 
 ## Pre-train T5
 To pre-train T5 model on the clinical corpus, run below command.
-NOTE: please put your wandb API key to line 59 in run_t5_seq2seq_lm.py first.
+> **⚠ WARNING: wandb API key needed.**  
+> Please put your **wandb API key** in **line 59 in run_t5_seq2seq2_lm.py** first.
+
 ```
 # train command 
 # single GPU
@@ -56,30 +52,55 @@ python src/run_t5_seq2seq_lm.py \
   --overwrite_output_dir
 
 # multiple GPU in same node (DDP)
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch \
-  --nproc_per_node 2 \
-  src/run_t5_seq2seq_lm.py \
-  --sharded_ddp "simple" \
-  --model_name_or_path "google/flan-t5-base" \
+CUDA_LAUNCH_BLOCKING=1 torchrun --nproc_per_node=2 \
+  run_t5_seq2seq_lm.py \
+  --model_name_or_path "google/flan-t5-xl" \
   --tokenizer_name "flan-t5-xxl-clinical-tokenizer" \
   --report_to wandb \
-  --run_name "t5_test" \
-  --train_file "Datasets/train.json" \
-  --validation_file "Datasets/valid.json" \
+  --run_name "flan_t5_xl_csf3" \
+  --train_file "Datasets/Train" \
   --streaming \
   --per_device_train_batch_size 4 \
-  --per_device_eval_batch_size 4 \
   --do_train \
-  --do_eval \
-  --evaluation_strategy "steps" \
-  --eval_steps 5 \
-  --max_steps 20 \
-  --save_steps 5 \
-  --predict_with_generate \
+  --max_steps 400000 \
+  --save_steps 30000 \
   --output_dir result \
-  --overwrite_output_dir
+  --overwrite_output_dir \
+  --bf16 True \
+  --tf32 True \
+  --fsdp "full_shard auto_wrap" \
+  --fsdp_transformer_layer_cls_to_wrap "T5Block"
 
 
 # more arguments can be specified, e.g., num_train_epochs
 ```
-The trained model will be saved to the folder "result".
+- The trained model will be saved to the folder "result", including all checkpoints.
+- Information logged by WanDB would be saved to the folder "wandb".
+
+### Example of project floder
+```
+.
+└── Project
+    ├── Datasets
+    │   ├── Train
+    │   │   └── chunkX.json
+    │   └── Validation
+    ├── flan-t5-xxl-clinical-tokenizer
+    │   ├── special_tokens_map.json
+    │   ├── tokenizer.json
+    │   └── tokenizer_config.json
+    ├── result
+    │   ├── checkpoint-30000
+    │   │   ├── config.json
+    │   │   ├── (...)
+    │   │   └── training_args.bin
+    │   ├── checkpoint-XXX
+    │   ├── README.md
+    │   ├── (...)
+    │   ├── pytorch_model.bin
+    │   ├── (...)
+    │   └── training_args.bin
+    ├── wandb
+    │   └── run-[DATE]_[TIME]-[RANDOM]
+    └── run_t5_seq2seq_lm.py
+```
