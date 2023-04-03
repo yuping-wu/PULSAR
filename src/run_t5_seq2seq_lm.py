@@ -30,6 +30,7 @@ from typing import Optional
 import datasets
 import evaluate
 import nltk  # Here to have a nice missing dependency error message early on
+nltk.download('punkt')
 import numpy as np
 from datasets import load_dataset
 
@@ -57,6 +58,8 @@ from transformers.utils.versions import require_version
 
 import wandb
 wandb.login(key=None)
+
+
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.27.0.dev0")
 
@@ -432,7 +435,7 @@ def main():
         )
 
         # If no validation data is there, validation_split_percentage will be used to divide the dataset.
-        if "validation" not in raw_datasets.keys():
+        if "validation" not in raw_datasets.keys() and training_args.do_eval:
             raw_datasets["validation"] = load_dataset(
                 extension,
                 data_files=data_files,
@@ -508,6 +511,7 @@ def main():
     else:
         logger.info("Training new model from scratch")
         model = AutoModelForSeq2SeqLM.from_config(config)
+    model.config.update({'gradient_checkpointing': True})
 
     # We resize the embeddings only when necessary to avoid index errors. If you are creating a model from scratch
     # on a small vocab and want a smaller embedding size, remove this test.
@@ -657,7 +661,7 @@ def main():
             if mask_sent:
                 new_text = ' '.join(sents)
             inputs.append(prefix + new_text)
-            idx = min(idx+1, len(additional_speical_tokens)-1)
+            idx = min(len(terms), len(additional_speical_tokens)-1)
             targets.append(" ".join(labels+[additional_speical_tokens[idx]]))
 
             
