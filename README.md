@@ -26,7 +26,7 @@ The new tokenizer will be saved to the newly created folder, e.g., "flan-t5-base
 ## Pre-train T5
 To pre-train T5 model on the clinical corpus, run below command.
 > **⚠ WARNING: wandb API key needed.**  
-> Please put your **wandb API key** in **line 59 in run_t5_seq2seq2_lm.py** first.
+> Please put your **wandb API key** in **line 60 in run_t5_seq2seq2_lm.py** first.
 
 ```
 # train command 
