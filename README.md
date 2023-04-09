@@ -23,10 +23,54 @@ python src/train_tokenizer.py --corpus_path "Datasets/train_example.json" --old_
 The new tokenizer will be saved to the newly created folder, e.g., "flan-t5-base-clinical-tokenizer". 
 
 
-## Pre-train T5
+## Pre-train T5 (accelerate_t5.py)
+To pre-train T5 model on the clinical corpus, using acclerate library, run below command.
+> **⚠ WARNING: wandb API key needed.**  
+> If using WandDB to log experiments, ***wandb.login()*** should be run first to store the valid API key.
+
+- ***accelerate_t5_fsdp.yml***: configuration file for the library accelerate to specify number of GPUs, whether to use FSDP, etc.
+
+- ***config.json***: configuration file for the script accelerate_t5.py. Explanation about each parameter in the file can be found in the script.
+
+```
+# train command
+CUDA_LAUNCH_BLOCKING=1 accelerate launch --config_file accelerate_t5_fsdp.yml accelerate_t5.py config.json
+```
+- The trained model will be saved to the folder "result", including all checkpoints.
+- Information logged by WanDB would be saved to the folder "wandb".
+
+### Example of project floder
+```
+.
+└── Project
+    ├── Datasets
+    │   ├── Train
+    │   │   └── chunkX.json
+    │   └── Validation
+    ├── result
+    │   ├── step_3000
+    │   │   ├── optimizer.bin
+    │   │   ├── pytorch_model.bin
+    │   │   ├── random_states_0.pkl
+    │   │   ├── random_states_1.pkl
+    │   │   └── scheduler.bin
+    │   ├── (...)
+    │   ├── all_results.json
+    │   ├── config.json
+    │   ├── generation_config.json
+    │   ├── pytorch_model.bin
+    │   └── (...)
+    ├── wandb
+    │   └── run-[DATE]_[TIME]-[RANDOM]
+    ├── accelerate_t5.py
+    ├── accelerate_t5_fsdp.yml
+    └── config.json
+```
+
+## Pre-train T5 (run_t5_seq2seq_lm.py)
 To pre-train T5 model on the clinical corpus, run below command.
 > **⚠ WARNING: wandb API key needed.**  
-> Please put your **wandb API key** in **line 60 in run_t5_seq2seq2_lm.py** first.
+> Please put your **wandb API key** in **line 59 in run_t5_seq2seq2_lm.py** first.
 
 ```
 # train command 
