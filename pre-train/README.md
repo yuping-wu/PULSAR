@@ -5,6 +5,18 @@
 - pytorch 1.13.1
 - CUDA 11.6
 
+## Prepare Dataset
+1. Get [MIMIC-III dataset](https://physionet.org/content/mimiciii/1.4/)
+2. Identify UMLS terms: [QuickUMLS](https://github.com/Georgetown-IR-Lab/QuickUMLS)
+3. Identify N2C2 terms: use trained NER model
+4. Aggregate the identified UMLS and N2C2 terms (see Datasets/train_example.json for example)
+```
+python utils/aggregate_terms.py
+```
+5. Prepare the dataset for pre-training
+```
+python utils/prepare_dataset.py
+```
 
 ## Pre-train T5
 
