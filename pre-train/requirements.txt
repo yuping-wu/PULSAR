@@ -11,3 +11,4 @@ fairscale==0.4.13
 rouge_score
 wandb
 accelerate
+partial
