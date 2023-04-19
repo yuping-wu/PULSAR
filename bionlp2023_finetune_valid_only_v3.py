@@ -19,6 +19,7 @@ import json
 import argparse
 from functools import partial
 import os
+import sys
 import nltk
 import numpy as np
 import pandas as pd
@@ -55,7 +56,7 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
 
 
 
-def load_dataset(input_file, input_test_file, input_dg_file=None) -> pd.DataFrame:
+def load_dataset(input_file, input_test_file, input_dg_file=None, val=True) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     df = pd.read_csv(input_file)
     test_df = pd.read_csv(input_test_file)
@@ -79,9 +80,13 @@ def load_dataset(input_file, input_test_file, input_dg_file=None) -> pd.DataFram
     test_df = test_df.applymap(str)
 
     # Split the dataframe into train, validation and test sets
-    train_df, valid_df = train_test_split(df, test_size=0.2, random_state=2023)
+    if val:
+      train_df, valid_df = train_test_split(df, test_size=0.2, random_state=2023)
+    else:
+      train_df = df
+      valid_df = pd.DataFrame(columns=['source_text', 'Summary'])
     train_df = process_data(dg, valid_df, train_df)
-
+      
     # Convert the pandas dataframes to Hugging Face datasets
     train_dataset = Dataset.from_pandas(train_df)
     valid_dataset = Dataset.from_pandas(valid_df) 
@@ -201,10 +206,12 @@ if __name__ == '__main__':
                         help="Whether to use generation for prediction.")
     parser.add_argument("--a100", action="store_true", 
                         help="Use BF16 and TF32.")
+    parser.add_argument("--no_val", action="store_true")
+    parser.add_argument("--train", action="store_true")
 
 
     args = parser.parse_args()
-
+    val = not args.no_val
     max_input_length = args.max_input_length
     max_target_length = args.max_target_length
 
@@ -227,20 +234,22 @@ if __name__ == '__main__':
         training_args = Seq2SeqTrainingArguments(
             output_dir=output_dir, num_train_epochs=args.num_train_epochs, 
             per_device_train_batch_size=args.per_device_train_batch_size, per_device_eval_batch_size=args.per_device_eval_batch_size,
-            learning_rate=args.learning_rate, weight_decay=0.01, evaluation_strategy="epoch", logging_strategy="epoch",
+            learning_rate=args.learning_rate, weight_decay=0., evaluation_strategy="epoch" if val else "no", logging_strategy="epoch",
             seed=seed, save_total_limit=3, predict_with_generate=True,
             fp16=False, push_to_hub=False,
-            bf16=args.a100, tf32=args.a100, gradient_checkpointing=True
+            max_steps=3,
+            bf16=args.a100, tf32=args.a100, gradient_checkpointing=True,
+            save_strategy="no",
+            fsdp='full_shard auto_wrap offload',fsdp_transformer_layer_cls_to_wrap='T5Block'
         )
 
         # Load the dataset using the load_dataset function
-        my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file)
+        my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file, val=val)
 
         tokenized_datasets = my_dataset_dict.map(preprocess_function, batched=True)
 
         data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
-
-
+        model.config.use_cache = False
         trainer = Seq2SeqTrainer(
             model=model, 
             args=training_args, 
@@ -250,10 +259,9 @@ if __name__ == '__main__':
             tokenizer=tokenizer,
             compute_metrics=compute_metrics
         )
+        if args.train:
+          trainer.train()
 
-        trainer.train()
-
-        
         print("Evaluating on Test set")
         test_result = trainer.predict(
             tokenized_datasets["test"],
@@ -264,7 +272,7 @@ if __name__ == '__main__':
         print(test_result)
         print("Writing to the file")
 
-
+        model.config.use_cache = True
         if trainer.is_world_process_zero():
             if args.predict_with_generate:
                 test_preds = tokenizer.batch_decode(
