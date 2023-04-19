@@ -15,7 +15,7 @@ This script can be used to train and evaluate a regular supervised model trained
 """
 
 
-
+import json
 import argparse
 from functools import partial
 import os
@@ -31,36 +31,81 @@ from transformers import T5Tokenizer, T5Model,T5ForConditionalGeneration,T5Confi
 from transformers import AdamW, get_linear_schedule_with_warmup,PegasusConfig, PegasusTokenizer, PegasusForConditionalGeneration
 
 
-def load_dataset(input_file, input_test_file):
+
+def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame) -> pd.DataFrame:
+    # Create a new dataframe with only the rows of 'data' that don't match the 'Summary' column of 'test_df'
+    filtered_data = dg[~dg['Summary'].isin(test_df['Summary'])]
+    print("The size of the input augmented dataset is %d" %len(dg) )
+    print("The size of the augmented dataset after filter is %d" %len(filtered_data))
+
+    # Update the 'data' dataframe with the filtered data
+    data = filtered_data
+
+    # Concatenate the dataframes vertically (i.e., stack them on top of each other)
+    combined_df = pd.concat([train_df, data], ignore_index=True)
+
+    # drop rows with missing values in 'source_text' or 'target_text'
+    combined_df.dropna(subset=['source_text', 'target_text'], inplace=True)
+
+    # Reset the index of the combined dataframe
+    new_train = combined_df.reset_index(drop=True)
+
+    print("The size of the new training dataset is %d" %len(new_train))
+    return new_train
+
+
+
+def load_dataset(input_file, input_test_file, input_dg_file=None) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     df = pd.read_csv(input_file)
     test_df = pd.read_csv(input_test_file)
+    
+    # Read the DG file only if it is not None
+    if input_dg_file:
+        dg = pd.read_csv(input_dg_file)
+        dg['source_text'] = " <ASSESSMENT> " + dg['Assessment'] + " <SUBJECTIVE> "+ dg['Subjective Sections'] +" <OBJECTIVE> " + dg['Objective Sections']
+        dg['target_text'] = dg["Summary"]
+    else:
+        dg = pd.DataFrame(columns=['source_text', 'Summary'])
+    
+    test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment'] + " <SUBJECTIVE> "+ test_df['Subjective Sections'] +" <OBJECTIVE> " + test_df['Objective Sections']
 
     # Create the source and target text columns by concatenating the other columns
     df['source_text'] = " <ASSESSMENT> " + df['Assessment'] + " <SUBJECTIVE> "+ df['Subjective Sections'] +" <OBJECTIVE> " + df['Objective Sections']
     df['target_text'] = df["Summary"]
-
-    test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment'] + " <SUBJECTIVE> "+ test_df['Subjective Sections'] +" <OBJECTIVE> " + test_df['Objective Sections']
 
     # Convert all columns to string type
     df = df.applymap(str)
     test_df = test_df.applymap(str)
 
     # Split the dataframe into train, validation and test sets
-    train_df, valid_df = train_test_split(df, test_size=0.2, random_state=2023)
-    #test_df, valid_df = train_test_split(test_df, test_size=0.2, random_state=2023)
-    
+    #train_df, valid_df = train_test_split(df, test_size=0.2, random_state=2023)
+    #train_df = process_data(dg, valid_df, train_df)
+
+    # Concatenate the dataframes vertically
+    combined_df = pd.concat([df, dg], ignore_index=True)
+
+    # drop rows with missing values in 'source_text' or 'target_text'
+    combined_df.dropna(subset=['source_text', 'target_text'], inplace=True)
+
+    # Reset the index of the combined dataframe
+    train_df = combined_df.reset_index(drop=True)
+
+
 
     # Convert the pandas dataframes to Hugging Face datasets
     train_dataset = Dataset.from_pandas(train_df)
-    valid_dataset = Dataset.from_pandas(valid_df) 
+    #valid_dataset = Dataset.from_pandas(valid_df) 
     test_dataset = Dataset.from_dict(test_df)
     
     # Create a DatasetDict object that contains the train, validation and test datasets
-    my_dataset_dict = DatasetDict({"train":train_dataset,"test":test_dataset,'validation':valid_dataset})
+    #my_dataset_dict = DatasetDict({"train":train_dataset,"test":test_dataset,'validation':valid_dataset})
+    my_dataset_dict = DatasetDict({"train":train_dataset,"test":test_dataset})
     
     # Return the DatasetDict object
     return my_dataset_dict
+
+
 
 
 def preprocess_function(examples, max_input_length, max_target_length, prefix="summarization"):
@@ -132,6 +177,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--input_file', type=str, required=True, 
                         help='Path to a csv file into model')
+    parser.add_argument('--input_dg_file', type=str, default=None, 
+                        help='Path to a data augmented csv file into model')
     parser.add_argument('--input_test_file', type=str, required=True, 
                         help='Path to a test csv file into model')
     parser.add_argument('--output_file', type=str, default='system.txt', 
@@ -148,7 +195,7 @@ if __name__ == '__main__':
     
     parser.add_argument("--per_device_train_batch_size", type=int, default=16,
                         help="The training batch size per GPU")
-    parser.add_argument("--per_device_eval_batch_size", type=int, default=16,
+    parser.add_argument("--per_device_eval_batch_size", type=int, default=None,
                         help="The eval batch size per GPU")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1,
                         help="The number of gradient accumulation steps to perform")
@@ -190,16 +237,26 @@ if __name__ == '__main__':
         output_dir = os.path.join(args.output_dir, str(seed))
 
         training_args = Seq2SeqTrainingArguments(
-            output_dir=output_dir, num_train_epochs=args.num_train_epochs, 
-            per_device_train_batch_size=args.per_device_train_batch_size, per_device_eval_batch_size=args.per_device_eval_batch_size,
-            learning_rate=args.learning_rate, weight_decay=0.01, evaluation_strategy="epoch",
-            seed=seed, save_total_limit=3, predict_with_generate=True,
-            fp16=False, push_to_hub=False,
-            bf16=args.a100, tf32=args.a100, gradient_checkpointing=True
+            output_dir=output_dir, 
+            num_train_epochs=args.num_train_epochs, 
+            per_device_train_batch_size=args.per_device_train_batch_size, 
+            #per_device_eval_batch_size=args.per_device_eval_batch_size,
+            learning_rate=args.learning_rate, 
+            weight_decay=0.01, 
+            #evaluation_strategy="epoch", 
+            logging_strategy="epoch",
+            seed=seed, 
+            save_total_limit=3, 
+            predict_with_generate=True,
+            fp16=False, 
+            push_to_hub=False,
+            bf16=args.a100, 
+            tf32=args.a100, 
+            gradient_checkpointing=True
         )
 
         # Load the dataset using the load_dataset function
-        my_dataset_dict = load_dataset(args.input_file, args.input_test_file)
+        my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file)
 
         tokenized_datasets = my_dataset_dict.map(preprocess_function, batched=True)
 
@@ -210,7 +267,7 @@ if __name__ == '__main__':
             model=model, 
             args=training_args, 
             train_dataset=tokenized_datasets["train"],
-            eval_dataset=tokenized_datasets["validation"],
+            #eval_dataset=tokenized_datasets["validation"],
             data_collator=data_collator,
             tokenizer=tokenizer,
             compute_metrics=compute_metrics
@@ -239,7 +296,11 @@ if __name__ == '__main__':
 
                 # set the output file path
                 output_test_preds_file = os.path.join(output_dir, args.output_file)
+                output_test_preds_file = output_test_preds_file.replace('.txt', '.jsonl') # replace .txt with .jsonl
+
                 with open(output_test_preds_file, "w") as writer:
-                    writer.write("\n".join(test_preds))
+                    for pred in test_preds:
+                        json.dump(pred, writer) # write each prediction as a JSON object on a separate line
+                        writer.write('\n') # add a newline character to separate each object
 
         # save_predictions(trainer, args, tokenizer, test_result, output_file)

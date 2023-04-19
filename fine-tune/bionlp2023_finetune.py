@@ -31,43 +31,17 @@ from transformers import T5Tokenizer, T5Model,T5ForConditionalGeneration,T5Confi
 from transformers import AdamW, get_linear_schedule_with_warmup,PegasusConfig, PegasusTokenizer, PegasusForConditionalGeneration
 
 
-
-def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame) -> pd.DataFrame:
-    # Create a new dataframe with only the rows of 'data' that don't match the 'Summary' column of 'test_df'
-    filtered_data = dg[~dg['Summary'].isin(test_df['Summary'])]
-    print("The size of the input augmented dataset is %d" %len(dg) )
-    print("The size of the augmented dataset after filter is %d" %len(filtered_data))
-
-    # Update the 'data' dataframe with the filtered data
-    data = filtered_data
-
-    # Concatenate the dataframes vertically (i.e., stack them on top of each other)
-    combined_df = pd.concat([train_df, data], ignore_index=True)
-
-    # drop rows with missing values in 'source_text' or 'target_text'
-    combined_df.dropna(subset=['source_text', 'target_text'], inplace=True)
-
-    # Reset the index of the combined dataframe
-    new_train = combined_df.reset_index(drop=True)
-
-    print("The size of the new training dataset is %d" %len(new_train))
-    return new_train
-
-
-def load_dataset(input_file, input_dg_file, input_test_file) -> pd.DataFrame:
+def load_dataset(input_file, input_test_file):
     # Load the CSV file into a pandas dataframe
     df = pd.read_csv(input_file)
     test_df = pd.read_csv(input_test_file)
-    dg = pd.read_csv(input_dg_file)
 
     # Create the source and target text columns by concatenating the other columns
     df['source_text'] = " <ASSESSMENT> " + df['Assessment'] + " <SUBJECTIVE> "+ df['Subjective Sections'] +" <OBJECTIVE> " + df['Objective Sections']
     df['target_text'] = df["Summary"]
 
-    dg['source_text'] = " <ASSESSMENT> " + dg['Assessment'] + " <SUBJECTIVE> "+ dg['Subjective Sections'] +" <OBJECTIVE> " + dg['Objective Sections']
-    dg['target_text'] = dg["Summary"]
-
     test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment'] + " <SUBJECTIVE> "+ test_df['Subjective Sections'] +" <OBJECTIVE> " + test_df['Objective Sections']
+    test_df['target_text'] = test_df["Summary"]
 
     # Convert all columns to string type
     df = df.applymap(str)
@@ -76,7 +50,7 @@ def load_dataset(input_file, input_dg_file, input_test_file) -> pd.DataFrame:
     # Split the dataframe into train, validation and test sets
     train_df, valid_df = train_test_split(df, test_size=0.2, random_state=2023)
     #test_df, valid_df = train_test_split(test_df, test_size=0.2, random_state=2023)
-    train_df = process_data(dg, valid_df, train_df)
+    
 
     # Convert the pandas dataframes to Hugging Face datasets
     train_dataset = Dataset.from_pandas(train_df)
@@ -95,14 +69,10 @@ def preprocess_function(examples, max_input_length, max_target_length, prefix="s
     model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=True)
 
     # Setup the tokenizer for targets
-    print(type(examples))
-    try:
-    	with tokenizer.as_target_tokenizer():
-        	labels = tokenizer(examples["target_text"], max_length=max_target_length, truncation=True)
+    with tokenizer.as_target_tokenizer():
+        labels = tokenizer(examples["target_text"], max_length=max_target_length, truncation=True)
 
-    	model_inputs["labels"] = labels["input_ids"]
-    except KeyError:
-        pass
+    model_inputs["labels"] = labels["input_ids"]
     return model_inputs
 
 
@@ -159,8 +129,6 @@ if __name__ == '__main__':
 
     parser.add_argument('--input_file', type=str, required=True, 
                         help='Path to a csv file into model')
-    parser.add_argument('--input_dg_file', type=str, default=None, 
-                        help='Path to a data augmented csv file into model')
     parser.add_argument('--input_test_file', type=str, required=True, 
                         help='Path to a test csv file into model')
     parser.add_argument('--output_file', type=str, default='system.txt', 
@@ -193,8 +161,6 @@ if __name__ == '__main__':
                         help='Maximum length of target sequence')
     parser.add_argument("--predict_with_generate", action="store_true", 
                         help="Whether to use generation for prediction.")
-    parser.add_argument("--a100", action="store_true", 
-                        help="Use BF16 and TF32.")
 
 
     args = parser.parse_args()
@@ -221,14 +187,13 @@ if __name__ == '__main__':
         training_args = Seq2SeqTrainingArguments(
             output_dir=output_dir, num_train_epochs=args.num_train_epochs, 
             per_device_train_batch_size=args.per_device_train_batch_size, per_device_eval_batch_size=args.per_device_eval_batch_size,
-            learning_rate=args.learning_rate, weight_decay=0.01, evaluation_strategy="epoch", logging_strategy="epoch",
+            learning_rate=args.learning_rate, weight_decay=0.01, evaluation_strategy="epoch",
             seed=seed, save_total_limit=3, predict_with_generate=True,
             fp16=False, push_to_hub=False,
-            bf16=args.a100, tf32=args.a100, gradient_checkpointing=True
         )
 
         # Load the dataset using the load_dataset function
-        my_dataset_dict = load_dataset(args.input_file, args.input_dg_file, args.input_test_file)
+        my_dataset_dict = load_dataset(args.input_file, args.input_test_file)
 
         tokenized_datasets = my_dataset_dict.map(preprocess_function, batched=True)
 
