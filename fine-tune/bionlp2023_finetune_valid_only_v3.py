@@ -263,6 +263,18 @@ if __name__ == '__main__':
           trainer.train()
 
         print("Evaluating on Test set")
+        from accelerate import Accelerator
+        accelerator = Accelerator()
+        trainer.model = accelerator.unwrap_model(trainer.model)
+        # to make model be able to be evaluated under FSDP model
+        trainer.model.config.use_cache = True
+        dummy_inputs = tokenizer(
+                'This is a dummy input for the purpose of FSDP wrapping',
+                text_target = "OK, ignored.",
+                max_length=512, truncation=True, 
+                return_tensors='pt'
+        )
+        _ = trainer.model(**dummy_inputs)
         test_result = trainer.predict(
             tokenized_datasets["test"],
             metric_key_prefix="test",
