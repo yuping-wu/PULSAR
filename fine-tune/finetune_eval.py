@@ -15,7 +15,7 @@ This script can be used to train and evaluate a regular supervised model trained
 """
 
 # command line to run on csf3
-# CUDA_LAUNCH_BLOCKING=1 python finetune_eval.py --model_path google/flan-t5-xxl --tokenizer_name google/flan-t5-xxl --input_file Datasets/finetune/BioNLP2023-1A-Train.csv --input_test_file Datasets/finetune/BioNLP2023-1A-Test.csv --output_dir output/2023 --output_file system.txt --max_input_length 512 --per_device_eval_batch_size 2
+# CUDA_LAUNCH_BLOCKING=1 python finetune_eval.py --model_name google/flan-t5-xxl --tokenizer_name google/flan-t5-xxl --input_file Datasets/finetune/BioNLP2023-1A-Train.csv --input_test_file Datasets/finetune/BioNLP2023-1A-Test.csv --output_dir output/2023/epoch_0 --output_file system.txt --max_input_length 512 --per_device_eval_batch_size 2
 
 import json
 import argparse
@@ -194,8 +194,11 @@ if __name__ == '__main__':
     #     model, args.model_path, device_map="auto"
     #     )
     # model = model.from_pretrained(args.model_path)
-    model = AutoModelForSeq2SeqLM.from_pretrained(output_dir)
+    config = AutoConfig.from_pretrained(args.model_name)
+    model = AutoModelForSeq2SeqLM.from_config(config)
+    model.load_state_dict(torch.load(os.path.join(output_dir, 'pytorch_model.bin'), map_location='cpu'))
     model.to(device)
+    print('model device is', model.device)
 
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
 
