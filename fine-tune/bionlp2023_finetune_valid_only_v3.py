@@ -266,6 +266,7 @@ if __name__ == '__main__':
         from accelerate import Accelerator
         accelerator = Accelerator()
         trainer.model = accelerator.unwrap_model(trainer.model)
+        trainer.model.save_pretrained(output_dir)
         # to make model be able to be evaluated under FSDP model
         trainer.model.config.use_cache = True
         dummy_inputs = tokenizer(
