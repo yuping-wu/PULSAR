@@ -194,7 +194,7 @@ if __name__ == '__main__':
     #     model, args.model_path, device_map="auto"
     #     )
     # model = model.from_pretrained(args.model_path)
-    model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path)
+    model = AutoModelForSeq2SeqLM.from_pretrained(output_dir)
     model.to(device)
 
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
