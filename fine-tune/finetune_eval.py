@@ -14,8 +14,6 @@
 This script can be used to train and evaluate a regular supervised model trained with Data Augumentation on Mimic-iii dataset.
 """
 
-# command line to run on csf3
-# CUDA_LAUNCH_BLOCKING=1 python finetune_eval.py --model_name google/flan-t5-xxl --tokenizer_name google/flan-t5-xxl --input_file Datasets/finetune/BioNLP2023-1A-Train.csv --input_test_file Datasets/finetune/BioNLP2023-1A-Test.csv --output_dir output/2023/epoch_0 --output_file system.txt --max_input_length 512 --per_device_eval_batch_size 2
 
 import json
 import argparse
@@ -60,7 +58,7 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
 
 
 
-def load_dataset(input_file, input_test_file, input_dg_file=None, val=True) -> pd.DataFrame:
+def load_dataset(input_file, input_test_file, input_dg_file=None, val=True, dev=False) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     df = pd.read_csv(input_file)
     test_df = pd.read_csv(input_test_file)
@@ -74,6 +72,8 @@ def load_dataset(input_file, input_test_file, input_dg_file=None, val=True) -> p
         dg = pd.DataFrame(columns=['source_text', 'Summary'])
     
     test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment'] + " <SUBJECTIVE> "+ test_df['Subjective Sections'] +" <OBJECTIVE> " + test_df['Objective Sections']
+    if dev:
+        test_df['target_text'] = test_df["Summary"]
 
     # Create the source and target text columns by concatenating the other columns
     df['source_text'] = " <ASSESSMENT> " + df['Assessment'] + " <SUBJECTIVE> "+ df['Subjective Sections'] +" <OBJECTIVE> " + df['Objective Sections']
@@ -174,6 +174,9 @@ if __name__ == '__main__':
                         help='Maximum length of input sequence')
     parser.add_argument('--max_target_length', type=int, default=64, 
                         help='Maximum length of target sequence')
+    
+    parser.add_argument('--dev', type=bool, default=False, 
+                        help='Whether this run is for development or not. If for development, reference summary is required in test file.')
 
 
     args = parser.parse_args()
@@ -194,6 +197,7 @@ if __name__ == '__main__':
     #     model, args.model_path, device_map="auto"
     #     )
     # model = model.from_pretrained(args.model_path)
+    # model = AutoModelForSeq2SeqLM.from_pretrained(args.model_path)s
     config = AutoConfig.from_pretrained(args.model_name)
     model = AutoModelForSeq2SeqLM.from_config(config)
     model.load_state_dict(torch.load(os.path.join(output_dir, 'pytorch_model.bin'), map_location='cpu'))
@@ -204,12 +208,17 @@ if __name__ == '__main__':
 
 
     # Load the dataset using the load_dataset function
-    my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file, val=False)
+    my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file, val=False, dev=args.dev)
     eval_dataset = my_dataset_dict['test'].map(preprocess_function, batched=True, remove_columns=my_dataset_dict['test'].column_names)
     data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
     eval_dataloader = DataLoader(eval_dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size)
 
     print("Evaluating on Test set")
+
+    # Metric
+    import evaluate
+    metric = evaluate.load("rouge")
+    
 
     model.eval()
     print('model device is ', model.device)
@@ -226,7 +235,7 @@ if __name__ == '__main__':
     #         return_tensors='pt'
     # )
     # trainer.model.to('cuda')
-    predictions = []
+    predictions, references = [], []
     for step, batch in enumerate(eval_dataloader):
         with torch.no_grad():
             batch = batch.to(device)
@@ -244,7 +253,30 @@ if __name__ == '__main__':
             decoded_preds = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
             test_preds = [pred.strip() for pred in decoded_preds]
             predictions += test_preds
+
+
+            if args.dev:
+                labels = batch['labels']
+                labels = labels.cpu().numpy()
+                # Replace -100 in the labels as we can't decode them.
+                labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+                decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+                test_labels = [label.strip() for label in decoded_labels]
+                references += test_labels
+                metric.add_batch(
+                    predictions=decoded_preds,
+                    references=decoded_labels,
+                )
     
+    if args.dev:
+        result = metric.compute(use_stemmer=True)
+        result = {k: round(v * 100, 4) for k, v in result.items()}
+        print("Eval result: {}".format(result))
+        # save the predictions in json format
+        with open(os.path.join(output_dir, "predictions.json"), "w") as fpf:
+            for p in [{"prediction" : k, "label": v} for k, v in zip(predictions, references)]: 
+                fpf.write(json.dumps(p) + "\n")
+            
     # set the output file path
     output_test_preds_file = os.path.join(output_dir, args.output_file)
     output_test_preds_file = output_test_preds_file.replace('.txt', '.jsonl') # replace .txt with .jsonl
