@@ -243,13 +243,19 @@ if __name__ == '__main__':
     args.with_tracking = False
     args.num_warmup_steps = 0
     args.lr_scheduler_type = "linear"
+    args.resume_from_checkpoint = None
 
 
     preprocess_function = partial(preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length)
 
     if args.model_path:
+        logger.info('Loading model from local path ', args.model_path)
+        config = AutoConfig.from_pretrained(args.model_name)
         model_path = args.model_path
-        model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+        model = AutoModelForSeq2SeqLM.from_config(config)
+        model.load_state_dict(torch.load(os.path.join(model_path, 'pytorch_model.bin'), map_location='cpu'))
+        logger.info('Done with loading model from local path.')
+        # model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
     else:
         model_name = args.model_name
         model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
@@ -360,6 +366,12 @@ if __name__ == '__main__':
         progress_bar = tqdm(range(args.max_train_steps), disable=not accelerator.is_local_main_process)
         completed_steps = 0
         starting_epoch = 0
+
+        if args.resume_from_checkpoint:
+            if args.resume_from_checkpoint is not None or args.resume_from_checkpoint != "":
+                accelerator.print(f"Resumed from checkpoint: {args.resume_from_checkpoint}")
+                accelerator.load_state(args.resume_from_checkpoint)
+            starting_epoch = 1
 
         for epoch in range(starting_epoch, args.num_train_epochs):
             model.train()
