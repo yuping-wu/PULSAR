@@ -1,0 +1,22 @@
+{
+  "task_name": "sts",
+  "labels": {
+    "1": {
+      "instruction": "Task: Write two sentences that mean the same thing, but try to keep these two terms \"<META_A>\" and \"<META_B>\".\nSentence 1: \"<X1>\"\nSentence 2: \"",
+      "counter_labels": []
+    },
+    "0.5": {
+      "instruction": "Task: Write two sentences that are somewhat similar, but try to keep these two terms \"<META_A>\" and \"<META_B>\".\nSentence 1: \"<X1>\"\nSentence 2: \"",
+      "counter_labels": [
+        "1"
+      ]
+    },
+    "0": {
+      "instruction": "Task: Write two sentences that are on completely different topics, but try to keep these two terms \"<META_A>\" and \"<META_B>\".\nSentence 1: \"<X1>\"\nSentence 2: \"",
+      "counter_labels": [
+        "1",
+        "0.5"
+      ]
+    }
+  }
+}
