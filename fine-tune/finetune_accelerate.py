@@ -13,16 +13,17 @@
 """
 This script can be used to train and evaluate a regular supervised model trained with Data Augumentation on Mimic-iii dataset.
 
-Command line used in CSF3: 
-CUDA_LAUNCH_BLOCKING=1 accelerate launch --config_file finetune_accelerate_fsdp.yml 
-  finetune_accelerate.py --model_name google/flan-t5-xxl --tokenizer_name google/flan-t5-xxl 
-     --input_file Datasets/finetune/BioNLP2023-1A-Train.csv -
-     -input_test_file Datasets/finetune/BioNLP2023-1A-Test.csv
-     --output_dir output --output_file system.txt 
-     --predict_with_generate --num_train_epochs 1 --a100 
-     --per_device_train_batch_size 2 --max_input_length 512 
-     --gradient_accumulation_steps 1 --per_device_eval_batch_size 2 
-     --learning_rate 3e-5 --no_val --train
+Command line used in CSF3:
+CUDA_LAUNCH_BLOCKING=1 accelerate launch --config_file accelerate_t5_fsdp.yml 
+  finetune_accelerate.py --model_path epoch_0 
+    --tokenizer_name google/flan-t5-xl 
+    --input_file Datasets/finetune/BioNLP2023-1A-newTrain.csv 
+    --input_test_file Datasets/finetune/BioNLP2023-1A-newTest.csv
+    --output_dir output --output_file system.txt 
+    --predict_with_generate --num_train_epochs 1 
+    --a100 --per_device_train_batch_size 4 --max_input_length 512 
+    --gradient_accumulation_steps 1 --per_device_eval_batch_size 4 
+    --learning_rate 3e-5 --no_val --train --dev True
 """
 
 import json, logging
@@ -85,7 +86,7 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
 
 
 
-def load_dataset(input_file, input_test_file, input_dg_file=None, val=True) -> pd.DataFrame:
+def load_dataset(input_file, input_test_file, input_dg_file=None, val=True, dev=False) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     df = pd.read_csv(input_file)
     test_df = pd.read_csv(input_test_file)
@@ -99,9 +100,13 @@ def load_dataset(input_file, input_test_file, input_dg_file=None, val=True) -> p
         dg = pd.DataFrame(columns=['source_text', 'Summary'])
     
     test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment'] + " <SUBJECTIVE> "+ test_df['Subjective Sections'] +" <OBJECTIVE> " + test_df['Objective Sections']
+    # test_df['source_text'] = " <ASSESSMENT> " + test_df['Assessment']
+    if dev:
+        test_df['target_text'] = test_df["Summary"]
 
     # Create the source and target text columns by concatenating the other columns
     df['source_text'] = " <ASSESSMENT> " + df['Assessment'] + " <SUBJECTIVE> "+ df['Subjective Sections'] +" <OBJECTIVE> " + df['Objective Sections']
+    # df['source_text'] = " <ASSESSMENT> " + df['Assessment']
     df['target_text'] = df["Summary"]
 
     # Convert all columns to string type
@@ -231,6 +236,9 @@ if __name__ == '__main__':
                         help="Use BF16 and TF32.")
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
+    parser.add_argument('--dev', type=bool, default=False, 
+                        help='Whether this run is for development or not. If for development, reference summary is required in test file.')
+
 
     args = parser.parse_args()
     val = not args.no_val
@@ -248,15 +256,24 @@ if __name__ == '__main__':
 
     preprocess_function = partial(preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length)
 
+    print("model path is ", args.model_path)
+
     if args.model_path:
+        print("Loading model from local path", args.model_path)
         logger.info('Loading model from local path ', args.model_path)
         config = AutoConfig.from_pretrained(args.model_name)
         model_path = args.model_path
-        model = AutoModelForSeq2SeqLM.from_config(config)
-        model.load_state_dict(torch.load(os.path.join(model_path, 'pytorch_model.bin'), map_location='cpu'))
+        if 'pytorch_model.bin' in os.listdir(model_path):
+            config = AutoConfig.from_pretrained(args.model_name)
+            model = AutoModelForSeq2SeqLM.from_config(config)
+            model.load_state_dict(torch.load(os.path.join(model_path, 'pytorch_model.bin'), map_location='cpu'))
+        else:
+            model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
+        print("Done with loading model from local path")
         logger.info('Done with loading model from local path.')
         # model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
     else:
+        print('Loading model from huggingface ', args.model_name)
         model_name = args.model_name
         model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
     
@@ -265,7 +282,9 @@ if __name__ == '__main__':
 
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
 
-    metric = load_metric("rouge")
+    # metric = load_metric("rouge")
+    import evaluate
+    metric = evaluate.load("rouge")
     
     accelerator_log_kwargs = {}
     if args.with_tracking:
@@ -299,7 +318,7 @@ if __name__ == '__main__':
         accelerator.wait_for_everyone()
 
         # Load the dataset using the load_dataset function
-        my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file, val=val)
+        my_dataset_dict = load_dataset(args.input_file, args.input_test_file, args.input_dg_file, val=val, dev=args.dev)
 
         with accelerator.main_process_first():
             train_dataset = my_dataset_dict['train'].map(preprocess_function, batched=True, remove_columns=my_dataset_dict['train'].column_names)
@@ -336,8 +355,8 @@ if __name__ == '__main__':
             num_training_steps=args.max_train_steps * args.gradient_accumulation_steps,
         )
 
-        optimizer, train_dataloader, eval_dataloader, lr_scheduler = accelerator.prepare(
-            optimizer, train_dataloader, eval_dataloader, lr_scheduler
+        optimizer, train_dataloader, eval_dataloader, test_dataloader, lr_scheduler = accelerator.prepare(
+            optimizer, train_dataloader, eval_dataloader, test_dataloader, lr_scheduler
         )
 
         num_update_steps_per_epoch = math.ceil(len(train_dataloader) / args.gradient_accumulation_steps)
@@ -409,6 +428,7 @@ if __name__ == '__main__':
                 max_length=max_input_length, truncation=True, 
                 return_tensors='pt'
         )
+        accelerator.wait_for_everyone()
         model.eval()
 
         gen_kwargs = {
@@ -418,7 +438,7 @@ if __name__ == '__main__':
         }
         # run dummy inputs
         dummy_outputs = accelerator.unwrap_model(model)(**dummy_inputs)
-        predictions = []
+        predictions, references = [], []
         for step, batch in enumerate(test_dataloader):
             with torch.no_grad():
                 generated_tokens = accelerator.unwrap_model(model).generate(
@@ -426,6 +446,10 @@ if __name__ == '__main__':
                     attention_mask=batch["attention_mask"],
                     **gen_kwargs,
                 )
+                generated_tokens = accelerator.pad_across_processes(
+                    generated_tokens, dim=1, pad_index=tokenizer.pad_token_id
+                )
+                generated_tokens = accelerator.gather_for_metrics(generated_tokens)
 
                 generated_tokens = generated_tokens.cpu().numpy()
                 print(generated_tokens)
@@ -435,12 +459,38 @@ if __name__ == '__main__':
                 decoded_preds = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True, clean_up_tokenization_spaces=True)
                 test_preds = [pred.strip() for pred in decoded_preds]
                 predictions += test_preds
+                
+                if args.dev:
+                    labels = batch['labels']
+                    labels = accelerator.pad_across_processes(batch['labels'], dim=1, pad_index=tokenizer.pad_token_id)
+                    labels = accelerator.gather_for_metrics(labels)
+                    labels = labels.cpu().numpy()
+                    # Replace -100 in the labels as we can't decode them.
+                    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+                    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+                    test_labels = [label.strip() for label in decoded_labels]
+                    references += test_labels
+                    metric.add_batch(
+                        predictions=decoded_preds,
+                        references=decoded_labels,
+                    )
         
+        if args.dev:
+            result = metric.compute(use_stemmer=True)
+            result = {k: round(v * 100, 4) for k, v in result.items()}
+            if accelerator.is_local_main_process:
+                print("Eval result: {}".format(result))
+                # save the predictions in json format
+                with open(os.path.join(output_dir, "predictions.json"), "w") as fpf:
+                    for p in [{"prediction" : k, "label": v} for k, v in zip(predictions, references)]: 
+                        fpf.write(json.dumps(p) + "\n")
+
         # set the output file path
         output_test_preds_file = os.path.join(output_dir, args.output_file)
         output_test_preds_file = output_test_preds_file.replace('.txt', '.jsonl') # replace .txt with .jsonl
 
-        with open(output_test_preds_file, "w") as writer:
-            for pred in predictions:
-                json.dump(pred, writer) # write each prediction as a JSON object on a separate line
-                writer.write('\n') # add a newline character to separate each object
+        if accelerator.is_local_main_process:
+            with open(output_test_preds_file, "w") as writer:
+                for pred in predictions:
+                    json.dump(pred, writer) # write each prediction as a JSON object on a separate line
+                    writer.write('\n') # add a newline character to separate each object
