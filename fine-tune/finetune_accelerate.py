@@ -119,7 +119,11 @@ def load_dataset(input_file, input_test_file, input_dg_file=None, val=True, dev=
     else:
       train_df = df
       valid_df = pd.DataFrame(columns=['source_text', 'Summary'])
-    train_df = process_data(dg, valid_df, train_df)
+     # remove augmented data from train_df
+    if dev:
+        train_df = process_data(dg, test_df, train_df)
+    else:
+        train_df = process_data(dg, valid_df, train_df)
       
     # Convert the pandas dataframes to Hugging Face datasets
     train_dataset = Dataset.from_pandas(train_df)
