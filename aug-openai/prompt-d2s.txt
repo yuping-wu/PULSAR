@@ -1,0 +1,4 @@
+Your task is to summarise a patient conversation into a clinical note. Stick to the following rules:
+1. While the conversation is colloquial, the medical note should be professional.
+2. Make sure to include all relevant information from the conversation, use jargon and abbreviations where relevant.
+3. If any lay man terms appear in the conversation, paraphrase them to medical terms For example,  "lower back pain" can be paraphrased to "LBP" and "Diabetes" to "Type 2 DM"

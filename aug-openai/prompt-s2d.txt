@@ -1,0 +1,5 @@
+Your task is to generate a patient conversation that was summarised in the input clinical note.  Stick to the following rules:
+1. Keep the conversation colloquial, without using abbreviations and medical jargon.
+2. Make sure to include all relevant information from the note, but keep the tone conversational.
+3. If any medical terms appear in the note, paraphrase them to lay mans terms. For example, the abbreviation "LBP" should be paraphrased to "lower back pain".
+4. Add some interjections that would be normal in a conversation but would not be copied into the clinical note.
