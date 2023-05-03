@@ -10,6 +10,7 @@ python -m generate_instruction generate_instruction_following_data \
 import sys
 import time
 import json
+from handystuff.loaders import load_jsonl
 import os
 import random
 import re
@@ -107,7 +108,7 @@ def encode_prompt_s2d(prompt_instructions):
         prompt += f"Example Input Note:\n{input}\n\n"
         prompt += f"Example Conversation about the patient's {topic}:\n{output}\n*END*\n\n"
 
-    output, topic, input = prompt_instructions[-1]["dialogue"], prompt_instructions[-1]["section_header"], prompt_instructions[-1]["section_text"]
+    topic, input = prompt_instructions[-1]["section_header"], prompt_instructions[-1]["section_text"]
     topic_str = topic_map[topic.lower()] or topic.replace('_', ' ')
     topic_str = topic.lower().capitalize()
     prompt += f"Input Note:\n{input}\n\n"
@@ -213,6 +214,7 @@ def find_word_in_string(w, s):
 def generate_instruction_following_data(
     output_dir="./",
     seed_tasks_path="./aug-openai/seed.jsonl",
+    unlabelled_data_path=None,
     num_instructions_to_generate=100,
     model_name="text-davinci-003",
     num_prompt_instructions=3,
@@ -232,14 +234,22 @@ def generate_instruction_following_data(
     #     for t in seed_tasks
     # ]
     print(f"Loaded {len(seed_instruction_data)} human-written seed instructions")
-
+    if unlabelled_data_path:
+        file_modifier = f"{mode}-ul"
+        unlabelled_data = load_jsonl(unlabelled_data_path)
+        print(f"Loaded {len(unlabelled_data)} unlabelled examples.")
+    else:
+        file_modifier = mode
+        unlabelled_data = []
     os.makedirs(output_dir, exist_ok=True)
     request_idx = 0
     # load the LM-generated instructions
     machine_instruction_data = []
-    if os.path.exists(os.path.join(output_dir, f"regen-{mode}.json")):
-        machine_instruction_data = utils.jload(os.path.join(output_dir, f"regen-{mode}.json"))
+    if os.path.exists(os.path.join(output_dir, f"regen-{file_modifier}.json")):
+        machine_instruction_data = utils.jload(os.path.join(output_dir, f"regen-{file_modifier}.json"))
         print(f"Loaded {len(machine_instruction_data)} machine-generated instructions")
+    print(unlabelled_data_path)
+
 
     # similarities = {}
     scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=False)
@@ -264,7 +274,11 @@ def generate_instruction_following_data(
         batch_inputs_raw = []
         for _ in range(request_batch_size):
             # only sampling from the seed tasks
-            prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions)
+            if unlabelled_data:
+                prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions -1)
+                prompt_instructions.append(random.choice(unlabelled_data))
+            else:
+                prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions -1)
             prompt, inputs_raw = encode_prompt(prompt_instructions)
             batch_inputs_raw.append(inputs_raw)
             batch_inputs.append(prompt)
@@ -321,7 +335,7 @@ def generate_instruction_following_data(
         process_duration = time.time() - process_start
         print(f"Request {request_idx} took {request_duration:.2f}s, processing took {process_duration:.2f}s")
         print(f"Generated {total} instructions, kept {keep} instructions")
-        utils.jdump(machine_instruction_data, os.path.join(output_dir, f"regen-{mode}.json"))
+        utils.jdump(machine_instruction_data, os.path.join(output_dir, f"regen-{file_modifier}.json"))
 
 
 def main(task, **kwargs):
