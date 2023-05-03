@@ -726,7 +726,6 @@ if __name__ == "__main__":
                 )
                 generated_tokens = accelerator.gather_for_metrics(generated_tokens)
                 generated_tokens = generated_tokens.cpu().numpy()
-                print(generated_tokens)
                 if isinstance(generated_tokens, tuple):
                     generated_tokens = generated_tokens[0]
                 decoded_preds = tokenizer.batch_decode(
