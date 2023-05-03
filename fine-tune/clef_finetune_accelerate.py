@@ -23,7 +23,6 @@ import nltk
 import numpy as np
 import pandas as pd
 import random as rn
-from sklearn.model_selection import train_test_split
 from tqdm.auto import tqdm
 
 import datasets
@@ -238,7 +237,7 @@ if __name__ == "__main__":
     args.num_warmup_steps = 0
     args.lr_scheduler_type = "linear"
     args.resume_from_checkpoint = None
-    prefix="summarization"
+    prefix="summarize: "
 
     # preprocess_function = partial(
     #     preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length

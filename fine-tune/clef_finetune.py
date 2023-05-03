@@ -24,7 +24,6 @@ import nltk
 import numpy as np
 import pandas as pd
 import random as rn
-from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer
 from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
 from datasets import load_dataset, load_metric, Dataset, DatasetDict
@@ -121,7 +120,7 @@ def load_dataset(input_file, input_val_file, input_test_file, input_dg_file=None
     return my_dataset_dict
 
 
-def preprocess_function(examples, max_input_length, max_target_length, prefix="summarization"):
+def preprocess_function(examples, max_input_length, max_target_length, prefix="summarize: "):
     inputs = [prefix + doc for doc in examples["source_text"]]
     model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=True)
 
