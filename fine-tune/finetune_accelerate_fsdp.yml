@@ -18,4 +18,5 @@ main_training_function: main
 mixed_precision: 'bf16'
 num_machines: 1
 num_processes: 2
+gpu_ids: 2,3
 use_cpu: false

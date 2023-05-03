@@ -10,6 +10,7 @@ python -m generate_instruction generate_instruction_following_data \
 import sys
 import time
 import json
+from handystuff.loaders import load_jsonl
 import os
 import random
 import re
@@ -76,10 +77,9 @@ def encode_prompt_d2s(prompt_instructions):
     topic_str = topic.lower().capitalize()
     prompt += f"Input Conversation about the patient's {topic_str}:\n{input}\n"
     prompt += f"Output Note:"
-    print(prompt)
     return prompt, (input, topic)
 
-def encode_prompt_d2fn(prompt_instructions, prompt_path):
+def encode_prompt_d2fn(prompt_instructions):
     """Encode multiple prompt instructions into a single string."""
     prompt = open(prompt_path).read() + "\n"
 
@@ -96,21 +96,24 @@ def encode_prompt_d2fn(prompt_instructions, prompt_path):
     return prompt
 
 
-def encode_prompt_s2d(prompt_instructions, prompt_path):
-    """Encode multiple prompt instructions into a single string."""
-    prompt = open(prompt_path).read() + "\n"
+def encode_prompt_s2d(prompt_instructions):
+    prompt = open("aug-openai/prompt-s2d.txt").read() + "\n"
 
-    for idx, task_dict in enumerate(prompt_instructions):
-        (instruction, input, output) = task_dict["input"], task_dict["topic"], task_dict["output"]
-        instruction = re.sub(r"\s+", " ", instruction).strip().rstrip(":")
-        input = "<noinput>" if input.lower() == "" else input
-        prompt += f"###\n"
-        prompt += f"{idx + 1}. Instruction: {instruction}\n"
-        prompt += f"{idx + 1}. Input:\n{input}\n"
-        prompt += f"{idx + 1}. Output:\n{output}\n"
-    prompt += f"###\n"
-    prompt += f"{idx + 2}. Instruction:"
-    return prompt
+    for idx, task_dict in enumerate(prompt_instructions[:-1]):
+        output, topic, input = task_dict["dialogue"], task_dict["section_header"], task_dict["section_text"]
+        topic = topic_map[topic.lower()] or topic.replace('_', ' ')
+        topic = topic.lower().capitalize()
+        # instruction = re.sub(r"\s+", " ", instruction).strip().rstrip(":")
+        # input = "<noinput>" if input.lower() == "" else input
+        prompt += f"Example Input Note:\n{input}\n\n"
+        prompt += f"Example Conversation about the patient's {topic}:\n{output}\n*END*\n\n"
+
+    topic, input = prompt_instructions[-1]["section_header"], prompt_instructions[-1]["section_text"]
+    topic_str = topic_map[topic.lower()] or topic.replace('_', ' ')
+    topic_str = topic.lower().capitalize()
+    prompt += f"Input Note:\n{input}\n\n"
+    prompt += f"Output Conversation about the patient's {topic_str}:"
+    return prompt, (input, topic)
 
 def encode_prompt_fn2d(prompt_instructions, prompt_path):
     """Encode multiple prompt instructions into a single string."""
@@ -130,11 +133,13 @@ def encode_prompt_fn2d(prompt_instructions, prompt_path):
 
 
 output_map = {
-    'd2s': 'section_text'
+    'd2s': 'section_text',
+    's2d': 'dialogue'
 }
 
 input_map = {
-    'd2s': 'dialogue'
+    'd2s': 'dialogue',
+    's2d': 'section_text'
 }
 
 def post_process_gpt3_response(num_prompt_instructions, response):
@@ -209,6 +214,7 @@ def find_word_in_string(w, s):
 def generate_instruction_following_data(
     output_dir="./",
     seed_tasks_path="./aug-openai/seed.jsonl",
+    unlabelled_data_path=None,
     num_instructions_to_generate=100,
     model_name="text-davinci-003",
     num_prompt_instructions=3,
@@ -218,25 +224,32 @@ def generate_instruction_following_data(
     num_cpus=16,
     mode='d2s'
 ):
-    assert mode == 'd2s', "sorreh luv, other modes not implemented yet. it does that sometimes."
+    assert mode in ['d2s', 's2d'], "sorreh luv, other modes not implemented yet. it does that sometimes."
     encode_prompt = getattr(sys.modules['__main__'], f"encode_prompt_{mode}", False)
-    print(encode_prompt)
     # seed_tasks = [json.loads(l) for l in open(seed_tasks_path, "r")]
     seed_instruction_data = pd.read_csv(seed_tasks_path).to_dict(orient='records')
-    
+    print(output_dir)
     # seed_instruction_data = [
     #     {"topic": t["section_header"], "output": t['section_text'], "input": t["dialogue"]}
     #     for t in seed_tasks
     # ]
     print(f"Loaded {len(seed_instruction_data)} human-written seed instructions")
-
+    if unlabelled_data_path:
+        file_modifier = f"{mode}-ul"
+        unlabelled_data = load_jsonl(unlabelled_data_path)
+        print(f"Loaded {len(unlabelled_data)} unlabelled examples.")
+    else:
+        file_modifier = mode
+        unlabelled_data = []
     os.makedirs(output_dir, exist_ok=True)
     request_idx = 0
     # load the LM-generated instructions
     machine_instruction_data = []
-    if os.path.exists(os.path.join(output_dir, "regen.json")):
-        machine_instruction_data = utils.jload(os.path.join(output_dir, "regen.json"))
+    if os.path.exists(os.path.join(output_dir, f"regen-{file_modifier}.json")):
+        machine_instruction_data = utils.jload(os.path.join(output_dir, f"regen-{file_modifier}.json"))
         print(f"Loaded {len(machine_instruction_data)} machine-generated instructions")
+    print(unlabelled_data_path)
+
 
     # similarities = {}
     scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=False)
@@ -261,7 +274,11 @@ def generate_instruction_following_data(
         batch_inputs_raw = []
         for _ in range(request_batch_size):
             # only sampling from the seed tasks
-            prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions)
+            if unlabelled_data:
+                prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions -1)
+                prompt_instructions.append(random.choice(unlabelled_data))
+            else:
+                prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions -1)
             prompt, inputs_raw = encode_prompt(prompt_instructions)
             batch_inputs_raw.append(inputs_raw)
             batch_inputs.append(prompt)
@@ -288,7 +305,6 @@ def generate_instruction_following_data(
         for result, (input, topic) in zip(results, batch_inputs_raw):
             new_instructions =  {"topic": topic, input_field: input, output_field: result['text']}# post_process_gpt3_response(num_prompt_instructions, result)
             instruction_data.append(new_instructions)
-        print(instruction_data)
 
         total = len(instruction_data)
         keep = 0
@@ -319,7 +335,7 @@ def generate_instruction_following_data(
         process_duration = time.time() - process_start
         print(f"Request {request_idx} took {request_duration:.2f}s, processing took {process_duration:.2f}s")
         print(f"Generated {total} instructions, kept {keep} instructions")
-        utils.jdump(machine_instruction_data, os.path.join(output_dir, "regen.json"))
+        utils.jdump(machine_instruction_data, os.path.join(output_dir, f"regen-{file_modifier}.json"))
 
 
 def main(task, **kwargs):
