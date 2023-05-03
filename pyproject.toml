@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "pulsar"
+version = "0.1.0"
+description = ""
+authors = ["Yiping Wu, Hao Li, Viktor Schlegel, Abhinav Ramesh Kashyap"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+transformers = "4.26.1"
+torch = "1.13.1"
+sentencepiece = "0.1.97"
+chardet = "5.1.0"
+nltk = "3.8.1"
+datasets = "2.9.0"
+evaluate = "0.4.0"
+scikit-learn = "1.2.1"
+cchardet = "2.1.7"
+fairscale = "0.4.13"
+rouge-score = "^0.1.2"
+wandb = "^0.15.1"
+accelerate = "^0.18.0"
+partial = "^1.0"
+gpustat = "^1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

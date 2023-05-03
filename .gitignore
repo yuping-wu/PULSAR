@@ -1,2 +1,6 @@
 .env
 __pycache__
+wandb 
+scripts
+clef-medqa 
+.envrc
