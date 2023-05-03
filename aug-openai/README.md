@@ -2,7 +2,7 @@
 Again, assuming `../clef-medqa` is the location of the CLEF data.
 
 ```bash
-thon aug-openai/generate.py --seed-tasks-path=../clef-medqa/dataset/TaskB/TaskB-TrainingSet.csv --mode d2s --num_prompt_instructions 3 --top_p=0.5 --request_batch_size 1 --num_instructions_to_generate 35
+python aug-openai/generate.py --seed-tasks-path=../clef-medqa/dataset/TaskB/TaskB-TrainingSet.csv --mode d2s --num_prompt_instructions 3 --top_p=0.5 --request_batch_size 1 --num_instructions_to_generate 35
 ```
 is an example of how to run the script.
 
