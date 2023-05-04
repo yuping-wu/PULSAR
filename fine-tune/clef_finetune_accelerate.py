@@ -74,6 +74,7 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
 HEADERS = {'PLAN': "Conversation about the patient's treatment plan:",
  'ASSESSMENT': "Conversation about the patient's medical assessment:",
  'ALLERGY': "Conversation about the patient's allergies:",
+ 'EDCOURSE': "Conversation about the patient's emergency department course:",
  'CC': "Conversation about the patient's chief complaint:",
  'ROS': "Conversation about the review of patient's systems:",
  'FAM/SOCHX': "Conversation about the patient's social and family history:",
