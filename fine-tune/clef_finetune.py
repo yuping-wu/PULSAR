@@ -237,6 +237,10 @@ if __name__ == "__main__":
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
     parser.add_argument("--header_input", action="store_true", help='whether to use the section header as part of input.')
+    parser.add_argument("--prefix", 
+                        type=str, 
+                        default="summarize: ", 
+                        help="prefix for flan-T5")
 
     args = parser.parse_args()
     val = not args.no_val
@@ -246,7 +250,7 @@ if __name__ == "__main__":
     max_target_length = args.max_target_length
 
     preprocess_function = partial(
-        preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length
+        preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length, prefix=args.prefix
     )
 
     if args.model_path:
