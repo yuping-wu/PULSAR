@@ -287,7 +287,7 @@ def generate_instruction_following_data(
             n=1,
             max_tokens=512,  # hard-code to maximize the length. the requests will be automatically adjusted
             top_p=top_p,
-            stop=['*END*']
+            stop=['*END*', 'Input', 'print', 'Output']
             # stop=["\n20", "20.", "20."],
         )
         request_start = time.time()
