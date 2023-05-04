@@ -101,7 +101,7 @@ def load_dataset(
     print(train_df.columns)
     # Read the DG file only if it is not None
     if input_dg_file:
-        dg = pd.read_csv(input_dg_file)
+        dg = pd.read_json(input_dg_file, orient='records')
         if convert_header:
             dg['section_header'] = dg['section_header'].apply(lambda x: HEADERS[x])
         dg["source_text"] = (dg["section_header"] + "\n" if header_input else "") + dg["dialogue"]
