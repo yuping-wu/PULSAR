@@ -92,7 +92,7 @@ HEADERS = {'PLAN': "Conversation about the patient's treatment plan:",
  'GYNHX': "Conversation about the patient's gynecologic history:"}
 
 def load_dataset(
-    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False, convert_header=False
+    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False, header_output=False, convert_header=False
 ) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     train_df = pd.read_csv(input_file)
@@ -104,7 +104,7 @@ def load_dataset(
         if convert_header:
             dg['section_header'] = dg['section_header'].apply(lambda x: HEADERS[x])
         dg["source_text"] = (dg["section_header"] + "\n" if header_input else "") + dg["dialogue"]
-        dg["target_text"] = (dg["section_header"] + "\n" if not header_input else "") + dg["section_text"]
+        dg["target_text"] = (dg["section_header"] + "\n" if header_output else "") + dg["section_text"]
     else:
         dg = pd.DataFrame(columns=["source_text", "Summary"])
 
@@ -121,14 +121,14 @@ def load_dataset(
         if convert_header:
             val_df['section_header'] = val_df['section_header'].apply(lambda x: HEADERS[x])
         val_df["source_text"] = (val_df["section_header"] + "\n" if header_input else "") + val_df["dialogue"]
-        val_df["target_text"] = (val_df["section_header"] + "\n" if not header_input else "") + val_df["section_text"]
+        val_df["target_text"] = (val_df["section_header"] + "\n" if header_output else "") + val_df["section_text"]
     else:
         val_df = pd.DataFrame(columns=["source_text", "Summary"])
     # Create the source and target text columns by concatenating the other columns
     if convert_header:
             train_df['section_header'] = train_df['section_header'].apply(lambda x: HEADERS[x])
     train_df["source_text"] = (train_df["section_header"] + "\n" if header_input else "") + train_df["dialogue"]
-    train_df["target_text"] = (train_df["section_header"] + "\n" if not header_input else "") + train_df["section_text"]
+    train_df["target_text"] = (train_df["section_header"] + "\n" if header_output else "") + train_df["section_text"]
 
     # Convert all columns to string type
     train_df = train_df.applymap(str)
