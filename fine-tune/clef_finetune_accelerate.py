@@ -72,7 +72,9 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
     return new_train
 
 
-def load_dataset(input_file, input_val_file, input_test_file, input_dg_file=None, val=True) -> pd.DataFrame:
+def load_dataset(
+    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False
+) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     train_df = pd.read_csv(input_file)
 
@@ -80,32 +82,33 @@ def load_dataset(input_file, input_val_file, input_test_file, input_dg_file=None
     # Read the DG file only if it is not None
     if input_dg_file:
         dg = pd.read_csv(input_dg_file)
-        dg["source_text"] = train_df["dialogue"]
-        dg["target_text"] = train_df["section_header"] + "\n" + train_df["section_text"]
+        dg["source_text"] = (dg["section_header"] + "\n" if header_input else "") + dg["dialogue"]
+        dg["target_text"] = (dg["section_header"] + "\n" if not header_input else "") + dg["section_text"]
     else:
         dg = pd.DataFrame(columns=["source_text", "Summary"])
 
     if input_test_file:
         test_df = pd.read_csv(input_test_file)
-        test_df["source_text"] = test_df["dialogue"]
+        test_df["source_text"] = (test_df["section_header"] + "\n" if header_input else "") + test_df["section_text"]
     else:
         test_df = pd.DataFrame(columns=["source_text", "Summary"])
 
     if input_val_file:
         val_df = pd.read_csv(input_val_file)
-        val_df["source_text"] = val_df["dialogue"]
-        val_df["target_text"] = val_df["section_header"] + "\n" + val_df["section_text"]
+        val_df["source_text"] = (val_df["section_header"] + "\n" if header_input else "") + val_df["dialogue"]
+        val_df["target_text"] = (val_df["section_header"] + "\n" if not header_input else "") + val_df["section_text"]
     else:
         val_df = pd.DataFrame(columns=["source_text", "Summary"])
     # Create the source and target text columns by concatenating the other columns
-    train_df["source_text"] = train_df["dialogue"]
-    train_df["target_text"] = train_df["section_header"] + "\n" + train_df["section_text"]
+    train_df["source_text"] = (train_df["section_header"] + "\n" if header_input else "") + train_df["dialogue"]
+    train_df["target_text"] = (train_df["section_header"] + "\n" if not header_input else "") + train_df["section_text"]
 
     # Convert all columns to string type
     train_df = train_df.applymap(str)
     test_df = test_df.applymap(str)
     val_df = val_df.applymap(str)
-
+    print(train_df.head())
+    print(val_df.head())
     # Split the dataframe into train, validation and test sets
     # Concatenate the dataframes vertically (i.e., stack them on top of each other)
     if val:
@@ -125,7 +128,6 @@ def load_dataset(input_file, input_val_file, input_test_file, input_dg_file=None
     train_dataset = Dataset.from_pandas(combined_df)
     valid_dataset = Dataset.from_pandas(val_df)
     test_dataset = Dataset.from_dict(test_df)
-
 
     # Create a DatasetDict object that contains the train, validation and test datasets
     my_dataset_dict = DatasetDict({"train": train_dataset, "test": test_dataset, "validation": valid_dataset})
@@ -186,7 +188,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_name",
         type=str,
-        default="google/flan-t5-base",
+        default=None,
         help="Name of the pretrained model to use for finetuning",
     )
     parser.add_argument(
@@ -252,7 +254,7 @@ if __name__ == "__main__":
         # print('Loading model from local path ', args.model_path)
         logger.info('Loading model from local path ', args.model_path)
         model_path = args.model_path
-        if 'pytorch_model.bin' in os.listdir(model_path):
+        if 'pytorch_model.bin' in os.listdir(model_path) and args.model_name is not None:
             config = AutoConfig.from_pretrained(args.model_name)
             model = AutoModelForSeq2SeqLM.from_config(config)
             model.load_state_dict(torch.load(os.path.join(model_path, 'pytorch_model.bin'), map_location='cpu'))
