@@ -124,7 +124,6 @@ def load_dataset(
     val_df = val_df.applymap(str)
     print(train_df.head())
     print(val_df.head())
-    assert False
     # Split the dataframe into train, validation and test sets
     # Concatenate the dataframes vertically (i.e., stack them on top of each other)
     if val:
@@ -266,8 +265,8 @@ if __name__ == "__main__":
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
     parser.add_argument("--header_input", action="store_true", help='whether to use the section header as part of input.')
-    parser.add_argument("--header_output", action="store_true", help='whether to use the section header as part of input.')
-    parser.add_argument("--convert_header", action="store_true", help='whether to use the section header as part of input.')
+    parser.add_argument("--header_output", action="store_true", help='whether to use the section header as part of output.')
+    parser.add_argument("--convert_header", action="store_true", help='whether to convert the section header into natural language.')
     parser.add_argument("--prefix", 
                         type=str, 
                         default="summarize: ", 

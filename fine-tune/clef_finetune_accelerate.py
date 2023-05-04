@@ -250,8 +250,10 @@ if __name__ == "__main__":
     parser.add_argument("--a100", action="store_true", help="Use BF16 and TF32.")
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
-    parser.add_argument("--test", action="store_true", help="Test mode")
+    parser.add_argument("--test", action="store_true", help="Test mode")    
     parser.add_argument("--header_input", action="store_true", help='whether to use the section header as part of input.')
+    parser.add_argument("--header_output", action="store_true", help='whether to use the section header as part of output.')
+    parser.add_argument("--convert_header", action="store_true", help='whether to convert the section header into natural language.')
     parser.add_argument("--prefix", 
                         type=str, 
                         default="summarize: ", 
@@ -357,7 +359,9 @@ if __name__ == "__main__":
             input_test_file=args.input_test_file,
             input_dg_file=args.input_dg_file,
             val=val,
-            header_input=args.header_input
+            header_input=args.header_input,
+            header_output=args.header_output,
+            convert_header=args.convert_header
         )
         with accelerator.main_process_first():
             train_dataset = my_dataset_dict['train'].map(preprocess_function, batched=True, remove_columns=my_dataset_dict['train'].column_names, load_from_cache_file=False)
