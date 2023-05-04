@@ -222,6 +222,10 @@ if __name__ == "__main__":
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
     parser.add_argument("--test", action="store_true", help="Test mode")
+    parser.add_argument("--prefix", 
+                        type=str, 
+                        default="summarize:", 
+                        help="prefix for flan-T5")
 
     args = parser.parse_args()
     val = not args.no_val
@@ -229,6 +233,7 @@ if __name__ == "__main__":
     args.input_test_file = args.input_test_file or args.input_val_file
     max_input_length = args.max_input_length
     max_target_length = args.max_target_length
+    prefix = args.prefix
 
     # some hard-coded parameters
     args.max_train_steps = None
@@ -237,7 +242,6 @@ if __name__ == "__main__":
     args.num_warmup_steps = 0
     args.lr_scheduler_type = "linear"
     args.resume_from_checkpoint = None
-    prefix="summarize: "
 
     # preprocess_function = partial(
     #     preprocess_function, max_input_length=max_input_length, max_target_length=max_target_length
@@ -564,4 +568,3 @@ if __name__ == "__main__":
                 for pred in test_predictions:
                     json.dump(pred, writer) # write each prediction as a JSON object on a separate line
                     writer.write('\n') # add a newline character to separate each object
-
