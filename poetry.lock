@@ -413,6 +413,24 @@ files = [
 ]
 
 [[package]]
+name = "colorlog"
+version = "6.7.0"
+description = "Add colours to the output of Python's logging module."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "colorlog-6.7.0-py2.py3-none-any.whl", hash = "sha256:0d33ca236784a1ba3ff9c532d4964126d8a2c44f1f0cb1d2b0728196f512f662"},
+    {file = "colorlog-6.7.0.tar.gz", hash = "sha256:bd94bd21c1e13fac7bd3153f4bc3a7dc0eb0974b8bc2fdf1a989e474f6e582e5"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+
+[package.extras]
+development = ["black", "flake8", "mypy", "pytest", "types-colorama"]
+
+[[package]]
 name = "datasets"
 version = "2.9.0"
 description = "HuggingFace community-driven open-source library of datasets"
@@ -743,6 +761,26 @@ completion = ["shtab"]
 test = ["mockito (>=1.2.1)", "pytest (>=5.4.1)", "pytest-runner"]
 
 [[package]]
+name = "handystuff"
+version = "0.2.1"
+description = "Handy stuff that I end up copy-pasting from here and there"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "handystuff-0.2.1-py3-none-any.whl", hash = "sha256:1a28002dc7bbb4bac6b46752410e29ccb853cca4d9c80fff329508317f7b79b1"},
+    {file = "handystuff-0.2.1.tar.gz", hash = "sha256:70bf7fecdd822f5db968a157ff08c60e8de6f9791f301f0de1ca03bf071c928f"},
+]
+
+[package.dependencies]
+colorlog = ">=5.0.0"
+jsonnet = ">=0.17.0"
+
+[package.extras]
+dispatch = ["click (>=7.0.0)"]
+stats = ["numpy (>=1.18)", "scipy (>=1.6.0)", "statsmodels (>=0.12)"]
+
+[[package]]
 name = "huggingface-hub"
 version = "0.14.1"
 description = "Client library to download and publish models, datasets and other repos on the huggingface.co hub"
@@ -811,6 +849,17 @@ python-versions = ">=3.7"
 files = [
     {file = "joblib-1.2.0-py3-none-any.whl", hash = "sha256:091138ed78f800342968c523bdde947e7a305b8594b910a0fea2ab83c3c6d385"},
     {file = "joblib-1.2.0.tar.gz", hash = "sha256:e1cee4a79e4af22881164f218d4311f60074197fb707e082e803b61f6d137018"},
+]
+
+[[package]]
+name = "jsonnet"
+version = "0.20.0"
+description = "Python bindings for Jsonnet - The data templating language"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "jsonnet-0.20.0.tar.gz", hash = "sha256:7e770c7bf3a366b97b650a39430450f77612e74406731eb75c5bd59f3f104d4f"},
 ]
 
 [[package]]
@@ -923,6 +972,17 @@ files = [
 
 [package.dependencies]
 dill = ">=0.3.6"
+
+[[package]]
+name = "names"
+version = "0.3.0"
+description = "Generate random names"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "names-0.3.0.tar.gz", hash = "sha256:726e46254f2ed03f1ffb5d941dae3bc67c35123941c29becd02d48d0caa2a671"},
+]
 
 [[package]]
 name = "nltk"
@@ -2306,4 +2366,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "adcaa8613058f9691f344dc0630986a5e1ea613bdfac433e352cc3d962cd8f76"
+content-hash = "1749ee91dd0458d93e44b527739d877bd5297229cf1283aaae63520aaa74e42b"
