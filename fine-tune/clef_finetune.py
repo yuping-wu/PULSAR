@@ -58,9 +58,29 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
     print("The size of the new training dataset is %d" % len(new_train))
     return new_train
 
+HEADERS = {'PLAN': "Conversation about the patient's treatment plan:",
+ 'ASSESSMENT': "Conversation about the patient's medical assessment:",
+ 'ALLERGY': "Conversation about the patient's allergies:",
+ 'EDCOURSE': "Conversation about the patient's emergency department course:",
+ 'CC': "Conversation about the patient's chief complaint:",
+ 'ROS': "Conversation about the review of patient's systems:",
+ 'FAM/SOCHX': "Conversation about the patient's social and family history:",
+ 'PASTMEDICALHX': "Conversation about the patient's past medical history:",
+ 'DIAGNOSIS': "Conversation about the patient's diagnosis:",
+ 'DISPOSITION': "Conversation about the patient's disposition:",
+ 'GENHX': "Conversation about the patient's history of present illness",
+ 'IMAGING': "Conversation about the patient's imaging results",
+ 'LABS': "Conversation about the patient's lab results:",
+ 'MEDICATIONS': "Conversation about the patient's current medications:",
+ 'PASTSURGICAL': "Conversation about the patient's past surgical history:",
+ 'EXAM': "Conversation about the patient's examination results:",
+ 'PROCEDURES': "Conversation about the procedures performed on the patient:",
+ 'IMMUNIZATIONS': "Conversation about the patient's vaccinations:",
+ 'OTHER_HISTORY': "Conversation about the patient's other history:",
+ 'GYNHX': "Conversation about the patient's gynecologic history:"}
 
 def load_dataset(
-    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False
+    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False, header_output=False, convert_header=False
 ) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     train_df = pd.read_csv(input_file)
@@ -69,6 +89,8 @@ def load_dataset(
     # Read the DG file only if it is not None
     if input_dg_file:
         dg = pd.read_csv(input_dg_file)
+        if convert_header:
+            dg['section_header'] = dg['section_header'].apply(lambda x: HEADERS[x])
         dg["source_text"] = (dg["section_header"] + "\n" if header_input else "") + dg["dialogue"]
         dg["target_text"] = (dg["section_header"] + "\n" if not header_input else "") + dg["section_text"]
     else:
@@ -76,17 +98,23 @@ def load_dataset(
 
     if input_test_file:
         test_df = pd.read_csv(input_test_file)
+        if convert_header:
+            test_df['section_header'] = test_df['section_header'].apply(lambda x: HEADERS[x])
         test_df["source_text"] = (test_df["section_header"] + "\n" if header_input else "") + test_df["section_text"]
     else:
         test_df = pd.DataFrame(columns=["source_text", "Summary"])
 
     if input_val_file:
         val_df = pd.read_csv(input_val_file)
+        if convert_header:
+            val_df['section_header'] = val_df['section_header'].apply(lambda x: HEADERS[x])
         val_df["source_text"] = (val_df["section_header"] + "\n" if header_input else "") + val_df["dialogue"]
         val_df["target_text"] = (val_df["section_header"] + "\n" if not header_input else "") + val_df["section_text"]
     else:
         val_df = pd.DataFrame(columns=["source_text", "Summary"])
     # Create the source and target text columns by concatenating the other columns
+    if convert_header:
+            train_df['section_header'] = train_df['section_header'].apply(lambda x: HEADERS[x])
     train_df["source_text"] = (train_df["section_header"] + "\n" if header_input else "") + train_df["dialogue"]
     train_df["target_text"] = (train_df["section_header"] + "\n" if not header_input else "") + train_df["section_text"]
 
@@ -96,6 +124,7 @@ def load_dataset(
     val_df = val_df.applymap(str)
     print(train_df.head())
     print(val_df.head())
+    assert False
     # Split the dataframe into train, validation and test sets
     # Concatenate the dataframes vertically (i.e., stack them on top of each other)
     if val:
@@ -237,6 +266,8 @@ if __name__ == "__main__":
     parser.add_argument("--no_val", action="store_true")
     parser.add_argument("--train", action="store_true")
     parser.add_argument("--header_input", action="store_true", help='whether to use the section header as part of input.')
+    parser.add_argument("--header_output", action="store_true", help='whether to use the section header as part of input.')
+    parser.add_argument("--convert_header", action="store_true", help='whether to use the section header as part of input.')
     parser.add_argument("--prefix", 
                         type=str, 
                         default="summarize: ", 
@@ -297,6 +328,8 @@ if __name__ == "__main__":
             input_dg_file=args.input_dg_file,
             val=val,
             header_input=args.header_input,
+            header_output=args.header_output,
+            convert_header=args.convert_header,
         )
 
         tokenized_datasets = my_dataset_dict.map(preprocess_function, batched=True)

@@ -71,9 +71,28 @@ def process_data(dg: pd.DataFrame, test_df: pd.DataFrame, train_df: pd.DataFrame
     print("The size of the new training dataset is %d" % len(new_train))
     return new_train
 
+HEADERS = {'PLAN': "Conversation about the patient's treatment plan:",
+ 'ASSESSMENT': "Conversation about the patient's medical assessment:",
+ 'ALLERGY': "Conversation about the patient's allergies:",
+ 'CC': "Conversation about the patient's chief complaint:",
+ 'ROS': "Conversation about the review of patient's systems:",
+ 'FAM/SOCHX': "Conversation about the patient's social and family history:",
+ 'PASTMEDICALHX': "Conversation about the patient's past medical history:",
+ 'DIAGNOSIS': "Conversation about the patient's diagnosis:",
+ 'DISPOSITION': "Conversation about the patient's disposition:",
+ 'GENHX': "Conversation about the patient's history of present illness",
+ 'IMAGING': "Conversation about the patient's imaging results",
+ 'LABS': "Conversation about the patient's lab results:",
+ 'MEDICATIONS': "Conversation about the patient's current medications:",
+ 'PASTSURGICAL': "Conversation about the patient's past surgical history:",
+ 'EXAM': "Conversation about the patient's examination results:",
+ 'PROCEDURES': "Conversation about the procedures performed on the patient:",
+ 'IMMUNIZATIONS': "Conversation about the patient's vaccinations:",
+ 'OTHER_HISTORY': "Conversation about the patient's other history:",
+ 'GYNHX': "Conversation about the patient's gynecologic history:"}
 
 def load_dataset(
-    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False
+    input_file, input_val_file, input_test_file, input_dg_file=None, val=True, header_input=False, convert_header=False
 ) -> pd.DataFrame:
     # Load the CSV file into a pandas dataframe
     train_df = pd.read_csv(input_file)
@@ -82,6 +101,8 @@ def load_dataset(
     # Read the DG file only if it is not None
     if input_dg_file:
         dg = pd.read_csv(input_dg_file)
+        if convert_header:
+            dg['section_header'] = dg['section_header'].apply(lambda x: HEADERS[x])
         dg["source_text"] = (dg["section_header"] + "\n" if header_input else "") + dg["dialogue"]
         dg["target_text"] = (dg["section_header"] + "\n" if not header_input else "") + dg["section_text"]
     else:
@@ -89,17 +110,23 @@ def load_dataset(
 
     if input_test_file:
         test_df = pd.read_csv(input_test_file)
+        if convert_header:
+            test_df['section_header'] = test_df['section_header'].apply(lambda x: HEADERS[x])
         test_df["source_text"] = (test_df["section_header"] + "\n" if header_input else "") + test_df["section_text"]
     else:
         test_df = pd.DataFrame(columns=["source_text", "Summary"])
 
     if input_val_file:
         val_df = pd.read_csv(input_val_file)
+        if convert_header:
+            val_df['section_header'] = val_df['section_header'].apply(lambda x: HEADERS[x])
         val_df["source_text"] = (val_df["section_header"] + "\n" if header_input else "") + val_df["dialogue"]
         val_df["target_text"] = (val_df["section_header"] + "\n" if not header_input else "") + val_df["section_text"]
     else:
         val_df = pd.DataFrame(columns=["source_text", "Summary"])
     # Create the source and target text columns by concatenating the other columns
+    if convert_header:
+            train_df['section_header'] = train_df['section_header'].apply(lambda x: HEADERS[x])
     train_df["source_text"] = (train_df["section_header"] + "\n" if header_input else "") + train_df["dialogue"]
     train_df["target_text"] = (train_df["section_header"] + "\n" if not header_input else "") + train_df["section_text"]
 
