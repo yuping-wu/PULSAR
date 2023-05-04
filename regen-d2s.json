@@ -1,0 +1,649 @@
+[
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Hi, there. How are you both doing? What brings you two to the Emergency Department?\r\nGuest_family: Hi, Doctor. We're both doing fine. I brought my daughter in today because she's been feeling sick. \r\nDoctor: I see. Let me ask your daughter a few questions before we start. Hi, ma'am. I understand you feel sick. Before we begin I just want to confirm some information with you. Where is your primary residency? \r\nPatient: My mom can give you the address. I still live with her. \r\nDoctor: Thank you. One last question. Do you smoke? \r\nPatient: Nope. My Mother has forbidden smoking in her home.",
+        "section_text": " \r\nFam/sochx: Patient lives with her mother. Non-smoker. ",
+        "most_similar_instructions": {
+            "She lives with her parents.": 0.42857142857142855,
+            "The patient lives with his wife.": 0.4,
+            "Stable disposition to home with her mother.": 0.375,
+            "She is married.  She lives with her spouse.": 0.35294117647058826,
+            "Patient admits a family history of arthritis associated with mother.": 0.3157894736842105,
+            "Non-smoker. Social drinker.": 0.30769230769230765,
+            "Patient admits a family history of anxiety, stress disorder associated with mother.": 0.28571428571428575,
+            "lives with parents and sisters.": 0.2857142857142857,
+            "The patient is a smoker.": 0.2857142857142857,
+            "The patient is still a smoker.": 0.26666666666666666
+        },
+        "avg_similarity_score": 0.0316660961701563
+    },
+    {
+        "topic": "PLAN",
+        "dialogue": "Patient: And do I have to restrict my movement or activities?\r\nDoctor: Um, I have taken the plaster off and your foot looks good. I don't want you to restrict your activities, but you are the best judge of the situation. So, I will advise you to take it slow and do as much as you can tolerate. \r\nPatient: Got it. Thank you, Doctor. Do I need a follow-up?\r\nDoctor: As long as you are doing fine, having no pain, I think we are okay. \r\nPatient: Alright then bye.\r\nDoctor: Bye.",
+        "section_text": " \nPlaster removed. No restrictions on activities. Advised to take it slow. No follow-up required unless pain occurs.\n",
+        "most_similar_instructions": {
+            "He is on no medications.": 0.1739130434782609,
+            "No smoking or drinking.  No drugs.": 0.16666666666666666,
+            "Dyspnea on exertion.  No chest pain or tightness, fever, chills, sweats, cough, hemoptysis, or wheeze, or lower extremity swelling.": 0.16216216216216214,
+            "NECK: Supple and symmetric.  No masses. Thyroid midline, non enlarged.  No JVD.  Neck is nontender.  Full range of motion without pain.": 0.15384615384615383,
+            "BREASTS: The breasts show no masses or tenderness.  No axillary adenopathy.": 0.13793103448275862,
+            "She is on atenolol and Mevacor. ALLERGIES:  NO KNOWN DRUG ALLERGIES.": 0.13793103448275862,
+            "No coughing, sputum production, dyspnea or chest pain.  No vomiting or abdominal pain.  No visual changes.  No neurologic deficits other than some numbness in his left hand.": 0.13333333333333333,
+            "SKIN: Inspection within normal limits.  Well hydrated.  No diaphoresis.  No obvious wound.": 0.13333333333333333,
+            "Follow up with Dr. X in ABC Office in 1 to 2 weeks.": 0.12903225806451615,
+            "Migraine headaches on maternal side, including her mother. No family history of thrombosis.": 0.12903225806451615
+        },
+        "avg_similarity_score": 0.027994453469800187
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Do you smoke or drink? \r\nPatient: No. \r\nDoctor: Any drug use? \r\nPatient: No.",
+        "section_text": " \nThe patient denies any history of smoking, alcohol, or drug use. \n",
+        "most_similar_instructions": {
+            "No history of smoking, alcohol, or drug use.  She lives at home.": 0.6086956521739131,
+            "Patient denies smoking, alcohol abuse, illicit drug use and STDs.": 0.5714285714285713,
+            "The patient is a nonsmoker.  Denies any alcohol or illicit drug use.  The patient does live with his family.": 0.5333333333333333,
+            "The patient denies any alcohol, IV drug abuse, tobacco, or any recreational drugs.": 0.4999999999999999,
+            "The patient is a nonsmoker.  He denies use of alcohol.": 0.47619047619047616,
+            "No smoking, alcohol, or drug abuse.": 0.4705882352941177,
+            "The patient denies smoking and drinking.": 0.4705882352941177,
+            "The patient lives in a board and care.  No tobacco, alcohol or IV drug use.": 0.4615384615384615,
+            "The patient lives here locally.  She does not report any significant alcohol or illicit drug use.  She works full time.": 0.45161290322580644,
+            "No history of any smoking, alcohol, or drug abuse.  The patient is a registered nurse by profession.": 0.42857142857142855
+        },
+        "avg_similarity_score": 0.07483262475937952
+    },
+    {
+        "topic": "DIAGNOSIS",
+        "dialogue": "Doctor: I'd like to get her in to see you sometime next week for her enlarged thyroid. \r\nGuest_clinician: Is she symptomatic? \r\nDoctor: Yes, she's experiencing increased difficulty swallowing. She's also reporting throat tightness on an off. \r\nGuest_clinician: What's her medical record number?",
+        "section_text": " \nThe patient has an enlarged thyroid with increased difficulty swallowing and throat tightness. She needs to be seen next week. \n",
+        "most_similar_instructions": {
+            "The patient is brought in by an assistant with some of his food diary sheets.  They wonder if the patient needs to lose anymore weight.": 0.2666666666666666,
+            "The patient has no significant past medical history with the exception of previous hand fracture and tibia fracture.": 0.2631578947368421,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.25806451612903225,
+            "Medical management. The patient has been in special procedures now for over 2 hours and I am unable to examine.": 0.25,
+            "The patient had antibiotic ointment and a bandage applied to his foot.": 0.25,
+            "RESTRAINTS: None.  The patient has declined use of chair check and bed check.": 0.24242424242424246,
+            "The patient was in stable condition and good condition on exam at the time and was discharged home on Zithromax to be followed up in the office within a week.": 0.24,
+            "The patient has asthma, sinus, hives, and history of psoriasis.  No known drug allergies.": 0.23529411764705882,
+            "The patient denies smoking and drinking.": 0.23076923076923075
+        },
+        "avg_similarity_score": 0.061633264346179356
+    },
+    {
+        "topic": "PASTMEDICALHX",
+        "dialogue": "Doctor: Good morning, sir. \r\nPatient: Good morning, doctor. \r\nDoctor: So, what seems to be the problem today, sir? \r\nPatient: Well, I've had toe problems in the past. \r\nDoctor: I see, what about the rest of the lower body, any problems there?\r\nPatient: Actually, yes, I've had left knee issues in the past, too.",
+        "section_text": " \n1.  Reported history of toe problems in the past. 2.  Reported history of left knee problems in the past.\n",
+        "most_similar_instructions": {
+            "He has had toe problems and left knee pain in the past.": 0.4516129032258065,
+            "Anxiety, depression, osteoarthritis, migraine headaches associated with menstrual cycle, history of sciatic pain in the distant past, history of herniated disc, and status post appendectomy.": 0.3181818181818182,
+            "ONCOLOGIC: No history of any cancer, change in moles or rashes.  No history of weight loss.  The patient has a good energy level.": 0.28571428571428575,
+            "1.  Chronic pain. 2.  Tobacco use. 3.  History of hepatitis C.": 0.26666666666666666,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.26666666666666666,
+            "CORONARY RISK FACTORS: History of hypertension, history of diabetes mellitus, nonsmoker.  Cholesterol elevated.  History of established coronary artery disease in the family and family history positive.": 0.26666666666666666,
+            "PUD, ?stroke and memory difficulty in the past 1-2 years.": 0.26666666666666666,
+            "There is a history of migraine in the family. The condition affects the patient's brother and maternal grandfather.": 0.2631578947368421,
+            "Significant for history of lumpectomy on the left breast, breast augmentation surgery, cholecystectomy, cardiac ablation x3, left knee surgery as well as removal of half the pancreas.": 0.2608695652173913,
+            "The patient has a history of depression.  No history of substance abuse.": 0.2580645161290323
+        },
+        "avg_similarity_score": 0.060436337308748735
+    },
+    {
+        "topic": "CC",
+        "dialogue": "Patient: I think I got some allergy, my lips are swollen and its causing me difficulty in swallowing. \r\nDoctor: Oh, let me take a look.",
+        "section_text": " \nPatient presents with angioedema causing difficulty in swallowing. ",
+        "most_similar_instructions": {
+            "Swelling of lips causing difficulty swallowing.": 0.42857142857142855,
+            "The patient lives with his wife.": 0.28571428571428575,
+            "The patient is currently in school.": 0.28571428571428575,
+            " \nThe patient has an enlarged thyroid with increased difficulty swallowing and throat tightness. She needs to be seen next week. \n": 0.28571428571428575,
+            "The patient is accompanied with his wife.": 0.26666666666666666,
+            " \r\nFam/sochx: Patient lives with her mother. Non-smoker. ": 0.23529411764705882,
+            "Patient admits a family history of arthritis associated with mother.": 0.22222222222222224,
+            "PUD, ?stroke and memory difficulty in the past 1-2 years.": 0.2105263157894737,
+            "The patient is a smoker and drinks alcohol daily in considerable amounts.": 0.2,
+            "The patient has been eating fairly well, sleeping well, doing well with her sprints.  A little difficulty with her stools hard versus soft as mentioned with the diet situation up in HPI.": 0.2
+        },
+        "avg_similarity_score": 0.03182658333068446
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Hello, miss. How are you doing today? It looks like we are evaluating C O P D and emphysema.\r\nPatient: Yes, the last time I was seen in Pulmonary Medicine Clinic was March two thousand and four. \r\nDoctor: It has been quite some time. How are you feeling?\r\nPatient: I have actually been hospitalized for psychiatric problems and now live in a nursing facility. Things have not been too great. I don't like living there.\r\nDoctor: I understand the frustration. When you live in a nursing facility you lose a lot of your freedom.\r\nPatient: I want to live back in my apartment, but I know I am too ill to care for myself. \r\nDoctor: In spite of all of that how are your respiratory issues?\r\nPatient: I feel pretty stable. I still have shortness of breath when I do activities, but with my condition I feel like that is something I will have to live with.\r\nDoctor: Unfortunately, that is the nature of the disease. I am happy to see that the pulmonary disease has not changed significantly since your last visit. \r\nPatient: The only thing that seems to have changed is that I have a small cough and produce some mucus. \r\nDoctor: Okay. Do you have any fever or chills?\r\nPatient: No, none of that. \r\nDoctor: Do you experience any chest pains? I want to check especially since you have been coughing up some mucus. \r\nPatient: No, I luckily do not have any chest pains.",
+        "section_text": " \nCOPD and emphysema. Patient was last seen in Pulmonary Medicine Clinic in March 2004. She has been hospitalized for psychiatric problems and now lives in a nursing facility. She reports feeling stable, but still has shortness of breath with activities. She has a small cough and produces some mucus, but denies fever, chills, or chest pain. \n",
+        "most_similar_instructions": {
+            "The patient returns to the Pulmonary Medicine Clinic for followup evaluation of COPD and emphysema.  She was last seen in the clinic in March 2004.  Since that time, she has been hospitalized for psychiatric problems and now is in a nursing facility.  She is very frustrated with her living situation and would like to return to her own apartment, however, some believes she is to ill to care for herself. At the present time, respiratory status is relatively stable.  She is still short of breath with activity, but all-in-all her pulmonary disease has not changed significantly since her last visit.  She does have occasional cough and a small amount of sputum production.  No fever or chills.  No chest pains.": 0.4067796610169492,
+            "The patient returns to the Pulmonary Medicine Clinic for followup evaluation of interstitial disease secondary to lupus pneumonitis.  She was last seen in the Pulmonary Medicine Clinic in January 2004.  Since that time, her respiratory status has been quite good.  She has had no major respiratory difficulties; however, starting yesterday she began with increasing back and joint pain and as a result a deep breath has caused some back discomfort.  She denies any problems with cough or sputum production.  No fevers or chills.  Recently, she has had a bit more problems with fatigue.  For the most part, she has had no pulmonary limitations to her activity.": 0.23456790123456792,
+            "The patient is a 76-year-old white female who presents to the clinic today originally for hypertension and a med check.  She has a history of hypertension, osteoarthritis, osteoporosis, hypothyroidism, allergic rhinitis and kidney stones.  Since her last visit she has been followed by Dr. Kumar.  Those issues are stable.  She has had no fever or chills, cough, congestion, nausea, vomiting, chest pain, chest pressure.": 0.22950819672131145,
+            "This is a 30-year-old female patient presenting with the above chief complaint. She has a history of having had a similar problem last year which resolved in about three treatments. She appears to have residual from spina bifida, thus spending most of her time in a wheelchair. She relates recently she has been spending up to 16 hours a day in a wheelchair. She has developed a pressure decubitus on her right trochanter ischial area of several weeks' duration. She is now presenting for evaluation and management of same. Denies any chills or fever, any other symptoms.": 0.2193548387096774,
+            "This is a 15-year-old girl presenting with occipital headache for the last six hours.  She denies trauma.  She has been intermittently nauseated but has not vomited and has some photophobia.  Denies fever or change in vision.  She has no past history of headaches.": 0.21782178217821782,
+            "The patient has generally been in reasonably good physical health.  She did have a \"nervous breakdown\" in 1975 after the death of her husband.  She was hospitalized for several weeks and was treated with ECT.  This occurred while she was living in Korea. She does not smoke or drink alcoholic beverages.  She has had no prior surgeries.  There is a past history of hypertension, but this is no longer present.": 0.20634920634920637,
+            "The patient is originally from Maine.  She has lived in Arizona for 4 years.  She has had 2 children; however, only one is living.  She had one child died from complications of ulcerative colitis.  She has been predominantly a homemaker during her life, but has done some domestic cleaning work in the past.": 0.2018348623853211,
+            "She is a nonsmoker and nondrinker.  She has been widowed for 18 years.  She lives alone at home.  She is retired from running a restaurant.": 0.19753086419753085,
+            "The patient is a 78-year-old female who returns for recheck.  She has hypertension.  She denies difficulty with chest pain, palpations, orthopnea, nocturnal dyspnea, or edema.": 0.1927710843373494,
+            "She has also had a hysterectomy, salpingoophorectomy, appendectomy, tonsillectomy, two carpal tunnel releases.  She also has had a parathyroidectomy but still has had some borderline elevated calcium.  Also, hypertension, hyperlipidemia, as well as diabetes.  She also has osteoporosis.": 0.19148936170212766
+        },
+        "avg_similarity_score": 0.06644269004301369
+    },
+    {
+        "topic": "EDCOURSE",
+        "dialogue": "Doctor:  Hi, how are you?\r\nPatient: I am okay.\r\nDoctor: Do you have any bone pain or issues around that? \r\nPatient: No, I do not.\r\nDoctor: So, they gave you a dose of Tylenol here in the emergency department to treat your pain.  Is your pain under control? \r\nPatient: Yes, with medication I feel it is better, but I want to be removed from the backboard.\r\nDoctor: Okay, let's get you off. Yeah, your C T scans of the abdomen appeared normal.  And there was no sign of bleeding.  I believe, you just have a contusion and abrasion to abdomen from the seatbelt and likely from the airbag as well.\r\nPatient: Oh okay.\r\nDoctor: It's good that you can stand and walk through the emergency department without difficulty. I do not see any abrasions or lacerations.\r\nPatient: Yeah, nothing like that and I can walk.",
+        "section_text": " \r\nPatient has no bone pain. CT scan of the abdomen showed no signs of bleeding. Patient was given Tylenol for pain and is feeling better. Patient had contusion and abrasion to abdomen from seatbelt and airbag. Patient was able to walk through the emergency department without difficulty. ",
+        "most_similar_instructions": {
+            "The patient was removed from the backboard within the first half hour of her emergency department stay.  The patient has no significant bony deformities or abnormalities.  The patient is given a dose of Tylenol here in the emergency department for treatment of her pain.  Her pain is controlled with medication and she is feeling more comfortable and removed from the backboard.  The patient's CT scans of the abdomen appeared normal.  She has no signs of bleeding.  I believe, she has just a contusion and abrasion to her abdomen from the seatbelt and likely from the airbag as well.  The patient is able to stand and walk through the emergency department without difficulty.  She has no abrasions or lacerations.": 0.38554216867469876,
+            "The patient was in stable condition and good condition on exam at the time and was discharged home on Zithromax to be followed up in the office within a week.": 0.20779220779220778,
+            "Severe back pain and sleepiness. The patient is not a good historian and history was obtained from the patient's husband at bedside.": 0.19999999999999998,
+            "The patient is a 47-year-old female who has knee pain since 03/10/03 after falling on ice.  The patient states she has had inability to bear significant weight and had swelling, popping, and giving away, failing conservative treatment and underwent an operative procedure.": 0.1935483870967742,
+            "The patient is a pleasant but demented 80-year-old male, who lives in board and care, who presented with acute onset of abdominal pain.  In the emergency room, the patient was found to have a CT scan with dilated bladder with thick wall suggesting an outlet obstruction as well as bilateral hydronephrosis and hydroureter.  The patient is unable to provide further history.  The patient's son is at the bedside and confirmed his history.  The patient was given IV antibiotics in the emergency room.  He was also given some hydration.": 0.18840579710144928,
+            "The patient is a 52-year-old male, who was referred to Physical Therapy, secondary to left knee pain.  The patient states that on 10/02/08, the patient fell in a grocery store.  He reports slipping on a grape that was on the floor.  The patient states he went to the emergency room and then followed up with his primary care physician.  The patient was then ultimately referred to Physical Therapy.  After receiving a knee brace, history and information was received through a translator as the patient is Spanish speaking only.": 0.1870503597122302,
+            "The patient rates her pain at 7/10 on a Pain Analog Scale, 0 to 10, 10 being worse.  The patient describes her pain as a deep aching, primarily on the right lower back and gluteal region.  Aggravating factors include stairs and prolonged driving, as well as general limitations with home tasks and projects.  The patient states she is a very active individual and is noticing extreme limitations with ability to complete home tasks and projects she used to be able to complete.": 0.18461538461538463,
+            "The patient denies high blood pressure, diabetes, heart disease, lung disease, thyroid, kidney, or bladder dysfunctions.  The patient stated that she quit smoking prior to her past childbirth and is currently not pregnant.  The patient has had a C-section and also an appendectomy.  The patient was involved in a motor vehicle accident four to five years ago and at that time, the patient did not require any physical therapy nor did she report any complaints of increased back pain following that accident.": 0.18461538461538463,
+            "The patient has no significant past medical history with the exception of previous hand fracture and tibia fracture.": 0.18461538461538457,
+            "MSK: The head and neck by inspection showed no obvious deformity.  Again, the extremities showed no obvious deformity.  Range of motion appeared to be normal for the upper and lower extremities.": 0.17948717948717946
+        },
+        "avg_similarity_score": 0.0683929186900346
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Are you married, ma'am? \r\nPatient: No, I'm divorced. \r\nDoctor: Do you live alone?\r\nPatient: Yes, so I have no support at home, it's difficult. \r\nDoctor: Do you drink or smoke? \r\nPatient: No, I never have. \r\nDoctor: What about more illicit substances? \r\nPatient: No, absolutely not.",
+        "section_text": " \r\nThis is a 52-year-old female who is divorced and lives alone.  She denies smoking, alcohol, and illicit drug use.  She reports that she has no support at home. \n",
+        "most_similar_instructions": {
+            "She is divorced.  She does not have support at home.  She denies tobacco, alcohol, and illicit drug use.": 0.37499999999999994,
+            "She is married and has support at home.  Denies tobacco, alcohol, and illicit drug use.": 0.3555555555555555,
+            "She is a widow, lives alone.  Denies any tobacco or alcohol use.": 0.33333333333333337,
+            "No history of smoking, alcohol, or drug use.  She lives at home.": 0.33333333333333337,
+            "This is a 54-year-old female who was complaining of right hand numbness and tingling of the median distribution and has elected to undergo carpal tunnel surgery secondary to failure of conservative management.": 0.3125,
+            "Patient denies smoking, alcohol abuse, illicit drug use and STDs.": 0.3,
+            "This is a 15-year-old girl presenting with occipital headache for the last six hours.  She denies trauma.  She has been intermittently nauseated but has not vomited and has some photophobia.  Denies fever or change in vision.  She has no past history of headaches.": 0.29333333333333333,
+            "This is a 13-year-old male who had sustained a laceration from glass and had described numbness and tingling in his right ring finger.": 0.2909090909090909,
+            "This is a 22-year-old female, who presented to the office complaining of condylomas she had noted in her anal region.  She has noticed approximately three to four weeks ago.  She denies any pain but does state that there is some itching.  No other symptoms associated.": 0.2857142857142857,
+            "The patient is a nonsmoker.  Denies any alcohol or illicit drug use.  The patient does live with his family.": 0.2857142857142857
+        },
+        "avg_similarity_score": 0.07565006073122432
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Anyone in your family have a history of drug or alcohol abuse?\r\nPatient: No.\r\nDoctor: Any other medical conditions that might run in your family?\r\nPatient: Nope.",
+        "section_text": " \r\nThe patient denies any family history of drug or alcohol abuse or any other medical conditions. \r\n",
+        "most_similar_instructions": {
+            " \nThe patient denies any history of smoking, alcohol, or drug use. \n": 0.5925925925925926,
+            "The patient denies any alcohol, IV drug abuse, tobacco, or any recreational drugs.": 0.5517241379310345,
+            "The patient is a nonsmoker.  He denies use of alcohol.": 0.38461538461538464,
+            "No known history of drug or alcohol abuse.  Work, diet, and exercise patterns are within normal limits.": 0.3636363636363636,
+            "The patient has a history of depression.  No history of substance abuse.": 0.35714285714285715,
+            "The patient is a nonsmoker.  Denies any alcohol or illicit drug use.  The patient does live with his family.": 0.34285714285714286,
+            "She lives with her boyfriend.  The patient has history of tobacco abuse as well as multiple illicit drug abuse.": 0.34285714285714286,
+            "She lives with her boyfriend.  The patient has a history of heavy tobacco and alcohol abuse for many years.": 0.34285714285714286,
+            "The patient has asthma, sinus, hives, and history of psoriasis.  No known drug allergies.": 0.3333333333333333
+        },
+        "avg_similarity_score": 0.06591716662386479
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Welcome to the clinic. \r\nPatient: Thank you. It is nice to meet you.\r\nDoctor: It is nice to meet you to. I hear an accent. Where are you from? \r\nPatient: I am from Denmark. I speak Danish as my first language. Me and my husband have been in the States for many many years. When we first got here, we did not speak a word of English. \r\nDoctor: Wow! Your English is excellent now. \r\nPatient: Thank you. \r\nDoctor: How old are you? \r\nPatient: I just turned seventy four last month. \r\nDoctor: Happy birthday! \r\nPatient: Thank you. \r\nDoctor: So, your primary care physician sent you here for possible hydrocephalus. \r\nPatient: Is that the water on brain thing? \r\nDoctor: Yes. \r\nPatient: Then, yes. \r\nDoctor: Can you tell me about the symptoms that you have been having. \r\nPatient: I think I have been walking funny lately. I have also been losing my balance.\r\nDoctor: How do you know that you have been walking funny? \r\nPatient: My husband noticed that I have been walking funny. He noticed it about over six months ago or so. \r\nDoctor: What do you notice about the way your wife's walk that has changed?\r\nGuest_family: She walks wider then she used to, and I noticed that she stooped over. She walks much slower than she did before. She is often losing her balance. I have noticed her touching the walls and furniture to stabilize herself. \r\nDoctor: Okay. Have you noticed her stabilizing herself all of a sudden? \r\nGuest_family: No. It has been happening more and more over the last six months or so. \r\nDoctor: What else have you noticed about the way she walks? \r\nGuest_family: I noticed that she is having trouble stepping up onto things like a scale. She seems very unbalanced. She also seems to take her time as she walks. She can't be hurried. \r\nDoctor: That is good that you are taking your time. Do you use any devices to assist you to get around? Like a cane or a walker? \r\nPatient: No. \r\nGuest_family: I must help her get in and out of the car. Not every time but sometimes. I am very concerned because she has been falling more and more recently.\r\nPatient: I have had one emergency room visit. \r\nDoctor: What happened that you had to go to the emergency room? \r\nPatient: I fell. I was walking to the bedroom. I lost my balance so I put my hand out to brace myself against the wall and my hand slipped. I fell on my wrist. \r\nGuest_family: She broke her wrist.\r\nDoctor: When did this fall happen?\r\nPatient: March two thousand and seven.\r\nGuest_family: She has fallen a few times since she broke her wrist. It makes me so nervous. \r\nDoctor: I can see why that would make you nervous. Have you had any headaches? \r\nPatient: No. I never get headaches.\r\nDoctor: Aren't you lucky. \r\nPatient: Yes, I guess so. \r\nDoctor: Have you had any problems with your memory or cognitive abilities? \r\nPatient: I am still able to pay the bills on time. I don't feel as smart as I used to be.  I do feel like my thinking has slowed down over the last few months. \r\nDoctor: What is your perspective on her memory and her cognitive abilities? \r\nGuest_family: I have noticed some changes. She will occasionally start a sentence and then not know what words to use to finish the sentence. \r\nDoctor: Has she ever had trouble finishing a sentence the in the past? \r\nGuest_family: No, she has always been very well spoken never has lost thoughts. \r\nDoctor: Have you had any fainting or vertigo episodes? \r\nPatient: I have not fainted. I have had some dizzy spells in the past but not recently. \r\nDoctor: Have you had and problems with your bowel movements? \r\nPatient: No. \r\nDoctor: Any bladder issues or frequent urination? \r\nPatient: No. \r\nDoctor: Okey. Let us do some an exam. \r\nPatient: Okey.",
+        "section_text": " \nThe patient is a 74-year-old woman from Denmark who presents with difficulty walking and balance issues for the past six months. She has stooped posture and has difficulty stepping up onto things. She has had one fall in March 2007, which resulted in a broken wrist. She has fallen a few times since then. She has no headaches, bowel or bladder issues. She does have some cognitive slowing, and her husband has noticed that she will occasionally start a sentence and then not know what words to use to finish the sentence. She has no history of fainting or vertigo episodes.  No bowel or bladder issues. ",
+        "most_similar_instructions": {
+            "The patient is a lovely 74-year-old woman who presents with possible adult hydrocephalus.  Danish is her native language, but she has been in the United States for many many years and speaks fluent English, as does her husband. With respect to her walking and balance, she states \"I think I walk funny.\"  Her husband has noticed over the last six months or so that she has broadened her base and become more stooped in her pasture.  Her balance has also gradually declined such that she frequently touches walls and furniture to stabilize herself.  She has difficulty stepping up on to things like a scale because of this imbalance.  She does not festinate.  Her husband has noticed some slowing of her speed.  She does not need to use an assistive device.  She has occasional difficulty getting in and out of a car.  Recently she has had more frequent falls.  In March of 2007, she fell when she was walking to the bedroom and broke her wrist.  Since that time, she has not had any emergency room trips, but she has had other falls. With respect to her bowel and bladder, she has no issues and no trouble with frequency or urgency. The patient does not have headaches. With respect to thinking and memory, she states she is still able to pay the bills, but over the last few months she states, \"I do not feel as smart as I used to be.\"  She feels that her thinking has slowed down.  Her husband states that he has noticed, she will occasionally start a sentence and then not know what words to use as she is continuing. The patient has not had trouble with syncope.  She has had past episodes of vertigo, but not recently.": 0.3283582089552239,
+            "The patient is a 76-year-old white female who presents to the clinic today originally for hypertension and a med check.  She has a history of hypertension, osteoarthritis, osteoporosis, hypothyroidism, allergic rhinitis and kidney stones.  Since her last visit she has been followed by Dr. Kumar.  Those issues are stable.  She has had no fever or chills, cough, congestion, nausea, vomiting, chest pain, chest pressure.": 0.25287356321839083,
+            "This is a 15-year-old girl presenting with occipital headache for the last six hours.  She denies trauma.  She has been intermittently nauseated but has not vomited and has some photophobia.  Denies fever or change in vision.  She has no past history of headaches.": 0.24836601307189543,
+            "The patient is to come to the hospital for bilateral L5 kyphoplasty.  The patient is an 86-year-old female with an L5 compression fracture. The patient has a history of back and buttock pain for some time.  She was found to have an L5 compression fracture.  She was treated conservatively over several months, but did not improve.  Unfortunately, she has continued to have significant ongoing back pain and recent CT scan has shown a sclerosis with some healing of her L5 compression fracture, but without complete healing.  The patient has had continued pain and at this time, is felt to be a candidate for kyphoplasty. She denies bowel or bladder incontinence.  She does complain of back pain.  She has been wearing a back brace and corset.  She does not have weakness.": 0.21666666666666662,
+            "The patient is a 61-year-old female who was treated with CyberKnife therapy to a right upper lobe stage IA non-small cell lung cancer.  CyberKnife treatment was completed one month ago.  She is now being seen for her first post-CyberKnife treatment visit. Since undergoing CyberKnife treatment, she has had low-level nausea without vomiting.  She continues to have pain with deep inspiration and resolving dysphagia.  She has no heartburn, cough, hemoptysis, rash, or palpable rib pain.": 0.21390374331550802,
+            "This is a 30-year-old female patient presenting with the above chief complaint. She has a history of having had a similar problem last year which resolved in about three treatments. She appears to have residual from spina bifida, thus spending most of her time in a wheelchair. She relates recently she has been spending up to 16 hours a day in a wheelchair. She has developed a pressure decubitus on her right trochanter ischial area of several weeks' duration. She is now presenting for evaluation and management of same. Denies any chills or fever, any other symptoms.": 0.21256038647342992,
+            "The patient is a 13-year-old new patient is here for evaluation of thoracic kyphosis.  The patient has a family history in a maternal aunt and grandfather of kyphosis.  She was noted by her parents to have round back posture.  They have previously seen another orthopedist who recommended observation at this time.  She is here for a second opinion in regards to kyphosis.  The patient denies any pain in her back or any numbness, tingling, or weakness in her upper or lower extremities.  No problems with her bowels or bladder.": 0.21105527638190952,
+            "The patient is a 46-year-old female who presented to the emergency room with left flank pain and difficulty urinating.  Details are in the history and physical.  She does have a vague history of a bruised left kidney in a motor vehicle accident.  She feels much better today.  I was consulted by Dr. X.": 0.20858895705521474,
+            "The patient is an 85-year-old female who presents with a chief complaint as described above. The patient is a very poor historian and is extremely hard of hearing, and therefore, very little history is available. She was found by EMS sitting on the toilet having diarrhea, and apparently had also just vomited. Upon my questioning of the patient, she can confirm that she has been sick to her stomach and has vomited. She cannot tell me how many times. She is also unable to describe the vomitus. She also tells me that her belly has been hurting. I am unable to get any further history from the patient because, again, she is an extremely poor historian and very hard of hearing.": 0.2077922077922078,
+            "The patient returns for followup.  Since last consultation she has tolerated Lamictal well, but she has had a recurrence of her myoclonic jerking.  She has not had a generalized seizure.  She is very concerned that this will occur.  Most of the myoclonus is in the mornings.  Recent EEG did show polyspike and slow wave complexes bilaterally, more prominent on the left.  She states that she has been very compliant with the medications and is getting a good amount of sleep.  She continues to drive. Social history and review of systems are discussed  and documented on the chart.": 0.20487804878048782
+        },
+        "avg_similarity_score": 0.06939742722085694
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: How old are you? \r\nPatient: Oh, I am fifty eight now. \r\nDoctor: So, you are here today because you are having some vision difficulties? Tell me about what has been going on, ma'am. \r\nPatient: Yeah. Okay. It all started a year ago. It started with losing the color in my vision. \r\nDoctor: Was the loss sudden or gradual? \r\nPatient: Gradual. And now I am starting to have blurry vision. \r\nDoctor: When did that start happening? \r\nPatient: I noticed it two months ago. \r\nDoctor: Is the blurred vision an all blur or is there a blind spot of blurred vision. \r\nPatient: It is an all over vision blur and then I have on blind spot in my right eye. \r\nDoctor: Have you had any fluctuations in your symptoms in the last year? Have you gained any vision back? \r\nPatient: Some days I feel like things are a little better but not much. I have basically been the same. \r\nDoctor: Have you experienced any weakness, dizziness, vertigo, nausea or vomiting? \r\nPatient: No. \r\nDoctor: Any double vision or headaches? \r\nPatient: No. \r\nDoctor: Any pain in or behind the eye at all?\r\nPatient: No. \r\nDoctor: Any other health concerns or complains? \r\nPatient: No. Just the vision problems. \r\nDoctor: Alright! Let me take a look here.",
+        "section_text": " \r\nPatient presents with gradual loss of color vision over the past year with blurry vision that started two months ago. She has an all over vision blur with one blind spot in her right eye. She has not experienced any weakness, dizziness, vertigo, nausea or vomiting, double vision, headaches, or pain in or behind the eye. No other health concerns or complaints reported. \n",
+        "most_similar_instructions": {
+            "58 y/o female presents with a one year history of progressive loss of color vision. In the past two months she has developed blurred vision and a central scotoma OD. There are no symptoms of photopsias, diplopia, headache, or eye pain. There are no other complaints. There have been mild fluctuations of her symptoms, but her vision has never returned to its baseline prior to symptom onset one year ago.": 0.2686567164179104,
+            "The patient complains of feeling weak and fatigued. He has no appetite over the past week and has lost 8 pounds during this period. No chest pain, palpitations, shortness of breath or coughing. He denies any nausea, vomiting, or abdominal pain. No focal neuro deficits. Otherwise, as stated in HPI.": 0.21238938053097342,
+            " \nThe patient is a 74-year-old woman from Denmark who presents with difficulty walking and balance issues for the past six months. She has stooped posture and has difficulty stepping up onto things. She has had one fall in March 2007, which resulted in a broken wrist. She has fallen a few times since then. She has no headaches, bowel or bladder issues. She does have some cognitive slowing, and her husband has noticed that she will occasionally start a sentence and then not know what words to use to finish the sentence. She has no history of fainting or vertigo episodes.  No bowel or bladder issues. ": 0.19883040935672516,
+            "This is a 32-year-old male who had a piece of glass fall on to his right foot today.  The patient was concerned because of the amount of bleeding that occurred with it.  The bleeding has been stopped and the patient does not have any pain.  The patient has normal use of his foot, there is no numbness or weakness, the patient is able to ambulate well without any discomfort.  The patient denies any injuries to any other portion of his body.  He has not had any recent illness.  The patient has no other problems or complaints.": 0.1863354037267081,
+            "This 62 y/o RHF presented locally with a 2 month history of progressive loss of visual acuity, OD. She had a 2 year history of progressive loss of visual acuity, OS, and is now blind in that eye. She denied any other symptomatology. Denied HA.": 0.1834862385321101,
+            "The patient is a 61-year-old female who was treated with CyberKnife therapy to a right upper lobe stage IA non-small cell lung cancer.  CyberKnife treatment was completed one month ago.  She is now being seen for her first post-CyberKnife treatment visit. Since undergoing CyberKnife treatment, she has had low-level nausea without vomiting.  She continues to have pain with deep inspiration and resolving dysphagia.  She has no heartburn, cough, hemoptysis, rash, or palpable rib pain.": 0.18309859154929575,
+            "The patient is a 13-year-old new patient is here for evaluation of thoracic kyphosis.  The patient has a family history in a maternal aunt and grandfather of kyphosis.  She was noted by her parents to have round back posture.  They have previously seen another orthopedist who recommended observation at this time.  She is here for a second opinion in regards to kyphosis.  The patient denies any pain in her back or any numbness, tingling, or weakness in her upper or lower extremities.  No problems with her bowels or bladder.": 0.18181818181818185,
+            "This is a 22-year-old female, who presented to the office complaining of condylomas she had noted in her anal region.  She has noticed approximately three to four weeks ago.  She denies any pain but does state that there is some itching.  No other symptoms associated.": 0.18181818181818182,
+            "The patient is an 83-year-old female with a history of polycythemia vera.  She comes in to clinic today for followup.  She has not required phlebotomies for several months.  The patient comes to clinic unaccompanied.": 0.18181818181818182,
+            "This 41-year-old Caucasian female who presents to ABCD General Hospital.  The patient states that she has extreme pain over the navicular bone with shoe gear as well as history of multiple osteochondromas of unknown origin.  She states that she has been diagnosed with hereditary osteochondromas.  She has had previous dissection of osteochondromas in the past and currently has not been diagnosed in her feet as well as spine and back.  The patient desires surgical treatment at this time.": 0.1818181818181818
+        },
+        "avg_similarity_score": 0.057061337243289156
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: How long it has been since these psychotic periods are going off and on? \r\nPatient: It has been around twenty years. \r\nDoctor: So, you were taking Clozaril and some other medications? \r\nPatient: Yes. \r\nDoctor: Were you feeling better with them, sir? \r\nPatient: Yes. It was better for some years.\r\nDoctor: These antipsychotics, they were good on you, right? \r\nPatient: They were at times, but eventually there was a new episode.",
+        "section_text": " \r\nPatient has a 20-year history of psychotic episodes. Has been treated with Clozaril and other medications. Has had improvement at times, but eventually experienced another episode.\n",
+        "most_similar_instructions": {
+            "As mentioned before, this patient has been psychotic off and on for about 20 years now.  He has had years in which he did better on Clozaril and also his other medications. With typical anti-psychotics, he has done well at times, but he eventually gets another psychotic bout.": 0.3684210526315789,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.3157894736842105,
+            "The patient has a history of multiple medical problems including hypothyroidism, hypertension, and gallbladder difficulties.": 0.2857142857142857,
+            "Patient admits a family history of arthritis associated with mother.": 0.2702702702702703,
+            "She lives with her boyfriend.  The patient has a history of heavy tobacco and alcohol abuse for many years.": 0.2608695652173913,
+            "The patient has a history of depression.  No history of substance abuse.": 0.2564102564102564,
+            "Patient admits a family history of anxiety, stress disorder associated with mother.": 0.2564102564102564,
+            "The patient is a 45-year-old male complaining of abdominal pain.  The patient also has a long-standing history of diabetes which is treated with Micronase daily.": 0.2545454545454545,
+            "As above plus history of anemia treated with Procrit.  No smoking or alcohol use and lives alone.": 0.22727272727272727,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.22580645161290322
+        },
+        "avg_similarity_score": 0.0680966368897205
+    },
+    {
+        "topic": "ROS",
+        "dialogue": "Doctor: Did you ever have any reaction to any medication given? Any known allergies?\r\nPatient: No.\r\nDoctor: Was there any swelling where your lymphnodes are?\r\nPatient: No.\r\nDoctor: Was there ever any complaint of abnormal lymph nodes? \r\nPatient: No.",
+        "section_text": " \r\nNo known allergies.  No swelling or complaints of abnormal lymph nodes.\n",
+        "most_similar_instructions": {
+            "LYMPH: No history of systemic allergy, abnormal lymph nodes or swelling.": 0.45454545454545453,
+            "No known allergies.": 0.42857142857142855,
+            "No known drug allergies.": 0.39999999999999997
+        },
+        "avg_similarity_score": 0.044610812924468085
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Who all are there in your family?\r\nGuest_family: It's me, my husband, my two older kids and this little baby.\r\nDoctor: Everyone living together?\r\nGuest_family: Yes\r\nDoctor: Is she going to any daycare?\r\nGuest_family: No, she's at home all the time.",
+        "section_text": " \nThis is a family of five, including two older children and a baby. The baby is at home all the time and is not attending daycare. ",
+        "most_similar_instructions": {
+            "Currently lives with her mom, dad, and two siblings.  She is at home full time and does not attend day care.": 0.2978723404255319,
+            "There is a history of migraine in the family. The condition affects the patient's brother and maternal grandfather.": 0.26666666666666666,
+            "She is a nondrinker and nonsmoker and currently lives at the skilled nursing facility.": 0.25,
+            "She is married and has support at home.  Denies tobacco, alcohol, and illicit drug use.": 0.2439024390243902,
+            "She is a nonsmoker and nondrinker.  She has been widowed for 18 years.  She lives alone at home.  She is retired from running a restaurant.": 0.23529411764705882,
+            "This is a 54-year-old female who was complaining of right hand numbness and tingling of the median distribution and has elected to undergo carpal tunnel surgery secondary to failure of conservative management.": 0.23333333333333334,
+            "Family history is remarkable for a remote history of cancer. Family history of heart disease and osteoarthritis.": 0.23255813953488372,
+            "This is a 12-year-old young man who comes in with about 10 days worth of sinus congestion.  He does have significant allergies including ragweed.  The drainage has been clear.  He had a little bit of a headache yesterday.  He has had no fever.  No one else is ill at home currently.": 0.2278481012658228,
+            "Lives at home, here in the ED with the mother and there is no smoking in the home.": 0.2272727272727273,
+            "There is a strong history of epilepsy on the maternal side of family including mom with some nonconvulsive seizure during childhood and additional seizures in maternal great grandmother and a maternal great aunt.  There is no other significant neurological history on the paternal side of the family.": 0.2191780821917808
+        },
+        "avg_similarity_score": 0.07320787542622732
+    },
+    {
+        "topic": "ALLERGY",
+        "dialogue": "Doctor: Do you have any allergies?\r\nPatient: No I do not.\r\nDoctor: Are you sure?\r\nPatient: Yes I am.",
+        "section_text": " \r\nPatient denies any known allergies at this time.\r\n",
+        "most_similar_instructions": {
+            "Denies any drug allergies": 0.5,
+            "No known allergies.": 0.36363636363636365,
+            "No known medical allergies.": 0.3333333333333333,
+            "No known drug allergies.": 0.3333333333333333
+        },
+        "avg_similarity_score": 0.03750709784958348
+    },
+    {
+        "topic": "DISPOSITION",
+        "dialogue": "Guest_family: How's my husband doing? Sorry, I had to take a call outside. \r\nDoctor: He's doing much better. He'll be going home today with a prescription for Zithromax. \r\nGuest_family: I'm glad he's able go home and get some rest. \r\nDoctor: However, I'd like to still see him in the office next week for a reevaluation.\r\nGuest_family: Great. Can we make the appointment right now? \r\nDoctor: Yes, the front desk will be able to help you with that.",
+        "section_text": " \r\nPatient is doing much better and will be discharged home today with a prescription for Zithromax.  He will need to return to the office next week for a reevaluation.\n",
+        "most_similar_instructions": {
+            "The patient was in stable condition and good condition on exam at the time and was discharged home on Zithromax to be followed up in the office within a week.": 0.3050847457627119,
+            "The patient is a 69-year-old male who presented to the office complaining of bilateral knee pain for a couple of years.  The patient complained of clicking noises and stiffness, which affected his daily activities of living.": 0.23880597014925373,
+            "The patient is widow.  She is a nonsmoker, nondrinker.  She lives at Kansas Christian Home independently, but actually does get a lot of help with medications, having a driver to bring her here, and going to the noon meal.": 0.23529411764705882,
+            "The patient is discharged home.": 0.2352941176470588,
+            "He is a nonsmoker and nondrinker.  Prior boxer.  He lives in a home where he would need to be independent during the day.  Family  relatives intermittently available.  Goal is to return home to an independent fashion to that home setting.": 0.2318840579710145,
+            "He is married and has support at home.  He denies tobacco and illicit drug use and drinks two to three alcoholic beverages a day and up to four to nine per week.": 0.22950819672131145,
+            "The patient is married with five children and lives with his wife. He is a retired engineer and real estate broker. He denies tobacco use. He drinks alcohol occasionally with up to three drinks a week. No history of drug abuse.": 0.2285714285714286,
+            "The patient will be going home.": 0.2285714285714286,
+            "The patient is married.  She lives with her husband and is employed as a school nurse for the School Department.  She had quit smoking cigarettes some 25 years ago and is a nondrinker.": 0.22580645161290322,
+            "She is being discharged to home.  She will stay with a friend for a couple of days.  She will be following up with Dr. X on Monday or Tuesday.  Apparently Dr. Y has already discussed the situation and the plan with her.  She will continue on her usual medications except for discontinuing the Prozac.": 0.21686746987951805
+        },
+        "avg_similarity_score": 0.06374647790931881
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Hi! How are you today? \r\nPatient: I am doing well. I start a new job on Monday. I have been unemployed for about a year now. It is going to be nice to get back to work.\r\nDoctor: Congratulations. Do you use tobacco products, drink alcohol or recreational drugs? \r\nPatient: I used to smoke a little bit, but I quit ten years ago.  \r\nDoctor: Great! \r\nPatient: I don't drink or do drugs.",
+        "section_text": " \r\nThe patient is a non-smoker, non-drinker and does not use recreational drugs. He has been unemployed for about a year and is starting a new job on Monday.\n",
+        "most_similar_instructions": {
+            "The patient is a nonsmoker and does not use illegal drugs.  Occasionally drinks.": 0.41860465116279066,
+            "The patient lives locally.  She is a widow.  She does not smoke cigarettes or use illicit drugs.": 0.3404255319148936,
+            "He is a nonsmoker.  He occasionally has a beer.  He is married.  He works as a flooring installer.": 0.2916666666666667,
+            "She is a nonsmoker and nondrinker.  She has been widowed for 18 years.  She lives alone at home.  She is retired from running a restaurant.": 0.2909090909090909,
+            "The patient is a smoker and drinks alcohol daily in considerable amounts.": 0.28571428571428575,
+            "The patient is a smoker.": 0.2857142857142857,
+            "The patient is still a smoker.": 0.2777777777777778,
+            "The patient is married.  He works as a truck driver and he drives in town.  He smokes two packs a day and he has two beers a day he says, but not consuming illegal drugs.": 0.2769230769230769,
+            "He is a non-cigarette smoker and non-ETOH user.  He is divorced.  He has three children.  He has an attorney.": 0.27450980392156865,
+            "The patient is retired on disability due to her knee replacements.  She does not smoke, drink or use any illicit drugs.": 0.27450980392156865
+        },
+        "avg_similarity_score": 0.08040408004982391
+    },
+    {
+        "topic": "PASTSURGICAL",
+        "dialogue": "Doctor: Any major surgeries in the past?\r\nPatient: Not too many, but a catheter was put in my heart.\r\nDoctor: Oh, so cardiac catherization, correct?\r\nPatient: Yep.",
+        "section_text": " \r\nThis is a [age]-year-old male/female with a history of cardiac catheterization.\n",
+        "most_similar_instructions": {
+            "A 24-year-old female with chronic back pain.": 0.43478260869565216,
+            "A 74-year-old female patient admitted here with altered mental status.": 0.3846153846153846,
+            "The patient is a 45-year-old male complaining of abdominal pain.  The patient also has a long-standing history of diabetes which is treated with Micronase daily.": 0.38095238095238093,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.36734693877551017,
+            "This is a 13-year-old male who had sustained a laceration from glass and had described numbness and tingling in his right ring finger.": 0.358974358974359,
+            "The patient is a 93-year-old Caucasian female with a past medical history of chronic right hip pain, osteoporosis, hypertension, depression, and chronic atrial fibrillation admitted for evaluation and management of severe nausea and vomiting and urinary tract infection.": 0.33333333333333337,
+            "This is a patient post-surgery, 2-1/2 months.  The patient has a history of slipped capital femoral epiphysis (SCFE) bilaterally.": 0.33333333333333326,
+            "The patient is an 83-year-old female with a history of polycythemia vera.  She comes in to clinic today for followup.  She has not required phlebotomies for several months.  The patient comes to clinic unaccompanied.": 0.32,
+            "A 66-year-old female with knee osteoarthrosis.  Failed conservative management.  Risks and benefits of different treatment options were explained.  Informed consent was obtained.": 0.3157894736842105,
+            "The patient is a 78-year-old female who returns for recheck.  She has hypertension.  She denies difficulty with chest pain, palpations, orthopnea, nocturnal dyspnea, or edema.": 0.29268292682926833
+        },
+        "avg_similarity_score": 0.06654528003194385
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Do you have major illnesses in the family like diabetes or high B P?\r\nPatient: No nothing. No major illnesses.\r\nDoctor: Okay.\r\nPatient: Yes.",
+        "section_text": " \r\nPatient denies any significant family history of illness. \r\n",
+        "most_similar_instructions": {
+            " \nThe patient denies any history of smoking, alcohol, or drug use. \n": 0.5263157894736842,
+            " \r\nThe patient denies any family history of drug or alcohol abuse or any other medical conditions. \r\n": 0.5,
+            "No significant family history.": 0.5,
+            "Patient admits a family history of arthritis associated with mother.": 0.4444444444444445,
+            "Patient admits a family history of anxiety, stress disorder associated with mother.": 0.4,
+            " \r\nPatient denies any known allergies at this time.\r\n": 0.375,
+            "Denies any drug allergies": 0.3333333333333333,
+            "The patient is a nonsmoker.  He denies use of alcohol.": 0.33333333333333326,
+            "There is family history of migraine and diabetes in her siblings.": 0.3157894736842105,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.3157894736842105
+        },
+        "avg_similarity_score": 0.051299975989483895
+    },
+    {
+        "topic": "DIAGNOSIS",
+        "dialogue": "Doctor: You have chronic pain? \r\nPatient: Yes I do.\r\nDoctor: You use tobacco also?\r\nPatient: Yes.\r\nDoctor: And you have a history of hepatitis C, right?\r\nPatient: That sounds right.\r\nDoctor: Okay.\r\nPatient: Yeah.",
+        "section_text": " \nThe patient has chronic pain, tobacco use, and a history of Hepatitis C. \r\n",
+        "most_similar_instructions": {
+            "1.  Chronic pain. 2.  Tobacco use. 3.  History of hepatitis C.": 0.6666666666666667,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.4999999999999999,
+            "The patient has a history of depression.  No history of substance abuse.": 0.48000000000000004,
+            "The patient has asthma, sinus, hives, and history of psoriasis.  No known drug allergies.": 0.4444444444444445,
+            "The patient has a history of multiple medical problems including hypothyroidism, hypertension, and gallbladder difficulties.": 0.42857142857142855,
+            "The patient has eczema and a positive atopic family history.  No psoriasis.  No known drug allergies.": 0.41379310344827586,
+            "RESTRAINTS: None.  The patient has declined use of chair check and bed check.": 0.38461538461538464,
+            "She lives with her boyfriend.  The patient has a history of heavy tobacco and alcohol abuse for many years.": 0.37499999999999994,
+            "Patient admits a family history of arthritis associated with mother.": 0.34782608695652173
+        },
+        "avg_similarity_score": 0.08967932031712024
+    },
+    {
+        "topic": "CC",
+        "dialogue": "Doctor: What's going on?\r\nPatient: I am having a bellyache.\r\nDoctor: Since when?\r\nPatient: Oh, it's been a while now.\r\nDoctor: Okay.\r\nPatient: Yeah.",
+        "section_text": " \r\nThis is a 27-year-old female who presents with a complaint of abdominal pain.  She reports that she has had the pain for a while.  No further information was given.\n",
+        "most_similar_instructions": {
+            " \r\nThis is a 52-year-old female who is divorced and lives alone.  She denies smoking, alcohol, and illicit drug use.  She reports that she has no support at home. \n": 0.4262295081967213,
+            " \r\nThis is a [age]-year-old male/female with a history of cardiac catheterization.\n": 0.4,
+            "This is a 22-year-old female, who presented to the office complaining of condylomas she had noted in her anal region.  She has noticed approximately three to four weeks ago.  She denies any pain but does state that there is some itching.  No other symptoms associated.": 0.3333333333333333,
+            "The patient is an 83-year-old female with a history of polycythemia vera.  She comes in to clinic today for followup.  She has not required phlebotomies for several months.  The patient comes to clinic unaccompanied.": 0.3283582089552239,
+            "The patient is a 78-year-old female who returns for recheck.  She has hypertension.  She denies difficulty with chest pain, palpations, orthopnea, nocturnal dyspnea, or edema.": 0.3103448275862069,
+            "This is a 76-year-old female who has a history of previous pneumonia, also hypertension and macular degeneration, who presents with generalized body aches, cough, nausea, and right-sided abdominal pain for two days.  The patient stated that the abdominal pain was only associated with coughing.  The patient reported that the cough is dry in nature and the patient had subjective fevers and chills at home.": 0.30612244897959184,
+            "The patient is a 45-year-old male complaining of abdominal pain.  The patient also has a long-standing history of diabetes which is treated with Micronase daily.": 0.3050847457627119,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.303030303030303,
+            "A 24-year-old female with chronic back pain.": 0.30000000000000004,
+            "This is a 62-year-old female who previously underwent a repair of rotator cuff.  She continued to have pain within the shoulder.  She had a repeat MRI performed, which confirmed the clinical diagnosis of re-tear of the rotator cuff.  She wished to proceed with a repair.  All risks and benefits of the surgery were discussed with her at length.  She was in agreement with the above treatment plan.": 0.297029702970297
+        },
+        "avg_similarity_score": 0.07936999649524612
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Hello sir, it's been a while since your last visit. How have you been?  \r\nPatient: Hello doctor, yes, I have come a long way. I guess last time I was here was in two thousand and two if I am not wrong. Was does your system say?\r\nDoctor: You are right! It was August second of two thousand and two to be very precise. \r\nDoctor: Please confirm for the records, you are a white married man and must be forty nine years old now. Am I right?\r\nPatient: You got it all right doctor!\r\nDoctor: Are you still working in that airplane company?\r\nPatient: Yes sir, still with Alaska Airlines but I have been promoted and work as a plane mechanic. \r\nDoctor: That is so nice! Good for you man! So, tell me how can I help you today? What brought you to our dermatology department today?\r\nPatient: I'm having pain in my stomach on the right side and down here. \r\nDoctor: Is it only on the right side or anywhere else? \r\nPatient: It is on both sides and now I can feel it on the middle part of my left thigh as well.\r\nDoctor: Tell me more about it. How did it start? When did you first notice it? \r\nPatient: It's been going on and off. It was not there for a while, but now it is like back again mainly on my tummy, down here. It is painful when I touch it. At first, I thought maybe I'm having shingles.\r\nDoctor: When did you notice it? \r\nPatient: It all started before the holidays, I think one and a half months before the holidays. It is still going on for the past eight days in my tummy and the hips mainly on the right side.\r\nDoctor: Did you get any treatment for this? Any over the counter medicines?\r\nPatient: No, as I told you I thought it was shingles, but then there was no change in the skin, no rashes, nothing. I was not sure what to take.\r\nDoctor: Okay, do you bathe every day?\r\nPatient: Yes, I do but I try to use as little soap as possible. \r\nDoctor: Okay, here is what I think, all your symptoms are pointing towards hyperesthesia. I would like to run some tests to find the underlying cause and then we will start the treatment. A nurse will come and take you to the lab. Does this sound good to you?\r\nPatient: Yes.",
+        "section_text": " \nThe patient is a 49 year old white married man who works as a plane mechanic for Alaska Airlines. He is experiencing pain in his stomach on both sides and his left thigh for the past eight days. The pain is painful when touched. He initially thought it was shingles but there was no change in the skin, no rashes, nothing. He has not taken any over the counter medicines. The doctor suspects hyperesthesia and wants to run some tests to find the underlying cause.\n",
+        "most_similar_instructions": {
+            "Mr. B is a 42-year-old man who was running to catch a taxi when he stumbled, fell and struck his face on the sidewalk.  He denies loss of consciousness but says he was dazed for a while after it happened.  He complains of pain over the chin and right forehead where he has abrasions.  He denies neck pain, back pain, extremity pain or pain in the abdomen.": 0.24675324675324675,
+            "This is a Workers' Compensation injury.  This patient, a 41 year-old male, was at a coffee shop, where he works as a cook, and hot oil splashed onto his arm, burning from the elbow to the wrist on the medial aspect.  He has had it cooled, and presents with his friend to the Emergency Department for care.": 0.23776223776223776,
+            "The patient is a 28-year-old right-hand dominant gentleman, who punched the wall 3 days prior to presentation.  He complained of ulnar-sided right hand pain and was seen in the emergency room.  Reportedly, he had some joints in his hand pushed back and placed by somebody in emergency room.  Today, he admits that his pain is much better.  Currently, since that time he has been in the splint with minimal pain.  He has had no numbness, tingling or other concerning symptoms.": 0.23668639053254437,
+            "The patient is a 65-year-old man with chronic prostatitis who returns for recheck.  He follow with Dr. XYZ about every three to four months.  His last appointment was in May 2004.  Has had decreased libido since he has been on Proscar.  He had tried Viagra with some improvement.  He has not had any urinary tract infection since he has been on Proscar.  Has nocturia x 3 to 4.": 0.232258064516129,
+            "The patient is a 76-year-old female who was referred to us from Dr. X for left flank pain.  The patient was found to have a left ureteral stone measuring about 1.3 cm in size per the patient's history.  The patient has had pain in the abdomen and across the back for the last four to five days.  The patient has some nausea and vomiting.  The patient wants something done for the stone.  The patient denies any hematuria, dysuria, burning or pain.  The patient denies any fevers.": 0.22857142857142856,
+            "This is a 32-year-old male who had a piece of glass fall on to his right foot today.  The patient was concerned because of the amount of bleeding that occurred with it.  The bleeding has been stopped and the patient does not have any pain.  The patient has normal use of his foot, there is no numbness or weakness, the patient is able to ambulate well without any discomfort.  The patient denies any injuries to any other portion of his body.  He has not had any recent illness.  The patient has no other problems or complaints.": 0.21857923497267762,
+            "The patient is married.  He works as a truck driver and he drives in town.  He smokes two packs a day and he has two beers a day he says, but not consuming illegal drugs.": 0.21666666666666667,
+            "The patient is a 41-year-old male presenting for initial evaluation of his left shoulder.  He works at ABC and two days ago was walking though an area, where there was some oil spilled on the floor.  He fell and landed on bilateral outstretched arms and then further fell landing primarily on his left shoulder.  He presents today reporting primarily posterior shoulder pain.  The right shoulder was bothersome yesterday, but is now asymptomatic.  He has no anterior shoulder pain.  He denies any feelings of weakness.  He reports some improvement over the last two days especially in his range of motion.  He was able to get into the swimming pool last night with his children without difficulty.  He has had no additional treatment other than over-the-counter Advil.": 0.21495327102803738,
+            "Patient is a 72-year-old white male complaining of a wooden splinter lodged beneath his left fifth fingernail, sustained at 4 p.m. yesterday.  He attempted to remove it with tweezers at home, but was unsuccessful.  He is requesting we attempt to remove this for him. The patient believes it has been over 10 years since his last tetanus shot, but states he has been allergic to previous immunizations primarily with \"horse serum.\"  Consequently, he has declined to update his tetanus immunization.": 0.2142857142857143,
+            "The patient is a 61-year-old Caucasian male with a history of uncontrolled diabetes mellitus.  The patient states that he was working in his garage over the past few days when he noticed some redness and edema in his right foot.  He notes some itching as well as increasing pain and redness in the right foot and presented to ABCD General Hospital Emergency Room.  He was evaluated by the Emergency Room staff as well as the medical team and the Department of Orthopedics.  It was noted upon x-ray a foreign body in his foot and he had significant amount of cellulitis as well ________ right lower extremity.  After a long discussion held with the patient, it was elected to proceed with irrigation debridement and removal of the foreign body.": 0.21395348837209302
+        },
+        "avg_similarity_score": 0.06971089244631798
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Hello, it's nice to meet you. \r\nPatient: It's nice to meet you as well. \r\nDoctor: My name is Doctor X and I will be taking care of you today. \r\nPatient: Thank you. \r\nDoctor: I've been told that you'd like a refill on your Xanax prescription and something to help you break your smoking habit. \r\nPatient: Yes, I feel like I've tried everything in the book and I still can't break the habit. One of my buddies was telling me about this medicine called Clantix or something like that. \r\nDoctor: Yes, I've heard of Chantix. We can look into it and see what's best fit. \r\nPatient: Okay, great. Since moving back home, I've ran out of Xanax. \r\nDoctor: How long have you been taking it? \r\nPatient: Almost a year now. I usually take it on days where my anxiety is really bad. \r\nDoctor: I see here that you also have mesothelioma in the lining of your stomach, is that correct? \r\nPatient: Yes, I need to find a new cancer specialist that's closer to where I live. \r\nDoctor: Are you currently experiencing any pain? \r\nPatient: Not at the moment, but I do get pain when I eat sometimes. Other times it's when I'm not even doing anything. It's been chronic so nothing new. \r\nDoctor: Do you take anything for the pain? \r\nPatient: I haven't in a while. \r\nDoctor: When were you diagnosed with mesothelioma? \r\nPatient: About six or so months ago.",
+        "section_text": " \nChief Complaint:  Request for Xanax refill and smoking cessation medication. \r\nPast Medical History:  Mesothelioma in the lining of the stomach diagnosed 6 months ago. \r\nCurrent Medications:  None for pain. \r\nSocial History:  Smoking. \r\n",
+        "most_similar_instructions": {
+            "Family history is positive for asthma and diabetes.  There is also positive family history of renal disease on the father's side of the family.": 0.21052631578947367,
+            "The patient has no significant past medical history with the exception of previous hand fracture and tibia fracture.": 0.19999999999999998,
+            " \n1.  Reported history of toe problems in the past. 2.  Reported history of left knee problems in the past.\n": 0.19607843137254902,
+            "Strong for heart disease, carcinoma, and a history of food allergies, and there is also a history of hypertension.": 0.19607843137254902,
+            "Past medical history is significant for allergies and thyroid problems.": 0.19047619047619047,
+            "Reviewed from 05/10/2004 and unchanged other than the addition of paranoia, which is much improved on her current medications.": 0.18867924528301888,
+            "Significant for history of pulmonary fibrosis and atrial fibrillation.  He is status post bilateral lung transplant back in 2004 because of the pulmonary fibrosis.": 0.17857142857142858,
+            "Sick sinus syndrome.  The rest of her past medical history remained the same.": 0.17777777777777778,
+            "He is maintained on Flonase and denies much in the way of nasal symptoms.": 0.17391304347826086,
+            "Significant for history of lumpectomy on the left breast, breast augmentation surgery, cholecystectomy, cardiac ablation x3, left knee surgery as well as removal of half the pancreas.": 0.1694915254237288
+        },
+        "avg_similarity_score": 0.057216871237797146
+    },
+    {
+        "topic": "PLAN",
+        "dialogue": "Doctor: Any changes to your diet? \r\nPatient: I've been following the A D A diet online and maxing out at around eighteen hundred calories per day. \r\nDoctor: How're you feeling since starting this diet? \r\nPatient: A lot better actually. My blood sugar isn't as high as it used to be.",
+        "section_text": " \r\nPatient reports following the A D A diet and calorie restriction to 1800 calories per day. Reports improved blood sugar control since starting diet. \n",
+        "most_similar_instructions": {
+            "The patient eats regular diet and eats 3 meals a day.": 0.2285714285714286,
+            "The patient works at a local Christmas tree farm.  He smokes cigarettes approximately one pack per day.": 0.19512195121951217,
+            " \r\nThe patient is a non-smoker, non-drinker and does not use recreational drugs. He has been unemployed for about a year and is starting a new job on Monday.\n": 0.1851851851851852,
+            "He has a very remote history of tobacco use.  He has one to two alcoholic drinks per day.  He is married.": 0.17777777777777778,
+            "The patient is married.  She is a nonsmoker and nondrinker.": 0.17647058823529413,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.17142857142857143,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.1694915254237288,
+            "The patient is married.  He works as a truck driver and he drives in town.  He smokes two packs a day and he has two beers a day he says, but not consuming illegal drugs.": 0.1694915254237288,
+            "The patient is a smoker and drinks alcohol daily in considerable amounts.": 0.16666666666666666,
+            "The patient had antibiotic ointment and a bandage applied to his foot.": 0.16666666666666666
+        },
+        "avg_similarity_score": 0.049031038794204
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Good afternoon, young man. \r\nPatient: Hello, doctor. \r\nDoctor: How old are you, young man?\r\nPatient: I'm thirteen, sir.\r\nDoctor: Thank you, so, what happened?\r\nPatient: I sliced my right ring finger with a piece of glass while I was playing around with my friends. \r\nDoctor: You need to be more careful, young man. What kind of symptoms do you feel in that finger?\r\nPatient: You're right. I have a lot of, um, numbness and tingling in it.",
+        "section_text": " \r\n13-year-old male with a history of right ring finger laceration from glass with numbness and tingling in the affected finger.  No other symptoms reported. \n",
+        "most_similar_instructions": {
+            "This is a 13-year-old male who had sustained a laceration from glass and had described numbness and tingling in his right ring finger.": 0.5098039215686274,
+            " \r\nThis is a [age]-year-old male/female with a history of cardiac catheterization.\n": 0.35000000000000003,
+            "There was a history of coronary artery disease and diabetes mellitus in the family.": 0.3,
+            "This is a 54-year-old female who was complaining of right hand numbness and tingling of the median distribution and has elected to undergo carpal tunnel surgery secondary to failure of conservative management.": 0.26666666666666666,
+            "The patient is a 45-year-old male complaining of abdominal pain.  The patient also has a long-standing history of diabetes which is treated with Micronase daily.": 0.2592592592592593,
+            "The patient is an 83-year-old female with a history of polycythemia vera.  She comes in to clinic today for followup.  She has not required phlebotomies for several months.  The patient comes to clinic unaccompanied.": 0.2580645161290323,
+            " \r\nThis is a 27-year-old female who presents with a complaint of abdominal pain.  She reports that she has had the pain for a while.  No further information was given.\n": 0.2456140350877193,
+            "The patient is a 93-year-old Caucasian female with a past medical history of chronic right hip pain, osteoporosis, hypertension, depression, and chronic atrial fibrillation admitted for evaluation and management of severe nausea and vomiting and urinary tract infection.": 0.24242424242424246,
+            "Include left total hip replacement many years ago, history of hysterectomy, and appendectomy in the young age.": 0.23255813953488372,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.22950819672131148
+        },
+        "avg_similarity_score": 0.07201914104558332
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Hello, miss. How are you? What brings you to my office today?\r\nPatient: I am doing well. Just here for a refill on my medication.\r\nDoctor:  Great. That should be easy. How has the stress management been going to control the acne?\r\nPatient: It is going well. My husband has been on board with my meditations and yoga. He is very supportive. \r\nDoctor: Wonderful. Are will still clean from drinking and smoking? That can interact with your medications. \r\nPatient: Yeah I know. I don't drink or smoke.",
+        "section_text": " \nThis patient presents to the office today for a refill on her medication.  She tells me that her stress management is going well.  She is doing meditations and yoga and her husband is very supportive.  She tells me that she is still clean from drinking and smoking, which is good because that can interact with her medications.\n",
+        "most_similar_instructions": {
+            "The patient comes in today for a comprehensive evaluation.  She is well-known to me.  I have seen her in the past multiple times.": 0.22222222222222218,
+            "The patient has a history of inhalation on intravenous drug abuse.  She is currently on methadone maintenance.  She is being followed in Psychiatry for depression and substance abuse issues.  She lives with a room-mate.": 0.21739130434782608,
+            "This is a 29-year-old Vietnamese female, established patient of dermatology, last seen in our office on 07/13/04.  She comes in today as a referral from ABC, D.O. for a reevaluation of her hand eczema.  I have treated her with Aristocort cream, Cetaphil cream, increased moisturizing cream and lotion, and wash her hands in Cetaphil cleansing lotion.  She comes in today for reevaluation because she is flaring.  Her hands are very dry, they are cracked, she has been washing with soap.  She states that the Cetaphil cleansing lotion apparently is causing some burning and pain because of the fissures in her skin.  She has been wearing some gloves also apparently.  The patient is single.  She is unemployed.": 0.21348314606741575,
+            "The patient presents today stating that she needs refills on her Xanax, and she would also like to get something to help her quit smoking.  She is a new patient today.  She states that she has mesothelioma in the lining of her stomach and that it does cause her some problems with eating and it causes some chronic pain.  She states that she is under the care of a cancer specialist; however, she just recently moved back to this area and is trying to find a doctor a little closer than his office.  She states that she has tried several different things to help her quit smoking and she has failed everything and had heard good results about Chantix and wanted to give it a try.": 0.20765027322404372,
+            "This patient presents to the office today because of some problems with her right hand.  It has been going tingling and getting numb periodically over several weeks.  She just recently moved her keyboard down at work.  She is hoping that will help.  She is worried about carpal tunnel.  She does a lot of repetitive type activities.  It is worse at night.  If she sleeps on it a certain way, she will wake up and it will be tingling then she can usually shake out the tingling, but nonetheless it is very bothersome for her.  It involves mostly the middle finger, although, she says it also involves the first and second digits on the right hand.  She has some pain in her thumb as well.  She thinks that could be arthritis.": 0.20320855614973263,
+            "The patient is married.  She lives with her husband and is employed as a school nurse for the School Department.  She had quit smoking cigarettes some 25 years ago and is a nondrinker.": 0.19999999999999998,
+            "ABC is in today for a followup of her atrial fibrillation.  They have misplaced the Cardizem.  She is not on this and her heart rate is up just a little bit today.  She does complain of feeling dizziness, some vertigo, some lightheadedness, and has attributed this to the Coumadin therapy.  She is very adamant that she wants to stop the Coumadin.  She is tired of blood draws.  We have had a difficult time getting her regulated.  No chest pains.  No shortness of breath.  She is moving around a little bit better.  Her arm does not hurt her.  Her back pain is improving as well.": 0.19875776397515527,
+            "This is a return visit to the endocrine clinic for the patient with history as noted above.  She is 45 years old.  Her last visit was about 6 months ago.  Since that time, the patient states her health has remained unchanged.  Currently, primary complaint is one of fatigue that she feels throughout the day.  She states, however, she is doing well with CPAP and wakes up feeling refreshed but tends to tire out later in the day.  In terms of her thyroid issues, the patient states that she is not having signs or symptoms of thyroid excess or hypothyroidism.  She is not reporting temperature intolerance, palpitations, muscle weakness, tremors, nausea, vomiting, constipation, hyperdefecation or diarrhea.  Her weight has been stable.  She is not reporting proximal muscle weakness.": 0.1956521739130435,
+            "The patient lives in a private home with children and her father.  The patient states that she does have stairs to negotiate without the use of a railing.  She states that she is able to manage the stairs, however, is very slow with her movement.  The patient smokes 1-1/2 packs of cigarettes a day and does not have a history of regular exercise routine.": 0.1951219512195122
+        },
+        "avg_similarity_score": 0.0595393438994271
+    },
+    {
+        "topic": "PASTMEDICALHX",
+        "dialogue": "Doctor: Alright we already spoke about your past medical history, anything else you might want to add?\r\nGuest_family: Oh, dad did you also talk about your depression?\r\nDoctor: Depression? I don't think we spoke about that.\r\nPatient: Yeah we didn't, it slipped out of my mind.\r\nGuest_family: My father has a history of depression and anxiety.\r\nDoctor: Okay, let me make a note of it.",
+        "section_text": " \r\nPatient has a history of depression and anxiety.\n",
+        "most_similar_instructions": {
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.631578947368421,
+            "The patient has a history of depression.  No history of substance abuse.": 0.6,
+            "The patient has a history of multiple medical problems including hypothyroidism, hypertension, and gallbladder difficulties.": 0.5217391304347827,
+            "Patient admits a family history of anxiety, stress disorder associated with mother.": 0.5,
+            "Significant only for hemorrhoidectomy.  He does have a history of depression and hypertension.": 0.4761904761904762,
+            " \nThe patient has chronic pain, tobacco use, and a history of Hepatitis C. \r\n": 0.4761904761904762,
+            "Patient admits a family history of arthritis associated with mother.": 0.4444444444444445,
+            "She lives with her boyfriend.  The patient has a history of heavy tobacco and alcohol abuse for many years.": 0.44444444444444436,
+            "The patient has no significant past medical history with the exception of previous hand fracture and tibia fracture.": 0.3846153846153846,
+            "RESTRAINTS: None.  The patient has declined use of chair check and bed check.": 0.380952380952381
+        },
+        "avg_similarity_score": 0.08387326704362413
+    },
+    {
+        "topic": "IMMUNIZATIONS",
+        "dialogue": "Doctor: Did you have your vaccines?\r\nPatient: Yeah. \r\nDoctor: Did you skip any? \r\nPatient: No, I had all of them and am up to date with my immunizations.",
+        "section_text": " \r\nPatient is up to date with all vaccinations. \r\n",
+        "most_similar_instructions": {
+            "Up-to-date.": 0.5454545454545454,
+            "Also up-to-date.": 0.5,
+            "The patient is accompanied with his wife.": 0.39999999999999997,
+            "The patient is discharged home.": 0.3076923076923077,
+            "She is allergic to Sulfa.": 0.3076923076923077,
+            "She is allergic to Lortab.": 0.3076923076923077,
+            "The patient is a smoker.": 0.3076923076923077,
+            "The patient is still a smoker.": 0.28571428571428575
+        },
+        "avg_similarity_score": 0.04634291135877838
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: How are you feeling today?\r\nPatient: I am feeling very tired.\r\nDoctor: According to your chart, you have seen with us for three separate self harm attempts. Have you had any other self harm events that you have not come to see use for? \r\nPatient: No. I have been seeing Doctor Lin. \r\nDoctor: I also see that this is your third time in the last two months that you have attempted to harm yourself. Is there anything that is currently going on in your life that could be triggering these resent episode?\r\nPatient: Last month I lost my job. And then this month my boyfriend left me. \r\nDoctor: I am so sorry. That is a lot to deal with. \r\nPatient: Yeah, it has been hard. \r\nDoctor: Have you been diagnosed with any mental health conditions? \r\nPatient: Doctor Lin just said that I was depressed. \r\nDoctor: Have you ever been put on any medication for the for your depression? \r\nPatient: I have taken Lexapro before. \r\nDoctor: How long ago did you take the Lexapro? \r\nPatient: I can't remember. \r\nDoctor: Okay.",
+        "section_text": " \nPatient has a history of depression and has been prescribed Lexapro in the past. Patient has had three separate self harm attempts and is currently dealing with job loss and a recent break up. \r\n",
+        "most_similar_instructions": {
+            " \r\nPatient has a history of depression and anxiety.\n": 0.33333333333333337,
+            "Significant for cholecystectomy, appendectomy, and hysterectomy.  She has a long history of known grade 4 bladder prolapse and she has been seen in the past by Dr. Chip Winkel, I believe that he has not been re-consulted.": 0.30555555555555564,
+            " \r\nPatient has a 20-year history of psychotic episodes. Has been treated with Clozaril and other medications. Has had improvement at times, but eventually experienced another episode.\n": 0.29508196721311475,
+            "He has a history of obesity and also of diabetes mellitus.  However, most recently, he has not been treated for diabetes since his last regular weight since he stopped taking Zyprexa.  The patient has chronic bronchitis.  He smokes cigarettes constantly up to 60 a day.": 0.27848101265822783,
+            "The patient has a past surgical history of appendectomy and hysterectomy.": 0.26666666666666666,
+            "The patient has multiple medical problems, for which she is under the care of Dr. X.  She has a history of chronic obstructive lung disease and a history of gastroesophageal reflux disease.  There is a history of anemia and there is a history of sciatica, which has been caused by arthritis.  The patient has had skin cancers, which have been treated with local excision.": 0.2653061224489796,
+            "There is a history of migraine in the family. The condition affects the patient's brother and maternal grandfather.": 0.2641509433962264,
+            "The patient has a history of inhalation on intravenous drug abuse.  She is currently on methadone maintenance.  She is being followed in Psychiatry for depression and substance abuse issues.  She lives with a room-mate.": 0.2608695652173913,
+            "The patient has a history of depression.  No history of substance abuse.": 0.2608695652173913,
+            "The patient is a 45-year-old male complaining of abdominal pain.  The patient also has a long-standing history of diabetes which is treated with Micronase daily.": 0.2580645161290323
+        },
+        "avg_similarity_score": 0.08219544466709484
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: Welcome to the clinic, sir. I am Doctor Jones. \r\nPatient: Thank you. It is nice to meet you. \r\nDoctor: Do you use tobacco products? \r\nPatient: Yes. I smoke cigarettes. I am working on quitting. \r\nDoctor: I am glad you are attempting to quit. We have a lot of tools now to help with cravings. How much do you smoke per day now? \r\nPatient: I smoke about a pack a day. \r\nDoctor: Do you drink alcohol or use recreational drugs? \r\nPatient: I drink but I don't do any drugs. \r\nDoctor: How many alcoholic drinks do you consume per week? \r\nPatient: I drink about four drinks per night. I used to drink a lot more than that. I have cut back on my drinking.  \r\nDoctor: Are you physically active? Do you exercise?\r\nPatient: I was very athletic when I was growing up. Now I don't exercise on a regular basis.\r\nDoctor: What do you do for employment? \r\nPatient: I am a network engineer. I work for Shepherd Pratt.\r\nDoctor: Are you married? \r\nPatient: Yes. I have been married to my wife for five years now. \r\nDoctor: Do you live at home with your wife and or is there anyone else living in your home?\r\nPatient: No. Just me and the wife.",
+        "section_text": " \nPatient is a 5 pack year smoker. Drinks 4 drinks per night. No recreational drug use. No regular exercise. Married and lives with wife. Occupation: Network Engineer. ",
+        "most_similar_instructions": {
+            "The patient is married and lives with his wife. Nursing notes were reviewed with which I agree.": 0.3181818181818182,
+            "The patient is a nonsmoker.  Denies any alcohol or illicit drug use.  The patient does live with his family.": 0.2608695652173913,
+            "Active smoker.  Does not consume alcohol.  No history of recreational drug use.": 0.2564102564102564,
+            "The patient is a smoker and drinks alcohol daily in considerable amounts.": 0.2564102564102564,
+            "The patient is a smoker.": 0.25,
+            "No tobacco, alcohol or illicit drug use. Patient is born and raised in Oklahoma . No known exposures. Married with 2 children.": 0.25,
+            "The patient lives with his wife.": 0.24242424242424243,
+            "The patient is married and retired.": 0.24242424242424243,
+            "The patient is still a smoker.": 0.24242424242424243,
+            "The patient lives in a board and care.  No tobacco, alcohol or IV drug use.": 0.23809523809523808
+        },
+        "avg_similarity_score": 0.06363247067893411
+    },
+    {
+        "topic": "MEDICATIONS",
+        "dialogue": "Doctor: Can you tell me about the medications that you are currently using? \r\nPatient: I am taking Alesse twenty eight. \r\nDoctor: Do you know its strength? Um, like how many milligrams?\r\nPatient: Oh yes, it is twenty M C G and I take point ten milligrams of it. \r\nDoctor: When did you start it?\r\nPatient: On seventh August in two thousand and one.\r\nDoctor: Who prescribed it?\r\nPatient: My O B G Y N, Doctor A.",
+        "section_text": " \nMEDICATIONS: Patient is currently taking Alesse 28, 20mcg, 0.10mg, started on 7th August 2001 and was prescribed by Dr. A, OBGYN.\n",
+        "most_similar_instructions": {
+            "Patient is currently taking Alesse-28, 20 mcg-0.10 mg tablet usage started on 08/07/2001 medication was prescribed by Obstetrician-Gynecologist A.": 0.5957446808510639,
+            "The patient is a smoker.": 0.22222222222222218,
+            "The patient is currently in school.": 0.21428571428571427,
+            "The patient is married and retired.": 0.21428571428571427,
+            "The patient is still a smoker.": 0.21428571428571427,
+            "The patient has a history of inhalation on intravenous drug abuse.  She is currently on methadone maintenance.  She is being followed in Psychiatry for depression and substance abuse issues.  She lives with a room-mate.": 0.21052631578947367,
+            "Not obtainable as the patient is drowsy and confused.": 0.1935483870967742,
+            "The patient states she is feeling a bit better.": 0.1935483870967742,
+            "The patient was in stable condition and good condition on exam at the time and was discharged home on Zithromax to be followed up in the office within a week.": 0.1923076923076923,
+            "The patient is a nonsmoker.  He denies use of alcohol.": 0.18749999999999997
+        },
+        "avg_similarity_score": 0.049645653841249436
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Tell me about your medical history. Did you have any surgeries? Any medical issues in the past? \r\nPatient: I had my tonsils removed when I was a kid, maybe around eight. I was hospitalized for the heart attack in ninety six. They did some surgery to check how my heart is functioning and then they did a bypass I guess. \r\nDoctor: Do you have some record of those surgeries? \r\nPatient: Oh yes, I got it with me. Here it is. \r\nDoctor: That is awesome. Let me have a look. So, according to this you had L I M A to L A D coronary bypass graft. You also had had three saphenous vein grafts performed. \r\nPatient: Yes I had so many surgeries, it's hard to keep a track of all those complex names. That's why I keep those papers with me all the time if I go to any new doctor. \r\nDoctor: I will add all these surgeries into my record. Thank you.",
+        "section_text": " \r\nTonsillectomy at age 8. \r\nLIMA to LAD coronary bypass graft, as well as three saphenous vein grafts. \r\n",
+        "most_similar_instructions": {
+            "He had tonsillectomy at the age of 8.  He was hospitalized in 1996 with myocardial infarction and subsequently underwent cardiac catheterization and coronary artery bypass grafting procedure.  He did have LIMA to the LAD and had three saphenous vein grafts performed otherwise.": 0.37288135593220334,
+            "Appendectomy at age 21. C-Section 8 years ago. Ob/Gyn: G2P2; last menstrual period 3 weeks ago. Heavy menses due to fibroids.": 0.19999999999999998,
+            "Recurrent abscesses in the thigh, as well as the pubic area for at least about 2 years.": 0.17647058823529413,
+            "The patient is a smoker.  Admits to heroin use, alcohol abuse as well.  Also admits today using cocaine.": 0.17142857142857143,
+            "She lives with her boyfriend.  The patient has history of tobacco abuse as well as multiple illicit drug abuse.": 0.16666666666666669,
+            "Negative as far as sore throat, earache, or cough.": 0.15384615384615383,
+            "She has also had a hysterectomy, salpingoophorectomy, appendectomy, tonsillectomy, two carpal tunnel releases.  She also has had a parathyroidectomy but still has had some borderline elevated calcium.  Also, hypertension, hyperlipidemia, as well as diabetes.  She also has osteoporosis.": 0.14545454545454545,
+            "Coronary artery bypass surgery and a prior angioplasty and prostate biopsies.": 0.14285714285714285,
+            "The patient is a student at the University majoring in biology.  He lives in a dorm there.  His parents live in Breckenridge.  He admits to having smoked marijuana off and on with friends and drinking beer off and on as well.": 0.13793103448275862,
+            "Significant for history of lumpectomy on the left breast, breast augmentation surgery, cholecystectomy, cardiac ablation x3, left knee surgery as well as removal of half the pancreas.": 0.13636363636363638
+        },
+        "avg_similarity_score": 0.021031025166526596
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: Welcome back to Sample Clinic, Mister Sample. \r\nPatient: Good afternoon, doctor. \r\nDoctor: What seems to be the problem today, sir? \r\nPatient: I'm having a lot of pain in my right heel. \r\nDoctor: How long have you had this pain?\r\nPatient: Um, it's been about two weeks now. \r\nDoctor: When is the pain the worst?\r\nPatient: Honestly, it starts with the first step first thing in the morning. \r\nDoctor: Does it get worse throughout the day?\r\nPatient: Yes, it gets worse all day with activities. \r\nDoctor: What treatments have you had for this? \r\nPatient: Well, nothing to date. \r\nDoctor: Where is your heel pain? \r\nPatient: It's on the right heel, then it's on the inside bottom part of the heel and into the inside of the heel. \r\nDoctor: Do you have any change in your medical history since your last visit?\r\nPatient: No, it's the same old same old. \r\nDoctor: Do you have any flu like symptoms?\r\nPatient: Like fever or chills?\r\nDoctor: That, or vomiting or headaches. \r\nPatient: Oh, no I don't have anything like that. \r\n Doctor: What about chest pain or shortness of breath?\r\nPatient: Thankfully, no nothing like that.",
+        "section_text": " \nThe patient is a 60-year-old gentleman presenting with a two-week history of right heel pain. The pain is worst with the first step in the morning and gets worse throughout the day with activities. He has not had any treatment for this. The pain is located on the inside bottom part of the heel and into the inside of the heel. The patient denies any change in his medical history since his last visit, flu-like symptoms, chest pain, or shortness of breath.\n",
+        "most_similar_instructions": {
+            "Mr. Sample Patient returns to the Sample Clinic with the chief complaint of painful right heel.  The patient states that the heel has been painful for approximately two weeks, it is starts with the first step in the morning and gets worse with activity during the day.  The patient states that he is currently doing no treatment for it.  He states that most of his pain is along medial tubercle of the right calcaneus and extends to the medial arch.  The patient states that he has no change in the past medical history since his last visit and denies any fever, chills, vomiting, headache, chest, or shortness of breath.": 0.441025641025641,
+            "The patient is a 69-year-old gentleman, a good historian, who relates that he was brought in the Emergency Room following an episode of syncope.  The patient relates that he may have had a seizure activity prior to that.  Prior to the episode, he denies having any symptoms of chest pain or shortness of breath.  No palpitation.  Presently, he is comfortable, lying in the bed.  As per the patient, no prior cardiac history.": 0.2875,
+            "The patient is a 76-year-old female who was referred to us from Dr. X for left flank pain.  The patient was found to have a left ureteral stone measuring about 1.3 cm in size per the patient's history.  The patient has had pain in the abdomen and across the back for the last four to five days.  The patient has some nausea and vomiting.  The patient wants something done for the stone.  The patient denies any hematuria, dysuria, burning or pain.  The patient denies any fevers.": 0.28409090909090917,
+            "This is a 32-year-old male who had a piece of glass fall on to his right foot today.  The patient was concerned because of the amount of bleeding that occurred with it.  The bleeding has been stopped and the patient does not have any pain.  The patient has normal use of his foot, there is no numbness or weakness, the patient is able to ambulate well without any discomfort.  The patient denies any injuries to any other portion of his body.  He has not had any recent illness.  The patient has no other problems or complaints.": 0.2608695652173913,
+            "The patient is a 93-year-old Caucasian female with a past medical history of chronic right hip pain, osteoporosis, hypertension, depression, and chronic atrial fibrillation admitted for evaluation and management of severe nausea and vomiting and urinary tract infection.": 0.25396825396825395,
+            "The patient is a 45-year-old Caucasian male presented to the office complaining of right knee pain.  He complained of pain on the medial aspect of his right knee after an injury at work, which he twisted his right knee.": 0.25196850393700787,
+            "The patient is an 83-year-old female with a history of polycythemia vera.  She comes in to clinic today for followup.  She has not required phlebotomies for several months.  The patient comes to clinic unaccompanied.": 0.2459016393442623,
+            " \nThe patient is a 49 year old white married man who works as a plane mechanic for Alaska Airlines. He is experiencing pain in his stomach on both sides and his left thigh for the past eight days. The pain is painful when touched. He initially thought it was shingles but there was no change in the skin, no rashes, nothing. He has not taken any over the counter medicines. The doctor suspects hyperesthesia and wants to run some tests to find the underlying cause.\n": 0.24561403508771928,
+            "The patient is a 5-year, 8-month-old male who presented to me direct from ED with distracted left lateral condyle fracture.  He underwent screw compression for the fracture in October 2007.  The fracture has subsequently healed and the patient presents for hardware removal.  The risks and benefits of surgery were discussed.  The risks of surgery include the risk of anesthesia, infection, bleeding, changes in sensation and motion of extremity, failure of removal of hardware, failure to relieve pain or improved range of motion.  All questions were answered and the family agreed to the above plan.": 0.24043715846994537,
+            "The patient is a pleasant but demented 80-year-old male, who lives in board and care, who presented with acute onset of abdominal pain.  In the emergency room, the patient was found to have a CT scan with dilated bladder with thick wall suggesting an outlet obstruction as well as bilateral hydronephrosis and hydroureter.  The patient is unable to provide further history.  The patient's son is at the bedside and confirmed his history.  The patient was given IV antibiotics in the emergency room.  He was also given some hydration.": 0.23728813559322035
+        },
+        "avg_similarity_score": 0.0785913191197264
+    },
+    {
+        "topic": "GENHX",
+        "dialogue": "Doctor: With ten being the worst pain imaginable, out of ten, how would you describe your pain today?\r\nPatient: I'd say its about a six out of ten today. \r\nDoctor: What makes the pain worse? \r\nPatient: It's worse when I try to walk around on it. \r\nDoctor: Do you have any pain at night?\r\nPatient: No, thankfully I don't. \r\nDoctor: How long have you been wearing that exterior knee brace?\r\nPatient: Oh, for a little while now.",
+        "section_text": " \r\nPatient rates pain at 6/10. Pain worsens with ambulation. No nocturnal pain. Wearing knee brace for unspecified amount of time. \n",
+        "most_similar_instructions": {
+            "The patient rates his pain at 6/10 on the Pain Analog Scale, primarily with ambulation.  The patient does deny pain at night.  The patient does present with his knee brace on the exterior of his __________ leg and appears to be on backboard.": 0.40625,
+            "The patient rates the pain at 2/10 on the pain analog scale.  The patient states that with elevation and rest, her pain subsides.": 0.35555555555555557,
+            "The patient is a 72-year-old female with a history of bilateral knee pain for years progressively worse and decreasing quality of life and ADLs.  She wishes to proceed with arthroplasty at this time.": 0.21428571428571427,
+            "The patient is not working.  Rates her stress level as an 8/10.  She is single with no children.  Does not smoke, drink, or utilize illicit substances.": 0.20833333333333334,
+            " \r\nPatient denies any known allergies at this time.\r\n": 0.20689655172413796,
+            "The patient is single.  Living at home.  No smoking or alcohol.": 0.18749999999999997,
+            "The patient has a history of depression.  No history of substance abuse.": 0.18181818181818182,
+            " \nThe patient has chronic pain, tobacco use, and a history of Hepatitis C. \r\n": 0.17647058823529413,
+            "Pregnancy and delivery with no complications.  He has no history of hospitalizations or surgeries.": 0.17142857142857143,
+            "A 54-year-old patient, here for evaluation of new-onset swelling of the tongue.": 0.16666666666666666
+        },
+        "avg_similarity_score": 0.051544407787691676
+    },
+    {
+        "topic": "EDCOURSE",
+        "dialogue": "Doctor: Hi!\r\nPatient: Hello!\r\nDoctor: How are you feeling now?\r\nPatient: I am feeling okay.\r\nDoctor: Yeah, looks like your condition is improving.\r\nPatient: Yes, I think so too.",
+        "section_text": " \nPatient is stable and condition is improving. No complaints of any symptoms. \r\n",
+        "most_similar_instructions": {
+            "The patient is married and retired.": 0.3333333333333333,
+            "He is maintained on Flonase and denies much in the way of nasal symptoms.": 0.30769230769230765,
+            "Not obtainable as the patient is drowsy and confused.": 0.28571428571428575,
+            "The patient is married.  She is a nonsmoker and nondrinker.": 0.2727272727272727,
+            "The patient is a nonsmoker.  He denies use of alcohol.": 0.2727272727272727,
+            "GENERAL: The patient is awake and alert, in no apparent distress, appropriate, pleasant and cooperative.  No dysarthria is noted.  No discomfort on presentation is noted.": 0.2702702702702703,
+            "Otherwise well.  No febrile illness.  No motor or sensory complaints of any sort or paresthesias in the hand.": 0.26666666666666666,
+            "The patient is single.  Living at home.  No smoking or alcohol.": 0.2608695652173913,
+            "She is on atenolol and Mevacor. ALLERGIES:  NO KNOWN DRUG ALLERGIES.": 0.2608695652173913,
+            " \r\nNo known allergies.  No swelling or complaints of abnormal lymph nodes.\n": 0.2608695652173913
+        },
+        "avg_similarity_score": 0.07626818465502987
+    },
+    {
+        "topic": "FAM/SOCHX",
+        "dialogue": "Doctor: How's everyone in your family?\r\nPatient:  My mom, dad and siblings are good.\r\nDoctor: They are well, that is good. That's what we want.\r\nPatient: Yes.",
+        "section_text": " \r\nPatient reports that his mother, father and siblings are well. No significant family history reported. \n",
+        "most_similar_instructions": {
+            "Mother, father and siblings were alive and well.": 0.43478260869565216,
+            "No significant family history.": 0.4210526315789474,
+            " \r\nPatient denies any significant family history of illness. \r\n": 0.3478260869565218,
+            "No significant past medical history.": 0.3,
+            "No significant past surgical history.": 0.3,
+            "His father and mother had diabetes.": 0.28571428571428575,
+            "Migraine headaches on maternal side, including her mother. No family history of thrombosis.": 0.28571428571428575,
+            "The patient has eczema and a positive atopic family history.  No psoriasis.  No known drug allergies.": 0.2580645161290323,
+            "The patient states that he feels sick and weak.": 0.25,
+            "MGF with h/o stroke. Mother and Father were healthy. No h/o of migraine in family.": 0.25
+        },
+        "avg_similarity_score": 0.06092133594296472
+    }
+]
