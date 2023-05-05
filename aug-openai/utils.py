@@ -137,6 +137,9 @@ def openai_completion(
                     logging.warning(
                         f"Reducing target length to {batch_decoding_args.max_tokens}, Retrying..."
                     )
+                elif "The response was filtered due to the prompt triggering" in str(e):
+                    logging.warning("There's something OpenAI doesn't like about your prompt!")
+                    return []
                 else:
                     logging.warning("Hit request rate limit; retrying...")
                     time.sleep(sleep_time)  # Annoying rate limit on requests.
