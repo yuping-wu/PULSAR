@@ -1,0 +1,7 @@
+regen-s2d.json filter=lfs diff=lfs merge=lfs -text
+regen-d2s.json filter=lfs diff=lfs merge=lfs -text
+regen-s2d-ul-paired-backup.json filter=lfs diff=lfs merge=lfs -text
+regen-s2d-ul-paired-backup2.json filter=lfs diff=lfs merge=lfs -text
+regen-s2d-ul-paired.json filter=lfs diff=lfs merge=lfs -text
+regen-s2d-ul.json filter=lfs diff=lfs merge=lfs -text
+regen-d2s-fromtrain.json filter=lfs diff=lfs merge=lfs -text
