@@ -7,3 +7,6 @@ clef-medqa
 flant5large-l512-lr3e-5-nodg/
 unlabelled.jsonl
 .vscode
+fine-tune/llama_finetune.py
+train_llama_lora.jsonl 
+dev_llama_lora.jsonl
