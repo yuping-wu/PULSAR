@@ -27,6 +27,7 @@ handystuff = "^0.2.1"
 names = "^0.3.0"
 peft = "^0.3.0"
 bitsandbytes = "^0.38.1"
+gradio = "^3.28.3"
 
 
 [build-system]
