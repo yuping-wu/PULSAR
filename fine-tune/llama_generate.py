@@ -2,7 +2,6 @@ import os
 import sys
 
 import fire
-import gradio as gr
 import torch
 import transformers
 from peft import PeftModel
@@ -29,6 +28,7 @@ def main(
     base_model: str = "",
     lora_weights: str = "tloen/alpaca-lora-7b",
     prompt_template: str = "pulsar_dialogue2note",  # The prompt template to use, will default to alpaca.
+    dataset: str = None,
 ):
     base_model = base_model or os.environ.get("BASE_MODEL", "")
     assert (
@@ -36,7 +36,7 @@ def main(
     ), "Please specify a --base_model, e.g. --base_model='huggyllama/llama-7b'"
 
     prompter = Prompter(prompt_template)
-    tokenizer = AutoTokenizer.from_pretrained(base_model)
+    tokenizer = LlamaTokenizer.from_pretrained(base_model)
     if device == "cuda":
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
@@ -113,33 +113,6 @@ def main(
             "max_new_tokens": max_new_tokens,
         }
 
-        if stream_output:
-            # Stream the reply 1 token at a time.
-            # This is based on the trick of using 'stopping_criteria' to create an iterator,
-            # from https://github.com/oobabooga/text-generation-webui/blob/ad37f396fc8bcbab90e11ecf17c56c97bfbd4a9c/modules/text_generation.py#L216-L243.
-
-            def generate_with_callback(callback=None, **kwargs):
-                kwargs.setdefault(
-                    "stopping_criteria", transformers.StoppingCriteriaList()
-                )
-                kwargs["stopping_criteria"].append(Stream(callback_func=callback))
-                with torch.no_grad():
-                    model.generate(**kwargs)
-
-            def generate_with_streaming(**kwargs):
-                return Iteratorize(generate_with_callback, kwargs, callback=None)
-
-            with generate_with_streaming(**generate_params) as generator:
-                for output in generator:
-                    # new_tokens = len(output) - len(input_ids[0])
-                    decoded_output = tokenizer.decode(output)
-
-                    if output[-1] in [tokenizer.eos_token_id]:
-                        break
-
-                    yield prompter.get_response(decoded_output)
-            return  # early return for stream_output
-
         # Without streaming
         with torch.no_grad():
             generation_output = model.generate(
@@ -152,12 +125,19 @@ def main(
         s = generation_output.sequences[0]
         output = tokenizer.decode(s)
         return prompter.get_response(output)
-
-    instruction = "Given this dialouge between a doctor and a patient, generate a note that summarizes the conversation between them:"
-    input_dialogue = "Doctor: When did your pain begin? Patient: I've had low back pain for about eight years now.Doctor: Is there any injury?  Patient: Yeah, it started when I fell in an A B C store.Doctor: How old are you now?Patient: I'm twenty six.  Doctor: What kind of treatments have you had for this low back pain? Patient: Yeah, I got referred to P T, and I went, but only once or twice, um, and if I remember right, they only did the electrical stimulation, and heat. Doctor: I see, how has your pain progressed over the last eight years? Patient: It's been pretty continuous, but it's been at varying degrees, sometimes are better than others. Doctor: Do you have any children? Patient: Yes, I had my son in August of two thousand eight, and I've had back pain since giving birth. Doctor: Have you had any falls since the initial one? Patient: Yes, I fell four or five days ago while I was mopping the floor. Doctor: Did you land on your lower back again?Patient: Yes, right onto my tailbone. Doctor: Did that make the low back pain worse? Patient: Yes. Doctor: Have you seen any other doctors for this issue? Patient: Yes, I saw Doctor X on January tenth two thousand nine, and I have a follow up appointment scheduled for February tenth two thousand nine."
-    response = generate_text(instruction, input_dialogue)
-    response = list(response)
-    return response
+    instruction = "Given this dialogue between a doctor and a patient, generate a note that summarizes the conversation between them:"
+    if dataset:
+        from handystuff.loaders import load_jsonl
+        ds = load_jsonl(dataset)
+        for e in ds:
+            instruction = ...
+    else:
+        
+        input_dialogue = "Doctor: When did your pain begin? Patient: I've had low back pain for about eight years now.Doctor: Is there any injury?  Patient: Yeah, it started when I fell in an A B C store.Doctor: How old are you now?Patient: I'm twenty six.  Doctor: What kind of treatments have you had for this low back pain? Patient: Yeah, I got referred to P T, and I went, but only once or twice, um, and if I remember right, they only did the electrical stimulation, and heat. Doctor: I see, how has your pain progressed over the last eight years? Patient: It's been pretty continuous, but it's been at varying degrees, sometimes are better than others. Doctor: Do you have any children? Patient: Yes, I had my son in August of two thousand eight, and I've had back pain since giving birth. Doctor: Have you had any falls since the initial one? Patient: Yes, I fell four or five days ago while I was mopping the floor. Doctor: Did you land on your lower back again?Patient: Yes, right onto my tailbone. Doctor: Did that make the low back pain worse? Patient: Yes. Doctor: Have you seen any other doctors for this issue? Patient: Yes, I saw Doctor X on January tenth two thousand nine, and I have a follow up appointment scheduled for February tenth two thousand nine."
+        response = generate_text(instruction, input_dialogue)
+        response = list(response)
+        print(response)
+        return response
 
 
 if __name__ == "__main__":
