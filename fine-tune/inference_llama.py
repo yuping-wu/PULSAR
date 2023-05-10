@@ -51,18 +51,22 @@ def infer(
     num_beams: int = 4,
     max_new_tokens: int = 160,
     load_in_8bit: bool = True,
-    is_causal: bool = True
+    is_causal: bool = True,
+    id_column: str = 'ID',
+    note_column: str = 'prediction',
+    input_column: str = 'dialogue'
 ):
     tokenizer, model = load_model(base_model, adapter_path, is_causal=is_causal, load_in_8bit=load_in_8bit)
     ds = pd.read_csv(test_dataset).to_dict(orient='records')
     results = []
     for i, example in enumerate(tqdm(ds)):
+        i = example.get(id_column, None) or i
         input = example['dialogue']
         prompt = f"{input}\n Medical note:"
         output = test(tokenizer, model, prompt, temperature, top_p, top_k, num_beams, max_new_tokens)
         prediction = output.split('Medical note:', 1)[-1]
         print(prompt, prediction)
-        results.append({'encounter_id': i, 'note': prediction, 'dialogue': input})
+        results.append({id_column: i, note_column: prediction, input_column: input})
     pd.DataFrame(results).to_csv(preds_out, index=False)
 if __name__ == "__main__":
     fire.Fire(infer)
