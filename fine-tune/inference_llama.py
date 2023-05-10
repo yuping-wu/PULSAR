@@ -57,12 +57,13 @@ def infer(
     ds = pd.read_csv(test_dataset).to_dict(orient='records')
     results = []
     for example in tqdm(ds):
+        input = example['dialogue']
         prompt = f"{input}\n Medical note:"
         output = test(tokenizer, model, prompt, temperature, top_p, top_k, num_beams, max_new_tokens)
         prediction = output.split('Medical note:', 1)[-1]
         print(prompt, prediction)
         results.append(prediction)
-    with open('system.txt') as f:
+    with open(preds_out, 'w+') as f:
         f.write('\n'.join(json.dumps(r) for r in results))
 
 if __name__ == "__main__":
