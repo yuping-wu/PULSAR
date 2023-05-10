@@ -25,7 +25,6 @@ sample_convo_1 = open("example_conversation_1.txt").read()
 sample_note_1 = open("example_note_1.txt").read()
 
 train_df = pd.read_csv("TaskC-TrainingSet.csv")
-val_df = pd.read_csv("TaskC-ValidationSet.csv")
 train_df_notes = train_df["note"].values.tolist()
 
 prompt_messages_history = [
