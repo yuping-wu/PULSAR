@@ -26,7 +26,7 @@ def get_generated_conversation(convo, prompt_messages):
     Method to generate the conversation for a given medical note
     :param convo: str
     :param prompt_messages: list[dict]
-    :return: (str, boolean)
+    :return: (str, str)
     """
     final_prompt_messages = prompt_messages + \
                             [{"role": "user", "content": "[INPUT CONVERSATION]" + convo}]
@@ -34,7 +34,7 @@ def get_generated_conversation(convo, prompt_messages):
     try:
         response = openai.ChatCompletion.create(
             temperature=0.75,
-            model=deployment_name,
+            deployment_id=deployment_name,
             messages=final_prompt_messages
         )
         generated_conversation = response["choices"][0]["message"]["content"]
@@ -63,14 +63,19 @@ def clean_artifacts_from_generated_conversation(convo):
 if __name__ == "__main__":
     notes_dataset = pd.read_csv("sample_generated_data.csv")
     prompt_notes = notes_dataset["Dialogue"].values.tolist()
+    score = notes_dataset["Score"].values.tolist()
+
+    score_dict = {k: v for k, v in zip(prompt_notes, score)}
     arguments = list(zip(prompt_notes, [prompt_messages_history] * len(prompt_notes)))
 
     start_time = time.time()
     with Pool(processes=NUM_PROCESSES) as pool:
         results = pool.starmap(get_generated_conversation, arguments)
-        results = [x for x in results if x[-1] != ""]
-        dataframe_data = pd.DataFrame(results)
-        dataframe_data.columns = ["Original Dialogue", "Dialogue with Fillers"]
+        scores = [score_dict[x[0]] for x in results]
+        results_combined = [[x[0], x[1], y] for x, y in zip(results, scores) if x[1] != ""]
+
+        dataframe_data = pd.DataFrame(results_combined)
+        dataframe_data.columns = ["Original Dialogue", "Dialogue with Fillers", "Score"]
         dataframe_data.to_csv("sample_generated_data_with_fillers.csv", index=False)
     end_time = time.time()
 
