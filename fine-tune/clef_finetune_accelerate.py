@@ -113,7 +113,7 @@ def load_dataset(
         test_df = pd.read_csv(input_test_file)
         if convert_header:
             test_df['section_header'] = test_df['section_header'].apply(lambda x: HEADERS[x])
-        test_df["source_text"] = (test_df["section_header"] + "\n" if header_input else "") + test_df["section_text"]
+        test_df["source_text"] = (test_df["section_header"] + "\n" if header_input else "") + test_df["dialogue"]
     else:
         test_df = pd.DataFrame(columns=["source_text", "Summary"])
 
@@ -577,7 +577,6 @@ if __name__ == "__main__":
              # run dummy inputs
             _ = accelerator.unwrap_model(model)(**dummy_inputs)
             test_predictions = []
-            test_labels = []
             for t_step, t_batch in enumerate(test_dataloader):
                 generated_tokens = accelerator.unwrap_model(model).generate(
                     t_batch["input_ids"],
@@ -598,9 +597,10 @@ if __name__ == "__main__":
 
             # save the predictions
             output_test_preds_file = os.path.join(output_dir, args.output_file)
-            output_test_preds_file = output_test_preds_file.replace('.txt', '.jsonl') # replace .txt with .jsonl
+            output_test_preds_file = output_test_preds_file.replace('.txt', '.csv') # replace .txt with .csv
 
-            with open(output_test_preds_file, "w") as writer:
-                for pred in test_predictions:
-                    json.dump(pred, writer) # write each prediction as a JSON object on a separate line
-                    writer.write('\n') # add a newline character to separate each object
+            # with open(output_test_preds_file, "w") as writer:
+            #     for pred in test_predictions:
+            #         json.dump(pred, writer) # write each prediction as a JSON object on a separate line
+            #         writer.write('\n') # add a newline character to separate each object
+            pd.DataFrame(list(zip(range(0,len(test_dataset)), test_predictions, my_dataset_dict['test']['source_text'])), columns=['encounter_id', 'note', 'dialogue']).to_csv(output_test_preds_file, index=False)
