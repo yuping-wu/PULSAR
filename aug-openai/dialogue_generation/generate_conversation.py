@@ -25,6 +25,7 @@ sample_convo_1 = open("example_conversation_1.txt").read()
 sample_note_1 = open("example_note_1.txt").read()
 
 train_df = pd.read_csv("TaskC-TrainingSet.csv")
+val_df = pd.read_csv("TaskC-ValidationSet.csv")
 train_df_notes = train_df["note"].values.tolist()
 
 prompt_messages_history = [
@@ -63,7 +64,7 @@ def get_generated_conversation(note, prompt_messages):
     try:
         response = openai.ChatCompletion.create(
             temperature=0.75,
-            model=deployment_name,
+            deployment_id=deployment_name,
             messages=final_prompt_messages
         )
         generated_conversation = response["choices"][0]["message"]["content"]
@@ -123,12 +124,13 @@ if __name__ == "__main__":
     mt_samples = mt_samples.drop_duplicates()
     mt_samples_transcriptions = mt_samples["transcription"].values.tolist()
     mt_samples_ids = list(range(0, len(mt_samples_transcriptions)))
+    mt_samples_transcriptions_cleaned = [clean_mt_note(x) for x in mt_samples_transcriptions]
 
     # Score the medical notes in terms of the number of sections present in it based on the headers
     # extracted from the training set. Pick the top K medical notes based on the score.
 
     mt_note_score = {}
-    for item in mt_samples_transcriptions:
+    for item in mt_samples_transcriptions_cleaned:
         score = calculate_score_match(item, header_collections)
         if score > 0:
             mt_note_score[item] = score
@@ -136,24 +138,24 @@ if __name__ == "__main__":
     sorted_dict = dict(sorted(mt_note_score.items(), key=lambda item: item[1], reverse=True))
 
     # Extract the top K notes with highest scores
-    top_k_notes = list(mt_note_score.keys())[:K]
+    top_k_notes_formatted = list(sorted_dict.keys())[:K]
 
     # EHRs from MTSamples downloaded through kaggle have an issue with the formatting.
     # New lines seem to be replaced with commas. Heuristically fixing this issue to get
     # a formatting that is similar to the training documents. We replace " ,", ":," cases with
 
-    top_k_notes_formatted = [clean_mt_note(x) for x in top_k_notes]
 
     prompt_dialogue = []
     prompt_notes = []
-    arguments = list(zip(top_k_notes_formatted, [prompt_messages_history]))
+    arguments = list(zip(top_k_notes_formatted, [prompt_messages_history] * len(top_k_notes_formatted)))
 
     start_time = time.time()
     with Pool(processes=NUM_PROCESSES) as pool:
         results = pool.starmap(get_generated_conversation, arguments)
-        results = [x for x in results if x[-1] != ""]
-        dataframe_data = pd.DataFrame(results)
-        dataframe_data.columns = ["Notes", "Dialogue"]
+        scores = [mt_note_score[x[0]] for x in results]
+        results_combined = [[x[0],x[1],y] for x,y in zip(results, scores) if x[1] != ""]
+        dataframe_data = pd.DataFrame(results_combined)
+        dataframe_data.columns = ["Notes", "Dialogue", "Score"]
         dataframe_data.to_csv("sample_generated_data.csv", index=False)
     end_time = time.time()
 
