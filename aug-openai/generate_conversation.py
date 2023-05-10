@@ -1,6 +1,6 @@
 import time
 from multiprocessing import Pool
-
+import configparser
 import openai
 import pandas as pd
 from tqdm import tqdm
@@ -11,11 +11,14 @@ NOISE_HEADERS = ["BP: 130/68.", "BP: 130/68", "BP: 120/80", "SPO2: 98%.", "HR: 9
 K = 1000
 NUM_PROCESSES = 10
 
-openai.api_type = "azure"
-openai.api_base = "https://docs-test-001.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
-openai.api_key = ""
-deployment_name = "gpt-35-turbo"
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+openai.api_type = config.get('openai', 'api_type')
+openai.api_base = config.get('openai', 'api_base')
+openai.api_version = config.get('openai', 'api_version')
+openai.api_key = config.get('openai', 'api_key')
+deployment_name = config.get('deployment', 'name')
 
 prompt = open("prompt.txt").read()
 sample_convo_1 = open("example_conversation_1.txt").read()
@@ -28,9 +31,6 @@ train_df_notes = train_df["note"].values.tolist()
 prompt_messages_history = [
     {"role": "system",
      "content": "You are a system capable of generating a doctor-patient conversation based on its corresponding medical note.\n%s" % prompt},
-    # {"role": "user", "content": prompt},
-    # {"role": "assistant",
-    #  "content": "I will follow the instructions while generating the conversation based on the input note provided. Please provide the input medical note."},
     {"role": "user", "content": "[INPUT MEDICAL NOTE]" + sample_note_1},
     {"role": "assistant", "content": "[OUTPUT CONVERSATION]" + sample_convo_1},
 ]
@@ -147,13 +147,7 @@ if __name__ == "__main__":
 
     prompt_dialogue = []
     prompt_notes = []
-    arguments = list(zip(top_k_notes_formatted[0:100], [prompt_messages_history] * 100))
-
-    # for note in tqdm(top_k_notes_formatted[0:1]):
-    #     _, generated_dialogue = get_generated_conversation(note, prompt_messages)
-    #     generated_dialogue = clean_artifacts_from_generated_conversation(generated_dialogue)
-    #     prompt_dialogue.append(generated_dialogue)
-    #     prompt_notes.append(note)
+    arguments = list(zip(top_k_notes_formatted, [prompt_messages_history]))
 
     start_time = time.time()
     with Pool(processes=NUM_PROCESSES) as pool:
