@@ -603,4 +603,4 @@ if __name__ == "__main__":
             #     for pred in test_predictions:
             #         json.dump(pred, writer) # write each prediction as a JSON object on a separate line
             #         writer.write('\n') # add a newline character to separate each object
-            pd.DataFrame(list(zip(range(0,len(test_dataset)), test_predictions, my_dataset_dict['test']['source_text'])), columns=['encounter_id', 'note', 'dialogue']).to_csv(output_test_preds_file, index=False)
+            pd.DataFrame(list(zip(range(0,len(test_dataset)), test_predictions, my_dataset_dict['test']['source_text'])), columns=['ID', 'prediction', 'dialogue']).to_csv(output_test_preds_file, index=False)
