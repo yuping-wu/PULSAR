@@ -45,7 +45,7 @@ def infer(
     adapter_path: str = None,
     test_dataset: str = None,
     temperature: float = 0.1,
-    preds_out: str = 'system.txt',
+    preds_out: str = 'taskC.csv',
     top_p: float = 0.7,
     top_k: int = 40,
     num_beams: int = 4,
@@ -56,15 +56,13 @@ def infer(
     tokenizer, model = load_model(base_model, adapter_path, is_causal=is_causal, load_in_8bit=load_in_8bit)
     ds = pd.read_csv(test_dataset).to_dict(orient='records')
     results = []
-    for example in tqdm(ds):
+    for i, example in enumerate(tqdm(ds)):
         input = example['dialogue']
         prompt = f"{input}\n Medical note:"
         output = test(tokenizer, model, prompt, temperature, top_p, top_k, num_beams, max_new_tokens)
         prediction = output.split('Medical note:', 1)[-1]
         print(prompt, prediction)
-        results.append(prediction)
-    with open(preds_out, 'w+') as f:
-        f.write('\n'.join(json.dumps(r) for r in results))
-
+        results.append({'encounter_id': i, 'note': prediction, 'dialogue': input})
+    pd.DataFrame(results).to_csv(preds_out, index=False)
 if __name__ == "__main__":
     fire.Fire(infer)
