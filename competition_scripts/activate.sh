@@ -4,6 +4,7 @@
 # persist once the shell file finishes running
 # This script gives rise to a subshell with the virtualenv invoked, and the other scripts can be run normally
 # To exit from the subshell, please use the exit command
+# Script referred from https://stackoverflow.com/a/13123926
 
 script_dir=`dirname $0`
 cd $script_dir
