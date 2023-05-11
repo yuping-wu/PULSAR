@@ -11,7 +11,7 @@ from transformers import (
 
 
 def infer(
-    model_path = "PULSAR-11B",
+    model_path = "PULSAR-3B",
     test_dataset = "Datasets/clef_finetune/TaskB/taskB_testset4participants_inputHeadersAndConversations.csv",
     output_file = "output_clef/system_predictions.csv",
     prefix = "summarize: ",

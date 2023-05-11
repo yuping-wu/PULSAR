@@ -12,4 +12,6 @@ echo "Extracted the model!"
 
 echo "Running inference"
 python inference_llama.py llama-13b-base llama13b-lora-pulsar $1 --preds_out taskB_PULSAR_run3.csv
+# If model runs out of memory using gpu, please uncomment the below line to load model to cpu and run
+# python inference_llama.py llama-13b-base llama13b-lora-pulsar $1 --preds_out taskB_PULSAR_run3.csv --device "cpu"
 echo "Inference completed!"

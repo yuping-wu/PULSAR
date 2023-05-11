@@ -1,0 +1,13 @@
+transformers
+torch==1.13.1
+sentencepiece==0.1.97
+nltk==3.8.1
+datasets==2.9.0
+evaluate==0.4.0
+accelerate
+partial
+wandb
+absl-py
+rouge_score
+fire
+peft
