@@ -9,3 +9,4 @@ partial
 wandb
 absl-py
 rouge_score
+fire
