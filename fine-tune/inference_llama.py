@@ -50,7 +50,7 @@ def infer(
     top_k: int = 40,
     num_beams: int = 4,
     max_new_tokens: int = 160,
-    load_in_8bit: bool = True,
+    load_in_8bit: bool = False,
     is_causal: bool = True,
     id_column: str = 'ID',
     note_column: str = 'prediction',
