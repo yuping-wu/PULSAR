@@ -5,9 +5,8 @@ echo "Model Downloaded!"
 
 echo "Extracting the model..."
 mkdir llama-13b-base
-mkdir llama13b-lora-pulsar
 tar -xvf llama-13b.tar.gz -C llama-13b-base
-tar -xvf llama13b-lora-pulsar.tar.gz -C llama13b-lora-pulsar
+tar -xvf llama13b-lora-pulsar.tar.gz
 echo "Extracted the model!"
 
 echo "Running inference"
