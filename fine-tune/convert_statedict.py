@@ -14,5 +14,6 @@ print('Done with loading model from config')
 model.load_state_dict(torch.load(checkpoint_path, map_location='cpu'))
 print('Done with loading model state dict')
 
-# save model
+# save model and tokenizer
+tokenizer.save_pretrained('output/epoch_2_saved/')
 model.save_pretrained('output/epoch_2_saved/')
