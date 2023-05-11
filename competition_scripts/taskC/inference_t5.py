@@ -2,6 +2,7 @@ import os
 import fire
 import pandas as pd
 from tqdm import tqdm
+import torch
 
 from transformers import (
     AutoTokenizer,
@@ -21,7 +22,7 @@ def infer(
 
     print(f"Loading model from {model_path}.")
     tokenizer = AutoTokenizer.from_pretrained(model_path)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map="auto")
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_path, device_map="auto",torch_dtype=torch.float16)
 
     ds = pd.read_csv(test_dataset).to_dict(orient='records')
     results = []
@@ -29,8 +30,8 @@ def infer(
     for i, example in enumerate(tqdm(ds)):
         i = example.get(id_column, None) or i
         input_text = prefix + example['dialogue']
-        input_ids = tokenizer(input_text, max_length=512, padding=False, truncation=True, return_tensors="pt").input_ids
-        output = model.generate(input_ids.cuda(), max_length=214, num_beams=6)
+        input_ids = tokenizer(input_text, max_length=2048, padding=False, truncation=True, return_tensors="pt").input_ids
+        output = model.generate(input_ids.cuda(), max_length=990, num_beams=6)
         prediction = tokenizer.decode(output[0].tolist(), skip_special_tokens=True)
         results.append({id_column: i, note_column: prediction, input_column: example['dialogue']})
     pd.DataFrame(results).to_csv(output_file, index=False)

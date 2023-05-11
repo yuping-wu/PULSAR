@@ -10,3 +10,4 @@ echo "Extracted the model!"
 echo "Running inference"
 python inference_t5.py pulsar-11b $1 taskB_PULSAR_run1.csv
 echo "Inference completed!"
+exit
