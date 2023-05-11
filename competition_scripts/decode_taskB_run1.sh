@@ -3,7 +3,7 @@ wget https://kant.cs.man.ac.uk/data/public/pulsar-11b.tar.gz
 echo "Model Downloaded!"
 
 echo "Extracting the model..."
-mkdir pulsar11b
+mkdir pulsar-11b
 tar -xvf pulsar-11b.tar.gz -C pulsar-11b
 echo "Extracted the model!"
 
