@@ -13,7 +13,7 @@ def infer(
     model_path = "PULSAR-11B", 
     test_dataset = "Datasets/clef_finetune/TaskB/taskB_testset4participants_inputHeadersAndConversations.csv",
     output_file = "output_clef/system_predictions.csv",
-    prefix = "summairze: ",
+    prefix = "summarize: ",
     id_column: str = 'ID',
     note_column: str = 'prediction',
     input_column: str = 'dialogue'
