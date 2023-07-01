@@ -8,3 +8,15 @@ See `pre-train/README.md` for details.
 
 ## Fine-tuning
 See `fine-tune/README.md` for details.
+
+## 📕 Citation
+
+If you make use of the code in this repository or of any follow up works, please cite the following paper(s):
+````
+@article{li2023pulsar,
+  title={PULSAR: Pre-training with Extracted Healthcare Terms for Summarising Patients' Problems and Data Augmentation with Black-box Large Language Models},
+  author={Li, Hao and Wu, Yuping and Schlegel, Viktor and Batista-Navarro, Riza and Nguyen, Thanh-Tung and Kashyap, Abhinav Ramesh and Zeng, Xiaojun and Beck, Daniel and Winkler, Stefan and Nenadic, Goran},
+  journal={arXiv preprint arXiv:2306.02754},
+  year={2023}
+}
+````
