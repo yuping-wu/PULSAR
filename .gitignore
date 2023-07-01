@@ -9,3 +9,5 @@ unlabelled.jsonl
 .vscode
 train_llama_lora.jsonl 
 dev_llama_lora.jsonl
+.DS_store
+.gitignore

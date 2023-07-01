@@ -1,9 +1,10 @@
-# Codes for pre-train T5 on clinical corpus
+# Codes for pre-training T5 on clinical corpus
 
 ## Requirements
 - python 3.9.16
 - pytorch 1.13.1
 - CUDA 11.6
+- See `requirements.txt` for other requirements
 
 ## Prepare Dataset
 1. Get [MIMIC-III dataset](https://physionet.org/content/mimiciii/1.4/)
@@ -30,12 +31,12 @@ To pre-train T5 model on the clinical corpus, using acclerate library, run below
 CUDA_LAUNCH_BLOCKING=1 accelerate launch --config_file accelerate_t5_fsdp.yml accelerate_t5.py config.json
 ```
 
-- ***accelerate_t5_fsdp.yml***: configuration file for the library accelerate to specify number of GPUs, whether to use FSDP, etc.
+- `accelerate_t5_fsdp.yml`: configuration file for the library accelerate to specify number of GPUs, whether to use FSDP, etc.
 
-- ***config.json***: configuration file for the script accelerate_t5.py. Explanation about each parameter in the file can be found in the script.
+- `config.json`: configuration file for the script accelerate_t5.py. Explanation about each parameter in the file can be found in the script.
 
-- The trained model will be saved to the folder "result", including all checkpoints.
-- Information logged by WanDB would be saved to the folder "wandb".
+- The trained model will be saved to the folder `result`, including all checkpoints.
+- Information logged by WanDB would be saved to the folder `wandb`.
 
 ### Example of project floder
 ```
