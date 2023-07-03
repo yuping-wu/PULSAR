@@ -11,11 +11,11 @@
 2. Identify UMLS terms: [QuickUMLS](https://github.com/Georgetown-IR-Lab/QuickUMLS)
 3. Identify N2C2 terms: use trained NER model
 4. Aggregate the identified UMLS and N2C2 terms (see Datasets/train_example.json for example)
-```
+```bash
 python utils/aggregate_terms.py
 ```
 5. Prepare the dataset for pre-training
-```
+```bash
 python utils/prepare_dataset.py
 ```
 
@@ -26,7 +26,7 @@ python utils/prepare_dataset.py
 
 To pre-train T5 model on the clinical corpus, using acclerate library, run below command.
 
-```
+```bash
 # train command
 CUDA_LAUNCH_BLOCKING=1 accelerate launch --config_file accelerate_t5_fsdp.yml accelerate_t5.py config.json
 ```

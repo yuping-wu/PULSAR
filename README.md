@@ -4,8 +4,8 @@ Code repository for PULASR, including
 2. Fine-tuning the pre-trained model with data augmentation on the downstream summarization tasks, i.e., [BioNLP Workshop 2023 Shared Task 1A: Problem List Summarization](https://physionet.org/content/bionlp-workshop-2023-task-1a/1.1.0/) and [ImageCLEF MEDIQA-Sum-2023 Subtask B and C](https://www.imageclef.org/2023/medical/mediqa)
 
 ## Paper Link: 
-1. [PULSAR: Pre-training with Extracted Gap Healthcare Terms for Summarizing Patients’ Problems and Data Augmentation with Black-box Large Language Models](https://arxiv.org/abs/2306.02754)
-2. To be published.
+- [PULSAR: Pre-training with Extracted Gap Healthcare Terms for Summarizing Patients’ Problems and Data Augmentation with Black-box Large Language Models](https://arxiv.org/abs/2306.02754)
+- Large Language Models Augmented by Synthetic Dialogue Convert Patient Dialogues to Medical Records
 
 ## Pre-training
 See `pre-train/README.md` for details.
