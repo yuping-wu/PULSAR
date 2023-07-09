@@ -43,4 +43,11 @@ If you make use of the code in this repository or of any follow up works, please
   journal={arXiv preprint arXiv:2306.02754},
   year={2023}
 }
+
+@article{schlegel2023pulsar,
+  title={PULSAR at MEDIQA-Sum 2023: Large Language Models Augmented by Synthetic Dialogue Convert Patient Dialogues to Medical Records},
+  author={Schlegel, Viktor and Li, Hao and Wu, Yuping and Subramanian, Anand and Nguyen, Thanh-Tung and Kashyap, Abhinav Ramesh and Beck, Daniel and Zeng, Xiaojun and Batista-Navarro, Riza Theresa and Winkler, Stefan and others},
+  journal={arXiv preprint arXiv:2307.02006},
+  year={2023}
+}
 ````
